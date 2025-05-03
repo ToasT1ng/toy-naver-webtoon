@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-  <v-container>
+  <v-container fluid class="pt-4 px-0">
     <v-row>
       <v-col cols="12">
         <v-card>

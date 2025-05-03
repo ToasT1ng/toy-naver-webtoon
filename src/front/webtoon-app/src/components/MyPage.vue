@@ -5,11 +5,14 @@ export default {
 </script>
 
 <template>
-  <v-container>
+  <v-container fluid class="pt-4 px-0">
     <v-row>
       <v-col cols="12">
         <v-card>
-          마이페이지 컴포넌트
+          <v-card-title>마이페이지</v-card-title>
+          <v-card-text>
+            마이페이지 컴포넌트
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
