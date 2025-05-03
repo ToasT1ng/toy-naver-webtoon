@@ -8,7 +8,7 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
 import TopBar from '@/components/TopBar.vue';
 import TabBar from '@/components/TabBar.vue';
 
