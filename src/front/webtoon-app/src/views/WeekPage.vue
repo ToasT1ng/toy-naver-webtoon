@@ -1,15 +1,4 @@
-<template>
-  <div>
-    <v-expand-transition>
-      <WeekBar />
-    </v-expand-transition>
-    <v-main>
-      <MonthlyWebtoon />
-    </v-main>
-  </div>
-</template>
-
-<script>
+<script lang="ts">
 import WeekBar from '@/components/WeekBar.vue';
 import MonthlyWebtoon from '@/components/MonthlyWebtoon.vue';
 
@@ -21,3 +10,14 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <v-expand-transition>
+      <WeekBar />
+    </v-expand-transition>
+    <v-main>
+      <MonthlyWebtoon />
+    </v-main>
+  </div>
+</template>

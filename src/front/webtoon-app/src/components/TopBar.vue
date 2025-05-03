@@ -1,3 +1,9 @@
+<script lang="ts">
+export default {
+  name: 'TopBar',
+}
+</script>
+
 <template>
   <v-app-bar app color="primary" dark>
     <v-toolbar-title>네이버 웹툰</v-toolbar-title>
@@ -6,9 +12,3 @@
     <v-btn text>회원가입</v-btn>
   </v-app-bar>
 </template>
-
-<script>
-export default {
-  name: 'TopBar',
-}
-</script>
