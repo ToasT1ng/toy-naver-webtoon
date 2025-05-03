@@ -1,6 +1,6 @@
 package com.toast1ng.webtoon.product.application.port.`in`
 
-import java.time.DayOfWeek
+import com.toast1ng.webtoon.product.domain.DayOfWeek
 
 data class MakeWebtoonCommand(
     val title: String,

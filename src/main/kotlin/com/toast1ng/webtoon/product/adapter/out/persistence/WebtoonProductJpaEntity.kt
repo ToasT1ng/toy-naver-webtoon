@@ -1,12 +1,14 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
+import com.toast1ng.webtoon.product.domain.DayOfWeek
 import com.toast1ng.webtoon.product.domain.WebtoonStatus
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
+import jakarta.persistence.Table
 import java.math.BigDecimal
-import java.time.DayOfWeek
 import java.time.LocalDateTime
 
+@Table(name = "webtoons")
 @Entity
 class WebtoonProductJpaEntity(
     @Id

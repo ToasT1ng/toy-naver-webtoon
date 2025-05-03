@@ -4,14 +4,14 @@ import MonthlyWebtoon from '@/components/MonthlyWebtoon.vue'
 import DailyWebtoon from '@/components/DailyWebtoon.vue'
 
 const tabs = [
-  { label: '전체', value: 'all' },
-  { label: '월', value: 'mon' },
-  { label: '화', value: 'tue' },
-  { label: '수', value: 'wed' },
-  { label: '목', value: 'thu' },
-  { label: '금', value: 'fri' },
-  { label: '토', value: 'sat' },
-  { label: '일', value: 'sun' },
+  { label: '전체', value: -1 },
+  { label: '월', value: 0 },
+  { label: '화', value: 1 },
+  { label: '수', value: 2 },
+  { label: '목', value: 3 },
+  { label: '금', value: 4 },
+  { label: '토', value: 5 },
+  { label: '일', value: 6 },
 ]
 
 const tabIndex = ref(0)
@@ -20,7 +20,7 @@ const currentComponent = computed(() =>
     tabIndex.value === 0 ? MonthlyWebtoon : DailyWebtoon
 )
 
-const daysOfWeek = computed(() => tabs[tabIndex.value].value)
+const daysOfWeekIndex = computed(() => tabs[tabIndex.value].value)
 </script>
 
 <template>
@@ -31,7 +31,7 @@ const daysOfWeek = computed(() => tabs[tabIndex.value].value)
       </v-tab>
     </v-tabs>
 
-    <component :is="currentComponent" :days-of-week="daysOfWeek"/>
+    <component :is="currentComponent" :days-of-week-index ="daysOfWeekIndex"/>
   </v-container>
 </template>
 

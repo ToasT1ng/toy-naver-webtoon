@@ -7,7 +7,7 @@ const route = useRoute()
 <template>
   <v-app-bar app color="white" light elevation="0" class="tab-bar-container">
     <v-btn :to="{ name: 'week' }" :class="['text-subtitle-1', { active: route.name === 'week' }]">
-      요일별 웹툰
+      웹툰
     </v-btn>
     <v-btn :to="{ name: 'mypage' }" :class="['text-subtitle-1', { active: route.name === 'mypage' }]">
       마이페이지

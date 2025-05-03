@@ -1,7 +1,6 @@
 package com.toast1ng.webtoon.product.domain
 
 import java.math.BigDecimal
-import java.time.DayOfWeek
 
 data class WebtoonProduct(
     val id: String,
