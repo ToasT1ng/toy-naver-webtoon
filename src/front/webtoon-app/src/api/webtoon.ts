@@ -1,23 +1,25 @@
 import apiClient from './index'
 import {AxiosResponse} from "axios";
 
-interface IDailyWebtoonRequest {
+interface IDailyWebtoonsRequest {
     dayOfWeek: string
 }
 
+interface IDailyWebtoonsResponse {
+    result: IDailyWebtoonResponse[]
+}
+
 interface IDailyWebtoonResponse {
-    result: {
-        id: number
-        title: string
-        authorNames: string,
-        rating: string,
-    }
+    id: number
+    title: string
+    authorNames: string,
+    rating: string,
 }
 
 export const getDailyWebtoon = async (
-    req: IDailyWebtoonRequest
-): Promise<IDailyWebtoonResponse> => {
-    const response: AxiosResponse<IDailyWebtoonResponse> = await apiClient.get<IDailyWebtoonResponse>('/webtoons/daily', {
+    req: IDailyWebtoonsRequest
+): Promise<IDailyWebtoonsResponse> => {
+    const response: AxiosResponse<IDailyWebtoonsResponse> = await apiClient.get<IDailyWebtoonsResponse>('/webtoons/daily', {
         params: req,
     })
     return response.data

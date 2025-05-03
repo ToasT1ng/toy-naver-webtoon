@@ -18,7 +18,7 @@ class ReadWebtoonProductController() {
                 result = listOf(
                     DailyWebtoonsResponse.DailyWebtoonResponse(
                         id = 1L,
-                        title = "Test Webtoon",
+                        title = "Test Webtoon Really Really Really Really Long Title",
                         authorIds = listOf(1L, 2L),
                         authorNames = "Author1, Author2",
                         rating = "9.5"
@@ -50,6 +50,20 @@ class ReadWebtoonProductController() {
                         authorIds = listOf(7L),
                         authorNames = "Author7",
                         rating = "8.8"
+                    ),
+                    DailyWebtoonsResponse.DailyWebtoonResponse(
+                        id = 6L,
+                        title = "Sixth Webtoon",
+                        authorIds = listOf(8L),
+                        authorNames = "Author8",
+                        rating = "9.0"
+                    ),
+                    DailyWebtoonsResponse.DailyWebtoonResponse(
+                        id = 7L,
+                        title = "Seventh Webtoon",
+                        authorIds = listOf(9L, 10L),
+                        authorNames = "Author9, Author10",
+                        rating = "9.3"
                     )
                 )
             )

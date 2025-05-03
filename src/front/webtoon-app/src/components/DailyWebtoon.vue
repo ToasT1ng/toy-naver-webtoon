@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import {computed, watch} from "vue";
+import {computed, ref, watch} from "vue";
 import {useDailyWebtoon} from "@/composables/useDailyWebtoon";
+import EntireDailyWebtoonItems from "@/components/EntireDailyWebtoonItems.vue";
 
 const props = defineProps({
   daysOfWeekIndex: {
@@ -9,7 +10,7 @@ const props = defineProps({
   }
 })
 
-const {updateDayOfWeek, data} = useDailyWebtoon()
+const {updateDayOfWeek} = useDailyWebtoon()
 
 const daysOfWeek = [
   {name: '월요', value: 0, queryParam: 'mon'},
@@ -25,12 +26,26 @@ const currentDay = computed(() => daysOfWeek.find(day => day.value === props.day
 const currentDayName = computed(() => currentDay.value?.name ?? '')
 const currentDayParam = computed(() => currentDay.value?.queryParam ?? undefined)
 
+function onSort() {
+  console.log(selectedSort.value) //TODO api 재호출
+}
+
+type SortOption = 'popular' | 'updated' | 'views' | 'rating'
+
+const selectedSort = ref<SortOption>('popular')
+
+const sortOptions = [
+  { label: '인기순', value: 'popular' },
+  { label: '업데이트순', value: 'updated' },
+  { label: '조회순', value: 'views' },
+  { label: '별점순', value: 'rating' }
+] satisfies readonly { label: string; value: SortOption }[]
 
 watch([currentDayParam], ([newDay]) => {
   if (newDay) {
     updateDayOfWeek(newDay)
   }
-}, { immediate: true })
+}, {immediate: true})
 
 </script>
 
@@ -65,42 +80,31 @@ watch([currentDayParam], ([newDay]) => {
     <v-row>
       <v-col cols="12">
         <v-card>
-          <v-card-title>전체 {{ currentDayName }}웹툰</v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col cols="2.4">
-                <v-card>
-                  <v-card-text>웹툰 1</v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="2.4">
-                <v-card>
-                  <v-card-text>웹툰 2</v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="2.4">
-                <v-card>
-                  <v-card-text>웹툰 3</v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="2.4">
-                <v-card>
-                  <v-card-text>웹툰 4</v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="2.4">
-                <v-card>
-                  <v-card-text>웹툰 5</v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card-text>
+          <v-card-title class="d-flex justify-space-between align-center">
+          <span>전체 {{ currentDayName }}웹툰</span>
+          <v-btn-toggle
+              v-model="selectedSort"
+              dense
+              class="sort-options"
+              background-color="transparent"
+              mandatory
+          >
+            <v-btn
+                v-for="option in sortOptions"
+                :key="option.value"
+                :value="option.value"
+                @click="onSort"
+                small
+            >
+              {{ option.label }}
+            </v-btn>
+          </v-btn-toggle>
+          </v-card-title>
+          <v-card-item>
+            <EntireDailyWebtoonItems/>
+          </v-card-item>
         </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
-
-<style scoped>
-
-</style>
