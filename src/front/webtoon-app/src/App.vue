@@ -15,9 +15,11 @@ export default {
   <v-app>
     <TopBar/>
     <TabBar/>
-    <v-expand-transition>
-      <router-view/>
-    </v-expand-transition>
+    <router-view v-slot="{ Component }">
+      <v-expand-transition>
+        <component :is="Component" />
+      </v-expand-transition>
+    </router-view>
   </v-app>
 </template>
 

@@ -1,17 +1,11 @@
-<script lang="ts">
-import {useRoute} from 'vue-router';
+<script setup lang="ts">
+import {useRoute} from 'vue-router'
 
-export default {
-  name: 'TabBar',
-  setup() {
-    const route = useRoute();
-    return {route};
-  },
-};
+const route = useRoute()
 </script>
 
 <template>
-  <v-app-bar app color="white" light elevation="0" class="tab-bar">
+  <v-app-bar app color="white" light elevation="0" class="tab-bar-container">
     <v-btn :to="{ name: 'week' }" :class="['text-subtitle-1', { active: route.name === 'week' }]">
       요일별 웹툰
     </v-btn>
@@ -22,7 +16,7 @@ export default {
 </template>
 
 <style scoped>
-.tab-bar {
+.tab-bar-container {
   border: 1px solid #ccc;
 }
 

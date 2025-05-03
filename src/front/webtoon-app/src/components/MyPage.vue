@@ -1,11 +1,8 @@
-<script lang="ts">
-export default {
-  name: 'MyPage',
-}
+<script setup lang="ts">
 </script>
 
 <template>
-  <v-container fluid class="pt-4 px-0">
+  <v-container fluid class="pt-1 px-0">
     <v-row>
       <v-col cols="12">
         <v-card>

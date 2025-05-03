@@ -1,23 +1,13 @@
-<script lang="ts">
-import WeekBar from '@/components/WeekBar.vue';
-import MonthlyWebtoon from '@/components/MonthlyWebtoon.vue';
-
-export default {
-  name: 'WeekPage',
-  components: {
-    WeekBar,
-    MonthlyWebtoon,
-  },
-};
+<script setup lang="ts">
+import WeekPageContent from '@/components/WeekPageContent.vue';
 </script>
 
 <template>
   <div>
     <v-expand-transition>
-      <WeekBar/>
+      <v-main>
+        <WeekPageContent/>
+      </v-main>
     </v-expand-transition>
-    <v-main>
-      <MonthlyWebtoon/>
-    </v-main>
   </div>
 </template>

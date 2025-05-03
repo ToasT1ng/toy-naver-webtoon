@@ -1,12 +1,5 @@
-<script lang="ts">
-import MyPageComponent from '@/components/MyPage.vue';
-
-export default {
-  name: 'MyPage',
-  components: {
-    MyPageComponent,
-  },
-};
+<script setup lang="ts">
+import MyPageComponent from '@/components/MyPage.vue'
 </script>
 
 <template>

@@ -1,4 +1,10 @@
 <script setup lang="ts">
+const props = defineProps({
+  daysOfWeek: {
+    type: String,
+    required: true
+  }
+})
 </script>
 
 <template>
@@ -6,10 +12,9 @@
     <v-row>
       <v-col cols="12">
         <v-card>
-          <v-card-title>이달의 신규 웹툰</v-card-title>
-          <v-card-subtitle>신규 웹툰 목록</v-card-subtitle>
+          <v-card-title>오늘 웹툰</v-card-title>
           <v-card-text>
-            <!-- 신규 웹툰 목록 내용 -->
+            지금 요일 : {{ daysOfWeek }}
           </v-card-text>
         </v-card>
       </v-col>
