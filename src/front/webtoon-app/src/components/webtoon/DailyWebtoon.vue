@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
 import {useDailyWebtoon} from "@/composables/useDailyWebtoon";
-import EntireDailyWebtoonItems from "@/components/EntireDailyWebtoonItems.vue";
+import EntireDailyWebtoonItems from "@/components/webtoon/EntireDailyWebtoonItems.vue";
+import RecommendedDailyWebtoonItems from "@/components/webtoon/RecommendedDailyWebtoonItems.vue";
 
 const props = defineProps({
   daysOfWeekIndex: {
@@ -52,35 +53,19 @@ watch([currentDayParam], ([newDay]) => {
 <template>
   <v-container fluid class="pt-1 px-0">
     <v-row>
-      <v-col cols="12">
-        <v-card>
-          <v-card-title>추천 {{ currentDayName }}웹툰</v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col cols="4">
-                <v-card>
-                  <v-card-text>웹툰 1</v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="4">
-                <v-card>
-                  <v-card-text>웹툰 2</v-card-text>
-                </v-card>
-              </v-col>
-              <v-col cols="4">
-                <v-card>
-                  <v-card-text>웹툰 3</v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-card-text>
+      <v-col class="mt-2" cols="12">
+        <v-card elevation="0">
+          <v-card-title class="font-weight-bold">추천 {{ currentDayName }}웹툰</v-card-title>
+          <v-card-item>
+            <RecommendedDailyWebtoonItems/>
+          </v-card-item>
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mt-10">
       <v-col cols="12">
-        <v-card>
-          <v-card-title class="d-flex justify-space-between align-center">
+        <v-card elevation="0">
+          <v-card-title class="font-weight-bold d-flex justify-space-between align-center">
           <span>전체 {{ currentDayName }}웹툰</span>
           <v-btn-toggle
               v-model="selectedSort"
@@ -95,6 +80,7 @@ watch([currentDayParam], ([newDay]) => {
                 :value="option.value"
                 @click="onSort"
                 small
+                class="pa-1"
             >
               {{ option.label }}
             </v-btn>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import WeekPageContent from '@/components/WeekPageContent.vue';
+import WeekPageContent from '@/components/webtoon/WeekPageContent.vue';
 </script>
 
 <template>

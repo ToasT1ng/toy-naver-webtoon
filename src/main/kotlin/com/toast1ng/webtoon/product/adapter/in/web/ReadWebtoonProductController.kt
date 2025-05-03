@@ -1,5 +1,6 @@
 package com.toast1ng.webtoon.product.adapter.`in`.web
 
+import com.toast1ng.webtoon.product.adapter.`in`.web.response.DailyRecommendedWebtoonsResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.DailyWebtoonsResponse
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import org.springframework.http.ResponseEntity
@@ -9,6 +10,41 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ReadWebtoonProductController() {
+    @GetMapping("/webtoons/daily/recommend/three")
+    fun getDailyRecommendedWebtoon(@RequestParam("dayOfWeek") dayOfWeekValue: String): ResponseEntity<DailyRecommendedWebtoonsResponse> {
+        val dayOfWeek = DayOfWeek.fromValue(dayOfWeekValue)
+        return ResponseEntity.ok().body(
+            DailyRecommendedWebtoonsResponse(
+                result = listOf(
+                    DailyRecommendedWebtoonsResponse.DailyRecommendedWebtoonResponse(
+                        id = 11L,
+                        title = "Test Recommend Webtoon Really Really Really Really Long Title",
+                        authorIds = listOf(1L, 2L),
+                        authorNames = "Author1, Author2",
+                        latestEpisodeName = "Episode 10",
+                        rating = "9.5"
+                    ),
+                    DailyRecommendedWebtoonsResponse.DailyRecommendedWebtoonResponse(
+                        id = 12L,
+                        title = "Another Recommend Webtoon",
+                        authorIds = listOf(3L),
+                        authorNames = "Author3",
+                        latestEpisodeName = "Episode 5",
+                        rating = "8.7"
+                    ),
+                    DailyRecommendedWebtoonsResponse.DailyRecommendedWebtoonResponse(
+                        id = 13L,
+                        title = "Third Recommend Webtoon",
+                        authorIds = listOf(4L),
+                        authorNames = "Author4",
+                        latestEpisodeName = "Episode 8",
+                        rating = "8.9"
+                    )
+                )
+            )
+        )
+    }
+
 
     @GetMapping("/webtoons/daily")
     fun getDailyWebtoons(@RequestParam("dayOfWeek") dayOfWeekValue: String): ResponseEntity<DailyWebtoonsResponse> {

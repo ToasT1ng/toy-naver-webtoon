@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue'
-import MonthlyWebtoon from '@/components/MonthlyWebtoon.vue'
-import DailyWebtoon from '@/components/DailyWebtoon.vue'
+import MonthlyWebtoon from '@/components/webtoon/MonthlyWebtoon.vue'
+import DailyWebtoon from '@/components/webtoon/DailyWebtoon.vue'
 
 const tabs = [
   { label: '전체', value: -1 },

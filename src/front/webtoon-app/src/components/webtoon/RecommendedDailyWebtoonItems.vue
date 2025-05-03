@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import {useDailyWebtoon} from "@/composables/useDailyWebtoon";
-
-const {data} = useDailyWebtoon()
-
+import {useDailyRecommendedWebtoon} from "@/composables/useDailyWebtoon";
+const {data} = useDailyRecommendedWebtoon()
 </script>
+
 <template>
   <v-row
       class="flex-wrap pa-0 ma-0"
@@ -16,12 +15,13 @@ const {data} = useDailyWebtoon()
           cols="auto"
           class="pa-0 webtoon-col mb-1"
       >
-        <v-card class="card-item">
+        <v-card class="card-item" elevation="0">
           <v-card-item class="pa-0">
             <v-img
+                class="with-border"
                 height="100%"
                 cover
-                src="https://image-comic.pstatic.net/webtoon/783053/thumbnail/thumbnail_IMAG21_d7732f14-26da-4e35-8762-660cc87b53f1.jpg"
+                src="https://image-comic.pstatic.net/webtoon/805702/thumbnail/titledescimage/frontImage_804335a1-d492-43f6-9281-8f1824927e7b.png"
             />
           </v-card-item>
           <v-card-text class="pa-1 mt-1 pb-0 text-subtitle-1 font-weight-bold ellipsis">
@@ -29,6 +29,9 @@ const {data} = useDailyWebtoon()
           </v-card-text>
           <v-card-text class="pa-1 pt-0 pb-0 text-body-2 font-weight-medium ellipsis">
             {{ item.authorNames }}
+          </v-card-text>
+          <v-card-text class="pa-1 pt-0 pb-0 text-body-2 font-weight-medium ellipsis">
+            {{ item.latestEpisodeName }}
           </v-card-text>
           <v-card-text class="pa-1 pt-0 text-caption font-weight-regular">
             {{ item.rating }}
@@ -45,8 +48,8 @@ const {data} = useDailyWebtoon()
 </template>
 <style scoped>
 .webtoon-col {
-  flex: 0 0 calc(20% - 8px);
-  max-width: calc(20% - 8px);
+  flex: 0 0 calc(33% - 8px);
+  max-width: calc(33% - 8px);
   padding: 0;
 }
 
@@ -54,5 +57,10 @@ const {data} = useDailyWebtoon()
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.with-border {
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 </style>
