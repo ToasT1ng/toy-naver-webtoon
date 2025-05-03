@@ -13,10 +13,10 @@ export default {
 
 <template>
   <v-app>
-    <TopBar />
-    <TabBar />
+    <TopBar/>
+    <TabBar/>
     <v-expand-transition>
-      <router-view />
+      <router-view/>
     </v-expand-transition>
   </v-app>
 </template>

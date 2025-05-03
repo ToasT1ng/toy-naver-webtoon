@@ -21,6 +21,7 @@ export default {
 .week-bar {
   border: 1px solid #ccc;
 }
+
 .v-btn {
   border-radius: 0;
   height: 100%;

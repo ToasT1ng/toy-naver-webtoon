@@ -14,10 +14,10 @@ export default {
 <template>
   <div>
     <v-expand-transition>
-      <WeekBar />
+      <WeekBar/>
     </v-expand-transition>
     <v-main>
-      <MonthlyWebtoon />
+      <MonthlyWebtoon/>
     </v-main>
   </div>
 </template>

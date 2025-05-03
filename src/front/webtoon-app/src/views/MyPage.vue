@@ -12,7 +12,7 @@ export default {
 <template>
   <div>
     <v-main>
-      <MyPageComponent />
+      <MyPageComponent/>
     </v-main>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import WeekPage from '@/views/WeekPage.vue'
 import MyPage from '@/views/MyPage.vue'
 
