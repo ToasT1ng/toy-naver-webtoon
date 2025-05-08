@@ -2,6 +2,7 @@ package com.toast1ng.webtoon.product.adapter.`in`.web
 
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.DailyRecommendedWebtoonsResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.DailyWebtoonsResponse
+import com.toast1ng.webtoon.product.adapter.`in`.web.response.MonthlyRecommendedWebtoonsResponse
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -101,6 +102,37 @@ class ReadWebtoonProductController() {
                         authorNames = "Author9, Author10",
                         rating = "9.3"
                     )
+                )
+            )
+        )
+    }
+
+    @GetMapping("/webtoons/monthly/recommend/three")
+    fun getMonthlyRecommendedWebtoon(): ResponseEntity<MonthlyRecommendedWebtoonsResponse> {
+        return ResponseEntity.ok().body(
+            MonthlyRecommendedWebtoonsResponse(
+                result = listOf(
+                    MonthlyRecommendedWebtoonsResponse.MonthlyRecommendedWebtoonResponse(
+                        id = 15L,
+                        title = "Test Monthly New Webtoon Really Really Really Really Long Title",
+                        authorIds = listOf(10L, 20L),
+                        authorNames = "RandomAuthor1, RandomAuthor2",
+                        description = "This is some description for the webtoon.",
+                    ),
+                    MonthlyRecommendedWebtoonsResponse.MonthlyRecommendedWebtoonResponse(
+                        id = 16L,
+                        title = "Another Monthly New",
+                        authorIds = listOf(30L),
+                        authorNames = "RandomAuthor3",
+                        description = "This is a test webtoon description that is really really long and goes on and on and on. It should be long enough to test the truncation logic.",
+                    ),
+                    MonthlyRecommendedWebtoonsResponse.MonthlyRecommendedWebtoonResponse(
+                        id = 17L,
+                        title = "Third Monthly New",
+                        authorIds = listOf(40L, 50L),
+                        authorNames = "RandomAuthor4, RandomAuthor5",
+                        description = "This is some description for the webtoon.",
+                    ),
                 )
             )
         )

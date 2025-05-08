@@ -45,3 +45,19 @@ export const getDailyWebtoon = async (
     })
     return response.data
 }
+
+interface IMonthlyRecommendedWebtoonsResponse {
+    result: IMonthlyRecommendedWebtoonResponse[]
+}
+
+interface IMonthlyRecommendedWebtoonResponse {
+    id: number
+    title: string
+    authorNames: string,
+    description: string,
+}
+
+export const getMonthlyRecommendedWebtoon = async (): Promise<IMonthlyRecommendedWebtoonsResponse> => {
+    const response: AxiosResponse<IMonthlyRecommendedWebtoonsResponse> = await apiClient.get<IMonthlyRecommendedWebtoonsResponse>('/webtoons/monthly/recommend/three',)
+    return response.data
+}
