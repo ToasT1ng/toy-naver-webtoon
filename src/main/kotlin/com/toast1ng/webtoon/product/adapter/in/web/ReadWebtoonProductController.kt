@@ -2,6 +2,7 @@ package com.toast1ng.webtoon.product.adapter.`in`.web
 
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.DailyRecommendedWebtoonsResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.DailyWebtoonsResponse
+import com.toast1ng.webtoon.product.adapter.`in`.web.response.EveryWebtoonResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.MonthlyRecommendedWebtoonsResponse
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import org.springframework.http.ResponseEntity
@@ -133,6 +134,101 @@ class ReadWebtoonProductController() {
                         authorNames = "RandomAuthor4, RandomAuthor5",
                         description = "This is some description for the webtoon.",
                     ),
+                )
+            )
+        )
+    }
+
+    @GetMapping("/webtoons")
+    fun getWebtoons(): ResponseEntity<EveryWebtoonResponse> {
+        return ResponseEntity.ok().body(
+            EveryWebtoonResponse(
+                result = mapOf(
+                    DayOfWeek.MONDAY.value to listOf(
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 101L,
+                            title = "Monday Webtoon 1 Really Really Really Really Long Title"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 102L,
+                            title = "Monday Webtoon 2"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 103L,
+                            title = "Monday Webtoon 3"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 104L,
+                            title = "Monday Webtoon 4"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 105L,
+                            title = "Monday Webtoon 5"
+                        )
+                    ),
+                    DayOfWeek.TUESDAY.value to listOf(
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 201L,
+                            title = "Tuesday Webtoon 1"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 202L,
+                            title = "Tuesday Webtoon 2"
+                        )
+                    ),
+                    DayOfWeek.WEDNESDAY.value to listOf(
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 301L,
+                            title = "Wednesday Webtoon 1"
+                        )
+                    ),
+                    DayOfWeek.THURSDAY.value to listOf(
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 401L,
+                            title = "Thursday Webtoon 1"
+                        )
+                    ),
+                    DayOfWeek.FRIDAY.value to listOf(),
+                    DayOfWeek.SATURDAY.value to listOf(
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 601L,
+                            title = "Saturday Webtoon 1"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 602L,
+                            title = "Saturday Webtoon 2"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 603L,
+                            title = "Saturday Webtoon 3"
+                        )
+                    ),
+                    DayOfWeek.SUNDAY.value to listOf(
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 701L,
+                            title = "Sunday Webtoon 1"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 702L,
+                            title = "Sunday Webtoon 2"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 703L,
+                            title = "Sunday Webtoon 3"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 704L,
+                            title = "Sunday Webtoon 4"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 705L,
+                            title = "Sunday Webtoon 5"
+                        ),
+                        EveryWebtoonResponse.EachWebtoonResponse(
+                            id = 706L,
+                            title = "Sunday Webtoon 6"
+                        )
+                    )
                 )
             )
         )

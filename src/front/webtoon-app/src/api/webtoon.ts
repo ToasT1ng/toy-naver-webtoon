@@ -61,3 +61,17 @@ export const getMonthlyRecommendedWebtoon = async (): Promise<IMonthlyRecommende
     const response: AxiosResponse<IMonthlyRecommendedWebtoonsResponse> = await apiClient.get<IMonthlyRecommendedWebtoonsResponse>('/webtoons/monthly/recommend/three',)
     return response.data
 }
+
+interface IEveryWebtoonResponse {
+    result: Record<string, IEachWebtoonResponse[]>;
+}
+
+interface IEachWebtoonResponse {
+    id: number
+    title: string
+}
+
+export const getEveryWebtoon = async (): Promise<IEveryWebtoonResponse> => {
+    const response: AxiosResponse<IEveryWebtoonResponse> = await apiClient.get<IEveryWebtoonResponse>('/webtoons',)
+    return response.data
+}

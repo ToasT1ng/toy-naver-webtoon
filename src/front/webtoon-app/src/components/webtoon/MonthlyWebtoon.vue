@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RecommendedMonthlyWebtoonItems from "@/components/webtoon/RecommendedMonthlyWebtoonItems.vue";
+import EveryWebtoonItems from "@/components/webtoon/EveryWebtoonItems.vue";
 </script>
 
 <template>
@@ -14,9 +15,15 @@ import RecommendedMonthlyWebtoonItems from "@/components/webtoon/RecommendedMont
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col class="mt-2" cols="12">
+        <v-card elevation="0">
+          <v-card-title class="font-weight-bold">요일별 전체 웹툰</v-card-title>
+          <v-card-item>
+            <EveryWebtoonItems/>
+          </v-card-item>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
-
-<style scoped>
-
-</style>
