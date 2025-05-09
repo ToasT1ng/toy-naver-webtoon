@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {computed} from "vue";
 import {useWebtoons} from "@/composables/useWebtoons";
+import {navigateToWebtoonDetail} from "@/utils/navigation";
 
 const daysOfWeek = [
   {name: 'mon', value: '월요'},
@@ -55,6 +56,7 @@ const maxRowCount = computed(() => {
                 height="100%"
                 cover
                 src="https://image-comic.pstatic.net/webtoon/747269/thumbnail/thumbnail_IMAG21_aabd9952-ff45-47a2-a543-33f19a5c6708.jpg"
+                @click="navigateToWebtoonDetail(colItems.items[rowIndex].id, 'tab을 넣어야합니다.....')"
             />
           </v-card-item>
           <v-card-text class="pa-1 font-weight-medium ellipsis">

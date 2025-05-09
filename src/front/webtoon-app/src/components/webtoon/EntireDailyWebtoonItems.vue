@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {useDailyWebtoon} from "@/composables/useDailyWebtoon";
 
+import {navigateToWebtoonDetail} from "@/utils/navigation";
+
 const {data} = useDailyWebtoon()
 
 </script>
@@ -23,6 +25,7 @@ const {data} = useDailyWebtoon()
                 height="100%"
                 cover
                 src="https://image-comic.pstatic.net/webtoon/783053/thumbnail/thumbnail_IMAG21_d7732f14-26da-4e35-8762-660cc87b53f1.jpg"
+                @click="navigateToWebtoonDetail(item.id, 'tab을 넣어야합니다.....')"
             />
           </v-card-item>
           <v-card-text class="pa-1 mt-1 pb-0 text-subtitle-1 font-weight-bold ellipsis">

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useMonthlyRecommendedWebtoon} from "@/composables/useMonthlyWebtoon";
+import {navigateToWebtoonDetail} from "@/utils/navigation";
 const {data} = useMonthlyRecommendedWebtoon()
 </script>
 
@@ -22,6 +23,7 @@ const {data} = useMonthlyRecommendedWebtoon()
                 height="100%"
                 cover
                 src="https://image-comic.pstatic.net/webtoon/837816/thumbnail/titledescimage/frontImage_c124925a-2d9a-4aeb-beec-7ebc9d9db41f.png"
+                @click="navigateToWebtoonDetail(item.id, 'tab을 넣어야합니다.....')"
             />
           </v-card-item>
           <v-card-text class="pa-1 mt-1 pb-0 text-subtitle-1 font-weight-bold ellipsis">

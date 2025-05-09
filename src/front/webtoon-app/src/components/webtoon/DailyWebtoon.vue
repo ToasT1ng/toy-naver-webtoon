@@ -5,8 +5,8 @@ import EntireDailyWebtoonItems from "@/components/webtoon/EntireDailyWebtoonItem
 import RecommendedDailyWebtoonItems from "@/components/webtoon/RecommendedDailyWebtoonItems.vue";
 
 const props = defineProps({
-  daysOfWeekIndex: {
-    type: Number,
+  daysOfWeekValue: {
+    type: String,
     required: true
   }
 })
@@ -14,18 +14,18 @@ const props = defineProps({
 const {updateDayOfWeek} = useDailyWebtoon()
 
 const daysOfWeek = [
-  {name: '월요', value: 0, queryParam: 'mon'},
-  {name: '화요', value: 1, queryParam: 'tue'},
-  {name: '수요', value: 2, queryParam: 'wed'},
-  {name: '목요', value: 3, queryParam: 'thu'},
-  {name: '금요', value: 4, queryParam: 'fri'},
-  {name: '토요', value: 5, queryParam: 'sat'},
-  {name: '일요', value: 6, queryParam: 'sun'}
+  {name: '월요', value: 'mon'},
+  {name: '화요', value: 'tue'},
+  {name: '수요', value: 'wed'},
+  {name: '목요', value: 'thu'},
+  {name: '금요', value: 'fri'},
+  {name: '토요', value: 'sat'},
+  {name: '일요', value: 'sun'}
 ]
 
-const currentDay = computed(() => daysOfWeek.find(day => day.value === props.daysOfWeekIndex))
+const currentDay = computed(() => daysOfWeek.find(day => day.value === props.daysOfWeekValue))
 const currentDayName = computed(() => currentDay.value?.name ?? '')
-const currentDayParam = computed(() => currentDay.value?.queryParam ?? undefined)
+const currentDayParam = computed(() => currentDay.value?.value ?? undefined)
 
 function onSort() {
   console.log(selectedSort.value) //TODO api 재호출
