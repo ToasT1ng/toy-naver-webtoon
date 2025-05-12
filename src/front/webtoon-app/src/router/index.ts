@@ -8,14 +8,10 @@ import WebtoonDetail from "@/components/webtoon/WebtoonDetail.vue";
 const routes = [
     {
         path: '/webtoon',
-        // redirect: '/webtoon/all',
+        redirect: '/webtoon/all',
         name: 'week',
         component: WeekPage,
         children: [
-            // {
-            //     path: '',
-            //     redirect: 'all',
-            // },
             {
                 path: 'all',
                 name: 'WebtoonAll',

@@ -5,6 +5,6 @@ export const navigateToWebtoonDetail = (id: number, tab: string) => {
         path: `/webtoon/detail/${id}`,
         query: {tab}
     }).then(r => {
-        console.log(r)
+        // console.log(r)
     })
  }
