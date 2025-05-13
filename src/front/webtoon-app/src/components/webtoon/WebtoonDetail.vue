@@ -1,7 +1,6 @@
 <script setup lang="ts">
 
-import {computed, onMounted, ref} from "vue";
-import {da} from "vuetify/locale";
+import {onMounted, ref} from "vue";
 
 const props = defineProps({
   webtoonId: {
@@ -71,6 +70,70 @@ function getDayOfWeek(inputDay: string) {
   return dayOfWeek ? dayOfWeek.name : ''
 }
 
+interface IEpisode {
+  episodeId: number;
+  title: string;
+  thumbnail: string;
+  rating: string;
+  createdAt: string;
+}
+
+interface IEpisodes {
+  webtoonId: number;
+  pageNo: number;
+  pageSize: number;
+  totalCount: number;
+  totalPage: number;
+  isLastPage: boolean;
+  episodes: IEpisode[];
+}
+
+const webtoonListData = ref<IEpisodes>({
+  webtoonId: 123,
+  pageNo: 0,
+  pageSize: 10,
+  totalCount: 100,
+  totalPage: 10,
+  isLastPage: false,
+  episodes: [
+    {
+      episodeId: 2,
+      title: '2화 : 다음',
+      thumbnail: 'https://image-comic.pstatic.net/webtoon/796075/128/thumbnail_202x120_7c90ceae-294a-4bce-8f19-bd3dd8f86412.jpg',
+      rating: '5.67',
+      createdAt: '2023-10-02'
+    },
+    {
+      episodeId: 1,
+      title: '1화 : 시작',
+      thumbnail: 'https://image-comic.pstatic.net/webtoon/796075/128/thumbnail_202x120_7c90ceae-294a-4bce-8f19-bd3dd8f86412.jpg',
+      rating: '4.51',
+      createdAt: '2023-10-01'
+    }
+  ]
+})
+
+function formatDate(dateString: string) {
+  const date = new Date(dateString)
+  const yy = String(date.getFullYear()).slice(2)
+  const mm = String(date.getMonth() + 1).padStart(2, '0')
+  const dd = String(date.getDate()).padStart(2, '0')
+  return `${yy}.${mm}.${dd}`
+}
+
+type SortOption = 'asc' | 'dec'
+
+const selectedSort = ref<SortOption>('asc')
+
+const sortOptions = [
+  {label: '최신화부터', value: 'dec'},
+  {label: '1화부터', value: 'asc'},
+] satisfies readonly { label: string; value: SortOption }[]
+
+function onSort() {
+  console.log(selectedSort.value) //TODO api 재호출
+}
+
 onMounted(() => {
   console.log(props.webtoonId) //TODO: 웹툰 상세 API 호출
 })
@@ -80,7 +143,6 @@ onMounted(() => {
 <template>
   <v-card class="pa-3" elevation="0">
     <v-row no-gutters>
-      <!-- 썸네일 영역 -->
       <v-col cols="4" md="2" lg="2">
         <v-img
             :src="data.thumbnail"
@@ -88,8 +150,6 @@ onMounted(() => {
             cover
         />
       </v-col>
-
-      <!-- 텍스트 정보 영역 -->
       <v-col cols="8" md="10" lg="10" class="pl-0">
         <v-card-title class="font-weight-bold pt-0">{{ data.title }}</v-card-title>
         <v-card-text class="pb-0">
@@ -101,14 +161,14 @@ onMounted(() => {
           {{ data.description }}
         </v-card-text>
         <v-card-text class="pt-0">
-          <v-chip v-for="tag in data.tags" :key="tag" class="mr-2 text-grey-darken-2 pl-2 pr-2 font-weight-medium" variant="tonal"
+          <v-chip v-for="tag in data.tags" :key="tag" class="mr-2 text-grey-darken-2 pl-2 pr-2 font-weight-medium"
+                  variant="tonal"
                   color="grey-lighten-5" rounded="sm" density="compact" small>
             #{{ tag }}
           </v-chip>
         </v-card-text>
       </v-col>
     </v-row>
-
     <v-row style="height: 80px">
       <v-col cols="5" class="mr-0 pr-0 h-100">
         <v-btn class="h-100 like-count-button" elevation="0" block>＋ 관심 {{ data.likeCount.toLocaleString() }}</v-btn>
@@ -121,6 +181,61 @@ onMounted(() => {
       </v-col>
     </v-row>
   </v-card>
+  <v-card>
+    <!-- 광고 배너  -->
+  </v-card>
+  <v-card class="pa-4" elevation="0">
+    <div class="d-flex justify-space-between align-center">
+      <div class="text-body-1 font-weight-bold text-grey-darken-1">
+        총 {{ webtoonListData.episodes.length }}화
+      </div>
+
+      <v-btn-toggle
+          v-model="selectedSort"
+          class="sort-options"
+          mandatory
+          dense
+      >
+        <v-btn
+            v-for="option in sortOptions"
+            :key="option.value"
+            :value="option.value"
+            @click="onSort"
+            class="sort-button"
+            small
+            elevation="0"
+            color="transparent"
+        >
+          {{ option.label }}
+        </v-btn>
+      </v-btn-toggle>
+    </div>
+
+    <v-list>
+      <v-list-item
+          v-for="episode in webtoonListData.episodes"
+          :key="episode.episodeId"
+          class="pa-0 pt-1 pb-1"
+      >
+        <v-row no-gutters align="center">
+          <div style="width: 10%;" class="pt-1 pb-1 mr-4">
+            <v-img
+                class="with-border"
+                width="100%"
+                cover
+                :src="episode.thumbnail"
+            />
+          </div>
+          <div style="flex: 1;">
+            <div class="font-weight-bold text-body-1">{{ episode.title }}</div>
+            <div class="font-weight-bold text-grey text-body-2">
+              ★ {{ episode.rating }} &nbsp; {{ formatDate(episode.createdAt) }}
+            </div>
+          </div>
+        </v-row>
+      </v-list-item>
+    </v-list>
+  </v-card>
 </template>
 
 <style scoped>
@@ -128,8 +243,22 @@ onMounted(() => {
   background-color: #f0f0f0 !important;
   color: black;
 }
+
 .other-button {
   background-color: #f1f0f0 !important;
   color: black;
+}
+
+.with-border {
+  border: 1px #ccc;
+  border-radius: 3px;
+}
+
+.v-list-item {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.v-list-item:first-child {
+  border-top: 1px solid #e0e0e0;
 }
 </style>
