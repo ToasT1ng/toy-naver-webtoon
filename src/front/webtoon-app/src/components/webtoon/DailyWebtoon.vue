@@ -36,10 +36,10 @@ type SortOption = 'popular' | 'updated' | 'views' | 'rating'
 const selectedSort = ref<SortOption>('popular')
 
 const sortOptions = [
-  { label: '인기순', value: 'popular' },
-  { label: '업데이트순', value: 'updated' },
-  { label: '조회순', value: 'views' },
-  { label: '별점순', value: 'rating' }
+  {label: '인기순', value: 'popular'},
+  {label: '업데이트순', value: 'updated'},
+  {label: '조회순', value: 'views'},
+  {label: '별점순', value: 'rating'}
 ] satisfies readonly { label: string; value: SortOption }[]
 
 watch([currentDayParam], ([newDay]) => {
@@ -66,25 +66,29 @@ watch([currentDayParam], ([newDay]) => {
       <v-col cols="12">
         <v-card elevation="0">
           <v-card-title class="font-weight-bold d-flex justify-space-between align-center">
-          <span>전체 {{ currentDayName }}웹툰</span>
-          <v-btn-toggle
-              v-model="selectedSort"
-              dense
-              class="sort-options"
-              background-color="transparent"
-              mandatory
-          >
-            <v-btn
-                v-for="option in sortOptions"
-                :key="option.value"
-                :value="option.value"
-                @click="onSort"
-                small
-                class="pa-1"
+            <span>전체 {{ currentDayName }}웹툰</span>
+            <v-btn-toggle
+                v-model="selectedSort"
+                color="black"
+                variant="plain"
+                class="pa-0 ma-0"
+                style="height: 24px; line-height: 24px; min-height: 24px;"
+                mandatory
             >
-              {{ option.label }}
-            </v-btn>
-          </v-btn-toggle>
+              <v-btn
+                  v-for="option in sortOptions"
+                  :key="option.value"
+                  :value="option.value"
+                  @click="onSort"
+                  small
+                  elevation="0"
+                  :ripple="false"
+                  class="pa-0"
+                  style="min-width: auto;"
+              >
+                {{ option.label }}
+              </v-btn>
+            </v-btn-toggle>
           </v-card-title>
           <v-card-item>
             <EntireDailyWebtoonItems/>
@@ -94,3 +98,16 @@ watch([currentDayParam], ([newDay]) => {
     </v-row>
   </v-container>
 </template>
+<style scoped>
+::v-deep(.v-btn + .v-btn::before) {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  background-color: #5f5f5f;
+  border-radius: 50%;
+  margin: 0 5px;
+  vertical-align: middle;
+  opacity: 0.5;
+}
+</style>

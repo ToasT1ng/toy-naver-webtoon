@@ -186,31 +186,32 @@ onMounted(() => {
   </v-card>
   <v-card class="pa-4" elevation="0">
     <div class="d-flex justify-space-between align-center">
-      <div class="text-body-1 font-weight-bold text-grey-darken-1">
+      <div class="entire-episode text-body-1 font-weight-bold text-grey-darken-1 pa-0 ma-0">
         총 {{ webtoonListData.episodes.length }}화
       </div>
 
       <v-btn-toggle
           v-model="selectedSort"
-          class="sort-options"
+          color="black"
+          variant="plain"
+          class="pa-0 ma-0"
+          style="height: 24px; line-height: 24px; min-height: 24px;"
           mandatory
-          dense
       >
         <v-btn
             v-for="option in sortOptions"
             :key="option.value"
             :value="option.value"
             @click="onSort"
-            class="sort-button"
             small
             elevation="0"
-            color="transparent"
+            :ripple="false"
+            class="pa-0"
         >
           {{ option.label }}
         </v-btn>
       </v-btn-toggle>
     </div>
-
     <v-list>
       <v-list-item
           v-for="episode in webtoonListData.episodes"
@@ -260,5 +261,16 @@ onMounted(() => {
 
 .v-list-item:first-child {
   border-top: 1px solid #e0e0e0;
+}
+
+::v-deep(.v-btn + .v-btn::before) {
+  content: "";
+  width: 1px;
+  height: 12px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #e0e0e0;
+  display: inline-block;
+  vertical-align: middle;
 }
 </style>
