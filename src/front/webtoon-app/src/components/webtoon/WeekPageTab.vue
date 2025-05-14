@@ -21,7 +21,7 @@ const tabIndex = ref(0)
 watch(
     () => route.name,
     () => {
-      if (route.name === 'WebtoonDetail') return
+      if (route.name === 'WebtoonDetail' || route.name === 'WebtoonEpisode') return
 
       const param = route.name === 'WebtoonAll'
           ? 'all'

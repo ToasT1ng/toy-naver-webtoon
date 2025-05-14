@@ -6,7 +6,7 @@ const route = useRoute()
 
 <template>
   <v-app-bar app color="white" light elevation="0" class="tab-bar-container">
-    <v-btn :to="{ name: 'week' }" :class="['text-subtitle-1', { active: route.name === 'week' }]">
+    <v-btn :to="{ name: 'WebtoonAll' }" :class="['text-subtitle-1', { active: route.path.startsWith('/webtoon') }]">
       웹툰
     </v-btn>
     <v-btn :to="{ name: 'mypage' }" :class="['text-subtitle-1', { active: route.name === 'mypage' }]">

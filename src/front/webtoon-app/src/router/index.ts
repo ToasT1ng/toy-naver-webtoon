@@ -4,11 +4,11 @@ import MyPage from '@/views/MyPage.vue'
 import MonthlyWebtoon from "@/components/webtoon/MonthlyWebtoon.vue";
 import DailyWebtoon from "@/components/webtoon/DailyWebtoon.vue";
 import WebtoonDetail from "@/components/webtoon/WebtoonDetail.vue";
+import WebtoonEpisode from "@/components/webtoon/WebtoonEpisode.vue";
 
 const routes = [
     {
         path: '/webtoon',
-        redirect: '/webtoon/all',
         name: 'week',
         component: WeekPage,
         children: [
@@ -32,6 +32,15 @@ const routes = [
                     tab: route.query.tab
                 }),
             },
+            {
+                path: 'episode/:episodeId',
+                name: 'WebtoonEpisode',
+                component: WebtoonEpisode,
+                props: (route: { params: { episodeId: any; }; query: { tab: any; }; }) => ({
+                    episodeId: route.params.episodeId,
+                    tab: route.query.tab
+                }),
+            }
         ]
     },
     {
@@ -46,7 +55,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(), // 또는 createWebHistory(process.env.BASE_URL) 사용 가능
+    history: createWebHistory(),
     routes,
 })
 

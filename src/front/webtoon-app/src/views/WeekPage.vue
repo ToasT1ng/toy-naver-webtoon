@@ -8,7 +8,7 @@ import WeekPageTab from '@/components/webtoon/WeekPageTab.vue'
       <v-container fluid class="pa-0">
         <WeekPageTab />
         <router-view v-slot="{ Component }">
-          <component :is="Component" />
+          <component :is="Component" :key="$route.fullPath" />
         </router-view>
       </v-container>
     </v-main>

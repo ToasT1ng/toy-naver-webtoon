@@ -1,17 +1,13 @@
 <script setup lang="ts">
 
 import {onMounted, ref} from "vue";
+import {navigateToWebtoonEpisode} from "@/utils/navigation";
 
-const props = defineProps({
-  webtoonId: {
-    type: String,
-    required: true
-  },
-  tab: {
-    type: String,
-    required: true
-  }
-})
+interface Props {
+  webtoonId: string
+  tab: string
+}
+const props = defineProps<Props>()
 
 interface IPerson {
   personId: number;
@@ -134,8 +130,13 @@ function onSort() {
   console.log(selectedSort.value) //TODO api 재호출
 }
 
+function onClickEpisode(episode: IEpisode) {
+  navigateToWebtoonEpisode(episode.episodeId, props.tab)
+}
+
 onMounted(() => {
-  console.log(props.webtoonId) //TODO: 웹툰 상세 API 호출
+  console.log('webtoonId:', props.webtoonId)
+  console.log('tab:', props.tab)
 })
 
 </script>
@@ -217,6 +218,7 @@ onMounted(() => {
           v-for="episode in webtoonListData.episodes"
           :key="episode.episodeId"
           class="pa-0 pt-1 pb-1"
+          @click="onClickEpisode(episode)"
       >
         <v-row no-gutters align="center">
           <div style="width: 10%;" class="pt-1 pb-1 mr-4">
@@ -272,5 +274,9 @@ onMounted(() => {
   background-color: #e0e0e0;
   display: inline-block;
   vertical-align: middle;
+}
+
+::v-deep(.v-list-item:hover .text-body-1) {
+  text-decoration: underline;
 }
 </style>
