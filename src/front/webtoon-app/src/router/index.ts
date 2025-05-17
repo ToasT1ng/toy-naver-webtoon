@@ -50,7 +50,7 @@ const routes = [
     },
     {
         path: '/',
-        redirect: '/webtoon',
+        redirect: '/webtoon/all',
     },
 ]
 

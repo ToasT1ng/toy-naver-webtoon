@@ -32,9 +32,9 @@ class WebtoonProductJpaEntity(
     @JoinColumn(name = "genre_id")
     val genre: GenreJpaEntity,
 
-    @OneToMany(mappedBy = "webtoon", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "webtoon", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     val creators: List<CreatorJpaEntity> = emptyList(),
 
-    @OneToMany(mappedBy = "webtoon", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "webtoon", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     val images: List<WebtoonImageJpaEntity> = emptyList()
 )

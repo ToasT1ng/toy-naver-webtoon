@@ -8,6 +8,7 @@ interface IDailyRecommendedWebtoonsResponse {
 interface IDailyRecommendedWebtoonResponse {
     id: number
     title: string
+    thumbnail: string
     authorNames: string,
     latestEpisodeName: string,
     rating: string,
@@ -33,6 +34,7 @@ interface IDailyWebtoonsResponse {
 interface IDailyWebtoonResponse {
     id: number
     title: string
+    thumbnail: string
     authorNames: string,
     rating: string,
 }
@@ -53,6 +55,7 @@ interface IMonthlyRecommendedWebtoonsResponse {
 interface IMonthlyRecommendedWebtoonResponse {
     id: number
     title: string
+    thumbnail: string
     authorNames: string,
     description: string,
 }
@@ -69,6 +72,7 @@ interface IEveryWebtoonResponse {
 interface IEachWebtoonResponse {
     id: number
     title: string
+    thumbnail: string
 }
 
 export const getEveryWebtoon = async (): Promise<IEveryWebtoonResponse> => {

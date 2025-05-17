@@ -1,15 +1,10 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
 import com.toast1ng.webtoon.common.PersistenceAdapter
-import com.toast1ng.webtoon.product.application.port.out.GetThreeWebtoonsQuery
-import com.toast1ng.webtoon.product.application.port.out.GetWebtoonsQuery
-import com.toast1ng.webtoon.product.application.port.out.GetWebtoonQuery
-import com.toast1ng.webtoon.product.application.port.out.MakeWebtoonPort
-import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonProductPort
+import com.toast1ng.webtoon.product.application.port.out.*
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import java.math.BigDecimal
 import java.sql.Timestamp
-import java.time.LocalDateTime
 
 //TODO
 // 1. n+1 문제 해결
@@ -26,9 +21,10 @@ class WebtoonProductPersistenceAdapter(
     override fun getWebtoons(query: GetWebtoonsQuery): List<WebtoonProduct> {
         return (query.day?.value?.let {
             webtoonProductRepository.findAllByDay(it)
-        } ?: webtoonProductRepository.findAll()).map {
-            mapper.mapToEntity(it)
-        }
+        } ?: webtoonProductRepository.findAll())
+            .map {
+                mapper.mapToEntity(it)
+            }
     }
 
     override fun getWebtoon(query: GetWebtoonQuery): WebtoonProduct? {

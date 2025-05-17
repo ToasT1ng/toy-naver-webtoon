@@ -22,7 +22,7 @@ const {data} = useMonthlyRecommendedWebtoon()
                 class="with-border"
                 height="100%"
                 cover
-                src="https://image-comic.pstatic.net/webtoon/837816/thumbnail/titledescimage/frontImage_c124925a-2d9a-4aeb-beec-7ebc9d9db41f.png"
+                :src="item.thumbnail"
                 @click="navigateToWebtoonDetail(item.id, 'tab을 넣어야합니다.....')"
             />
           </v-card-item>

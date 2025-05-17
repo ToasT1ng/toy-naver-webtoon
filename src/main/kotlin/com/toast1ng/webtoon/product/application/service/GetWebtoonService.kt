@@ -8,7 +8,9 @@ import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonProductPort
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional(readOnly = true)
 @Service
 class GetWebtoonService(
     private val readWebtoonProductPort: ReadWebtoonProductPort

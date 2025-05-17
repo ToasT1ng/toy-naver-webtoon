@@ -24,7 +24,7 @@ const {data} = useDailyWebtoon()
                 class="with-border"
                 height="100%"
                 cover
-                src="../../assets/thumbnail_sample1.png"
+                :src="item.thumbnail"
                 @click="navigateToWebtoonDetail(item.id, 'tab을 넣어야합니다.....')"
             />
           </v-card-item>
