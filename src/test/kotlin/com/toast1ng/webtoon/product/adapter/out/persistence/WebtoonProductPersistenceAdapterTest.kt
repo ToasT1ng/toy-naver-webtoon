@@ -15,6 +15,20 @@ import org.springframework.transaction.annotation.Transactional
 class WebtoonProductPersistenceAdapterTest @Autowired constructor(
     private val webtoonProductPersistenceAdapter: WebtoonProductPersistenceAdapter,
 ) {
+
+    @Test
+    @DisplayName("웹툰 전체 리스트 DB상에서 불러오기")
+    fun getEveryWebtoons() {
+        //given
+        val query = GetWebtoonsQuery()
+
+        //when
+        val result = webtoonProductPersistenceAdapter.getWebtoons(query)
+
+        //then
+        result.size shouldBe 12
+    }
+
     @Test
     @DisplayName("웹툰 리스트 DB상에서 불러오기")
     fun getWebtoons() {
@@ -28,7 +42,6 @@ class WebtoonProductPersistenceAdapterTest @Autowired constructor(
 
         //then
         result.size shouldBe 12
-        println(result)
     }
 
     @Test
