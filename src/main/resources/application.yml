@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:my_blanket
+    driver-class-name: org.h2.Driver
+    username: my_blanket_user
+    password: password123456!
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+  h2:
+    console:
+      enabled: true
+      path: /h2-console

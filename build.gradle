@@ -10,6 +10,10 @@ plugins {
 group = 'com.toast1ng'
 version = 'v0.1'
 
+ext {
+    kotestVersion = '5.8.1'
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
@@ -28,6 +32,11 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
+
+    // Kotest Core
+    testImplementation "io.kotest:kotest-runner-junit5:${kotestVersion}"
+    testImplementation "io.kotest:kotest-assertions-core:${kotestVersion}"
+    testImplementation "io.kotest:kotest-property:${kotestVersion}"
 }
 
 kotlin {

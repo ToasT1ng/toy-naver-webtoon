@@ -24,7 +24,7 @@ const {data} = useDailyWebtoon()
                 class="with-border"
                 height="100%"
                 cover
-                src="https://image-comic.pstatic.net/webtoon/783053/thumbnail/thumbnail_IMAG21_d7732f14-26da-4e35-8762-660cc87b53f1.jpg"
+                src="../../assets/thumbnail_sample1.png"
                 @click="navigateToWebtoonDetail(item.id, 'tab을 넣어야합니다.....')"
             />
           </v-card-item>

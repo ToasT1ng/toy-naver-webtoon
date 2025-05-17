@@ -3,11 +3,14 @@ package com.toast1ng.webtoon.product.domain
 import java.math.BigDecimal
 
 data class WebtoonProduct(
-    val id: String,
+    val id: Long,
     val title: String,
-    val authorId: String,
+    val description: String,
     val views: Int,
     val rating: BigDecimal,
+    val mainThumbnail: String,
+    val subThumbnail: String,
     val day: DayOfWeek,
-    val status: WebtoonStatus
+    val status: WebtoonStatus,
+    val creators: List<Creator>,
 )
