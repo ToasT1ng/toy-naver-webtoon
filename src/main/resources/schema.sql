@@ -1,3 +1,10 @@
+DROP TABLE IF EXISTS creator;
+DROP TABLE IF EXISTS webtoon_image;
+DROP TABLE IF EXISTS webtoon;
+DROP TABLE IF EXISTS genre;
+DROP TABLE IF EXISTS person;
+
+
 CREATE TABLE webtoon
 (
     id                  BIGINT PRIMARY KEY AUTO_INCREMENT,

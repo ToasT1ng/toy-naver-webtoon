@@ -1,13 +1,6 @@
-package com.toast1ng.webtoon.product.adapter.out.persistence
+package com.toast1ng.webtoon.product.adapter.out.persistence.entity
 
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 
 @Table(name = "creator")
 @Entity

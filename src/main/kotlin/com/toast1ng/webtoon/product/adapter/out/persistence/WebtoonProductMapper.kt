@@ -1,11 +1,12 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
+import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonProductJpaEntity
+import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPersonDto
 import com.toast1ng.webtoon.product.domain.Creator
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import com.toast1ng.webtoon.product.domain.WebtoonStatus
 import org.springframework.stereotype.Component
-import java.math.BigDecimal
 
 @Component
 class WebtoonProductMapper {

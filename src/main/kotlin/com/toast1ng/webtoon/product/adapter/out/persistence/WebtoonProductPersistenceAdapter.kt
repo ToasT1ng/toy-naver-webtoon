@@ -1,6 +1,8 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
 import com.toast1ng.webtoon.common.PersistenceAdapter
+import com.toast1ng.webtoon.product.adapter.out.persistence.entity.CreatorDto
+import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPersonDto
 import com.toast1ng.webtoon.product.application.port.out.*
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import java.math.BigDecimal
@@ -18,19 +20,16 @@ class WebtoonProductPersistenceAdapter(
         TODO()
     }
 
-    override fun getWebtoons(query: GetWebtoonsQuery): List<WebtoonProduct> {
-        return (query.day?.value?.let {
-            webtoonProductRepository.findAllByDay(it)
-        } ?: webtoonProductRepository.findAll())
-            .map {
-                mapper.mapToEntity(it)
-            }
+    override fun getWebtoons(query: GetWebtoonProductQuery): List<WebtoonProduct> {
+        return webtoonProductRepository.findAll(query).map {
+            mapper.mapToEntity(it)
+        }
     }
 
-    override fun getWebtoon(query: GetWebtoonQuery): WebtoonProduct? {
-        return webtoonProductRepository.findById(query.id!!).map {
+    override fun getWebtoon(query: GetWebtoonProductQuery): WebtoonProduct? {
+        return webtoonProductRepository.find(query)?.let {
             mapper.mapToEntity(it)
-        }.orElse(null)
+        }
     }
 
     override fun getWebtoonCount(query: GetWebtoonsQuery): Long {

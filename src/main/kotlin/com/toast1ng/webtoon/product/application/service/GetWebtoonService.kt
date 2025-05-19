@@ -2,7 +2,7 @@ package com.toast1ng.webtoon.product.application.service
 
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonUseCase
 import com.toast1ng.webtoon.product.application.port.out.GetThreeWebtoonsQuery
-import com.toast1ng.webtoon.product.application.port.out.GetWebtoonQuery
+import com.toast1ng.webtoon.product.application.port.out.GetWebtoonProductQuery
 import com.toast1ng.webtoon.product.application.port.out.GetWebtoonsQuery
 import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonProductPort
 import com.toast1ng.webtoon.product.domain.DayOfWeek
@@ -16,11 +16,11 @@ class GetWebtoonService(
     private val readWebtoonProductPort: ReadWebtoonProductPort
 ) : GetWebtoonUseCase {
     override fun getWebtoon(webtoonId: Long): WebtoonProduct {
-        return requireNotNull(readWebtoonProductPort.getWebtoon(GetWebtoonQuery(id = webtoonId)))
+        return requireNotNull(readWebtoonProductPort.getWebtoon(GetWebtoonProductQuery(id = webtoonId)))
     }
 
     override fun getWebtoons(day: DayOfWeek): List<WebtoonProduct> {
-        return readWebtoonProductPort.getWebtoons(GetWebtoonsQuery(day = day))
+        return readWebtoonProductPort.getWebtoons(GetWebtoonProductQuery(day = day))
     }
 
     override fun getRandomThreeWebtoons(day: DayOfWeek?): List<WebtoonProduct> {
@@ -32,6 +32,6 @@ class GetWebtoonService(
     }
 
     override fun getEveryWebtoons(): List<WebtoonProduct> {
-        return readWebtoonProductPort.getWebtoons(GetWebtoonsQuery())
+        return readWebtoonProductPort.getWebtoons(GetWebtoonProductQuery())
     }
 }

@@ -1,18 +1,18 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.9.25'
-    id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
     id 'org.springframework.boot' version '3.3.4'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.25'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
     id 'org.jetbrains.kotlin.plugin.jpa' version '1.9.25'
+    id 'org.jetbrains.kotlin.kapt' version '1.9.25'
 }
 
 group = 'com.toast1ng'
-version = 'v0.1'
-
-ext {
-    kotestVersion = '5.8.1'
-}
+version = '0.0.1'
 
 java {
     toolchain {
@@ -24,6 +24,10 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    kotestVersion = '5.8.1'
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -33,15 +37,29 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
 
+    // QueryDSL (Jakarta + kapt)
+    implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
+    kapt 'com.querydsl:querydsl-apt:5.1.0:jakarta'
+    kapt 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    kapt 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+
     // Kotest Core
     testImplementation "io.kotest:kotest-runner-junit5:${kotestVersion}"
     testImplementation "io.kotest:kotest-assertions-core:${kotestVersion}"
     testImplementation "io.kotest:kotest-property:${kotestVersion}"
 }
 
-kotlin {
+kapt {
+    arguments {
+        arg("querydsl.entityAccessors", "true")
+        arg("querydsl.useFields", "true")
+    }
+}
+
+tasks.withType(KotlinCompile).configureEach {
     compilerOptions {
-        freeCompilerArgs.add('-Xjsr305=strict')
+        freeCompilerArgs.add("-Xjsr305=strict")
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 

@@ -1,4 +1,4 @@
-package com.toast1ng.webtoon.product.adapter.out.persistence
+package com.toast1ng.webtoon.product.adapter.out.persistence.entity
 
 import jakarta.persistence.*
 import java.math.BigDecimal

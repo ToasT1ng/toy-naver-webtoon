@@ -1,11 +1,12 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
+import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonProductJpaEntity
+import com.toast1ng.webtoon.product.adapter.out.persistence.querydsl.QueryDslWebtoonProductRepository
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 
-interface SpringDataWebtoonProductRepository : JpaRepository<WebtoonProductJpaEntity, Long> {
-    fun findAllByDay(day: String): List<WebtoonProductJpaEntity>
+interface SpringDataWebtoonProductRepository : JpaRepository<WebtoonProductJpaEntity, Long>, QueryDslWebtoonProductRepository {
     fun countByDay(day: String): Long
 
     @Query(
