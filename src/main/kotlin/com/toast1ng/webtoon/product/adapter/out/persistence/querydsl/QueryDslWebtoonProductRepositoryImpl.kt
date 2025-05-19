@@ -38,4 +38,17 @@ class QueryDslWebtoonProductRepositoryImpl(
             )
             .fetch()
     }
+
+    override fun count(query: GetWebtoonProductQuery): Long {
+        return queryFactory
+            .select(webtoonProductJpaEntity.countDistinct())
+            .from(webtoonProductJpaEntity)
+            .join(webtoonProductJpaEntity.creators, creatorJpaEntity)
+            .join(creatorJpaEntity.person(), personJpaEntity)
+            .where(
+                query.id?.let { webtoonProductJpaEntity.id.eq(query.id) },
+                query.day?.let { webtoonProductJpaEntity.day.eq(query.day.value) }
+            )
+            .fetchOne() ?: 0L
+    }
 }

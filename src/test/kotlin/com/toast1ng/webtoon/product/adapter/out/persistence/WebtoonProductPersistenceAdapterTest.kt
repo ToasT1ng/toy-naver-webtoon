@@ -1,5 +1,6 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
+import com.toast1ng.webtoon.product.application.port.out.GetThreeWebtoonsQuery
 import com.toast1ng.webtoon.product.application.port.out.GetWebtoonProductQuery
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import io.kotest.matchers.shouldBe
@@ -57,5 +58,23 @@ class WebtoonProductPersistenceAdapterTest @Autowired constructor(
         //then
         result?.id shouldBe 1L
         result?.title shouldBe "슬기로운 코딩 생활"
+    }
+
+    @Test
+    @DisplayName("랜덤 웹툰 N개 불러오기")
+    fun getRandomThreeWebtoon() {
+        //given
+        val query = GetThreeWebtoonsQuery(
+            day = DayOfWeek.SATURDAY,
+            randomRowNumbers = listOf(2, 1),
+        )
+
+        //when
+        val result = webtoonProductPersistenceAdapter.getRandomWebtoons(query)
+
+        //then
+        result.size shouldBe 2
+        result[0].id shouldBe 10L
+        result[1].id shouldBe 8L
     }
 }

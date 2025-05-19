@@ -32,11 +32,11 @@ class WebtoonProductPersistenceAdapter(
         }
     }
 
-    override fun getWebtoonCount(query: GetWebtoonsQuery): Long {
-        return webtoonProductRepository.countByDay(query.day?.value ?: "")
+    override fun getWebtoonCount(query: GetWebtoonProductQuery): Long {
+        return webtoonProductRepository.count(query)
     }
 
-    override fun getRandomThreeWebtoon(query: GetThreeWebtoonsQuery): List<WebtoonProduct> {
+    override fun getRandomWebtoons(query: GetThreeWebtoonsQuery): List<WebtoonProduct> {
         val flattedDtos =
             webtoonProductRepository.findNthWebtoonsByDay(query.day?.value ?: "", query.randomRowNumbers)
         val dtosGroupedByWebtoonId = flattedDtos.groupBy { row -> (row[0] as Number).toLong() }

@@ -43,6 +43,19 @@ class GetWebtoonServiceTest @Autowired constructor(
         }
     }
 
+    @DisplayName("전체 웹툰 불러오기")
+    @Test
+    fun getEveryWebtoons() {
+        //given - when
+        val result = getWebtoonService.getEveryWebtoons()
+
+        //then
+        result.size shouldBe 12
+        result.forEach {
+            it.creators.size shouldNotBe 0
+        }
+    }
+
     @DisplayName("랜덤 웹툰 3개 불러오기")
     @Test
     fun getRandomThreeWebtoons() {
