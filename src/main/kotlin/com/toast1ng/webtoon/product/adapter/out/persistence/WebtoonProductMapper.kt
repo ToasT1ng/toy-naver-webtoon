@@ -4,6 +4,7 @@ import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonProduc
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPersonDto
 import com.toast1ng.webtoon.product.domain.Creator
 import com.toast1ng.webtoon.product.domain.DayOfWeek
+import com.toast1ng.webtoon.product.domain.Genre
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import com.toast1ng.webtoon.product.domain.WebtoonStatus
 import org.springframework.stereotype.Component
@@ -21,6 +22,7 @@ class WebtoonProductMapper {
             subThumbnail = jpaEntity.mainThumbnail ?: "",
             day = DayOfWeek.fromValue(jpaEntity.day),
             status = WebtoonStatus.valueOf(jpaEntity.status),
+            genres = listOf(jpaEntity.genre.let { Genre(it.id ?: 0L, it.name, it.description ?: "") }),
             creators = jpaEntity.creators.map {
                 Creator(
                     personId = it.person.id ?: 0L,
@@ -42,6 +44,7 @@ class WebtoonProductMapper {
             subThumbnail = dto.subThumbnailLink ?: "",
             day = DayOfWeek.fromValue(dto.dayOfWeek),
             status = WebtoonStatus.valueOf(dto.status),
+            genres = emptyList(),
             creators = dto.creators.map {
                 Creator(
                     personId = it.personId,

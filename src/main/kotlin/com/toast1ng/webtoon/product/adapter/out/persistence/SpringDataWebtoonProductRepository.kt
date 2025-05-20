@@ -24,6 +24,7 @@ interface SpringDataWebtoonProductRepository : JpaRepository<WebtoonProductJpaEn
             JOIN creator c ON c.webtoon_id = w.id
             JOIN person p ON p.id = c.person_id
             WHERE w.rn IN (:rows)
+            ORDER BY w.id
     """,
         nativeQuery = true
     )

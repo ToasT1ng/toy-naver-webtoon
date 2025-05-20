@@ -12,5 +12,6 @@ data class WebtoonProduct(
     val subThumbnail: String,
     val day: DayOfWeek,
     val status: WebtoonStatus,
+    val genres: List<Genre>,
     val creators: List<Creator>,
 )

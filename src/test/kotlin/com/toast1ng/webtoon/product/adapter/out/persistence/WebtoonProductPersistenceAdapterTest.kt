@@ -74,7 +74,7 @@ class WebtoonProductPersistenceAdapterTest @Autowired constructor(
 
         //then
         result.size shouldBe 2
-        result[0].id shouldBe 10L
-        result[1].id shouldBe 8L
+        result[0].id shouldBe 8L
+        result[1].id shouldBe 10L
     }
 }
