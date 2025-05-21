@@ -1,8 +1,9 @@
 DROP TABLE IF EXISTS creator;
 DROP TABLE IF EXISTS webtoon_image;
+DROP TABLE IF EXISTS webtoon_episode;
 DROP TABLE IF EXISTS webtoon;
-DROP TABLE IF EXISTS genre;
 DROP TABLE IF EXISTS person;
+DROP TABLE IF EXISTS genre;
 
 
 CREATE TABLE webtoon
@@ -45,11 +46,28 @@ CREATE TABLE creator
     FOREIGN KEY (person_id) REFERENCES person (id)
 );
 
+CREATE TABLE webtoon_episode
+(
+    id             BIGINT PRIMARY KEY AUTO_INCREMENT,
+    webtoon_id     BIGINT       NOT NULL,
+    seq            INT          NOT NULL,
+    title          VARCHAR(255) NOT NULL,
+    rating         DECIMAL(3, 2) DEFAULT 0.00,
+    thumbnail_link VARCHAR(500) NOT NULL,
+    created_at     TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
+    updated_at     TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (webtoon_id) REFERENCES webtoon (id)
+);
+
+
 CREATE TABLE webtoon_image
 (
-    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
-    webtoon_id VARCHAR(50)  NOT NULL,
-    seq        INT          NOT NULL,
-    img_link   VARCHAR(500) NOT NULL,
+    id                 BIGINT PRIMARY KEY AUTO_INCREMENT,
+    webtoon_id         BIGINT       NOT NULL,
+    webtoon_episode_id BIGINT       NOT NULL,
+    seq                INT          NOT NULL,
+    img_link           VARCHAR(500) NOT NULL,
+    created_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (webtoon_id) REFERENCES webtoon (id)
 );

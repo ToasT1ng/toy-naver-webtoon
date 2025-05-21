@@ -102,10 +102,21 @@ VALUES (1, '슬기로운 코딩 생활', '오늘도 우리는 코딩을 한다. 
         false)
 ;
 
-INSERT INTO webtoon_image (webtoon_id, seq, img_link)
-VALUES (1, 1, 'https://example.com/wt-001/0.jpg'),
-       (1, 2, 'https://example.com/wt-001/1.jpg'),
-       (1, 3, 'https://example.com/wt-001/2.jpg')
+INSERT INTO webtoon_episode (id, webtoon_id, seq, title, rating, thumbnail_link)
+VALUES
+    (1, 1, 1, '1화 : 시작', 9.50, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png'),
+    (2, 1, 2, '2화 : 다음', 7.48, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png');
+
+INSERT INTO webtoon_image (webtoon_id, webtoon_episode_id, seq, img_link)
+VALUES
+    (1, 1, 1, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/1.png'),
+    (1, 1, 2, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/2.png'),
+    (1, 1, 3, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/3.png'),
+    (1, 1, 4, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/4.png'),
+    (1, 1, 5, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/5.png'),
+    (1, 1, 6, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/6.png'),
+    (1, 1, 7, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/7.png'),
+    (1, 1, 8, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/8.png');
 ;
 
 INSERT INTO creator (webtoon_id, person_id)

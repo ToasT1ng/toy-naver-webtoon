@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 
 interface SpringDataWebtoonProductRepository : JpaRepository<WebtoonProductJpaEntity, Long>, QueryDslWebtoonProductRepository {
-    fun countByDay(day: String): Long
-
     @Query(
         value = """
         SELECT

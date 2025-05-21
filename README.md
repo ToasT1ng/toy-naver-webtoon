@@ -55,3 +55,7 @@
 ## 웹툰 마이페이지 기능
 * 관심 웹툰을 볼 수 있어야함
   * 업데이트순 / 최근등록순으로 정렬할 수 있어야함
+
+
+# 이미지 저장소
+https://github.com/ToasT1ng/toy-naver-webtoon-imgs
