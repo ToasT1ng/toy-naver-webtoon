@@ -1,10 +1,12 @@
 package com.toast1ng.webtoon.product.application.port.out
 
+import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 
 interface ReadWebtoonProductPort {
-    fun getWebtoons(query: GetWebtoonProductQuery): List<WebtoonProduct>
-    fun getWebtoon(query: GetWebtoonProductQuery): WebtoonProduct?
-    fun getWebtoonCount(query: GetWebtoonProductQuery): Long
-    fun getRandomWebtoons(query: GetThreeWebtoonsQuery):List<WebtoonProduct>
+    fun getWebtoons(query: WebtoonProductQuery): List<WebtoonProduct>
+    fun getWebtoon(query: WebtoonProductQuery): WebtoonProduct?
+    fun getWebtoonCount(query: WebtoonProductQuery): Long
+    fun getRandomWebtoons(query: ThreeWebtoonsQuery):List<WebtoonProduct>
 }

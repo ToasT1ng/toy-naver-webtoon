@@ -1,9 +1,9 @@
 package com.toast1ng.webtoon.product.application.service
 
-import com.toast1ng.webtoon.product.application.port.`in`.GetPagingWebtoonEpisodesCommand
-import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeCommand
+import com.toast1ng.webtoon.product.application.port.`in`.command.GetPagingWebtoonEpisodesCommand
+import com.toast1ng.webtoon.product.application.port.`in`.command.GetWebtoonEpisodeCommand
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeUseCase
-import com.toast1ng.webtoon.product.application.port.out.GetWebtoonEpisodeQuery
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodeQuery
 import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonEpisodePort
 import com.toast1ng.webtoon.product.domain.WebtoonEpisode
 import org.springframework.data.domain.Page
@@ -16,7 +16,7 @@ class LiveWebtoonEpisodeReadService(
     private val readWebtoonEpisodePort: ReadWebtoonEpisodePort,
 ) : GetWebtoonEpisodeUseCase {
     override fun getWebtoonEpisode(command: GetWebtoonEpisodeCommand): WebtoonEpisode {
-        val query = GetWebtoonEpisodeQuery(
+        val query = WebtoonEpisodeQuery(
             id = command.id,
         )
         return requireNotNull(readWebtoonEpisodePort.getWebtoonEpisode(query))
@@ -25,7 +25,7 @@ class LiveWebtoonEpisodeReadService(
     override fun getWebtoonEpisodes(
         command: GetPagingWebtoonEpisodesCommand
     ): Page<WebtoonEpisode> {
-        val query = GetWebtoonEpisodeQuery(
+        val query = WebtoonEpisodeQuery(
             webtoonId = command.webtoonId,
             uploadDateTo = LocalDateTime.now(),
         )

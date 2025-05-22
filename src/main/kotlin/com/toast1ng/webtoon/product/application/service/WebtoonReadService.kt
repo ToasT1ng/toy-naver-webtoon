@@ -1,8 +1,8 @@
 package com.toast1ng.webtoon.product.application.service
 
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonUseCase
-import com.toast1ng.webtoon.product.application.port.out.GetThreeWebtoonsQuery
-import com.toast1ng.webtoon.product.application.port.out.GetWebtoonProductQuery
+import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonProductPort
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
@@ -15,22 +15,22 @@ class WebtoonReadService(
     private val readWebtoonProductPort: ReadWebtoonProductPort
 ) : GetWebtoonUseCase {
     override fun getWebtoon(webtoonId: Long): WebtoonProduct {
-        return requireNotNull(readWebtoonProductPort.getWebtoon(GetWebtoonProductQuery(id = webtoonId)))
+        return requireNotNull(readWebtoonProductPort.getWebtoon(WebtoonProductQuery(id = webtoonId)))
     }
 
     override fun getWebtoons(day: DayOfWeek): List<WebtoonProduct> {
-        return readWebtoonProductPort.getWebtoons(GetWebtoonProductQuery(day = day))
+        return readWebtoonProductPort.getWebtoons(WebtoonProductQuery(day = day))
     }
 
     override fun getEveryWebtoons(): List<WebtoonProduct> {
-        return readWebtoonProductPort.getWebtoons(GetWebtoonProductQuery())
+        return readWebtoonProductPort.getWebtoons(WebtoonProductQuery())
     }
 
     override fun getRandomThreeWebtoons(day: DayOfWeek?): List<WebtoonProduct> {
-        val count = readWebtoonProductPort.getWebtoonCount(GetWebtoonProductQuery(day = day))
+        val count = readWebtoonProductPort.getWebtoonCount(WebtoonProductQuery(day = day))
         val randomRowNumbers = (1..count).shuffled().take(3)
         return readWebtoonProductPort.getRandomWebtoons(
-            GetThreeWebtoonsQuery(day = day, randomRowNumbers = randomRowNumbers)
+            ThreeWebtoonsQuery(day = day, randomRowNumbers = randomRowNumbers)
         )
     }
 }

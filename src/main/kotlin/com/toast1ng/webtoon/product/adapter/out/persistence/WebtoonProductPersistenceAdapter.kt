@@ -4,6 +4,8 @@ import com.toast1ng.webtoon.common.PersistenceAdapter
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.CreatorDto
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPersonDto
 import com.toast1ng.webtoon.product.application.port.out.*
+import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import java.math.BigDecimal
 import java.sql.Timestamp
@@ -17,23 +19,23 @@ class WebtoonProductPersistenceAdapter(
         TODO()
     }
 
-    override fun getWebtoons(query: GetWebtoonProductQuery): List<WebtoonProduct> {
+    override fun getWebtoons(query: WebtoonProductQuery): List<WebtoonProduct> {
         return webtoonProductRepository.findAll(query).map {
             mapper.mapToEntity(it)
         }
     }
 
-    override fun getWebtoon(query: GetWebtoonProductQuery): WebtoonProduct? {
+    override fun getWebtoon(query: WebtoonProductQuery): WebtoonProduct? {
         return webtoonProductRepository.find(query)?.let {
             mapper.mapToEntity(it)
         }
     }
 
-    override fun getWebtoonCount(query: GetWebtoonProductQuery): Long {
+    override fun getWebtoonCount(query: WebtoonProductQuery): Long {
         return webtoonProductRepository.count(query)
     }
 
-    override fun getRandomWebtoons(query: GetThreeWebtoonsQuery): List<WebtoonProduct> {
+    override fun getRandomWebtoons(query: ThreeWebtoonsQuery): List<WebtoonProduct> {
         val flattedDtos =
             webtoonProductRepository.findNthWebtoonsByDay(query.day?.value ?: "", query.randomRowNumbers)
         val dtosGroupedByWebtoonId = flattedDtos.groupBy { row -> (row[0] as Number).toLong() }

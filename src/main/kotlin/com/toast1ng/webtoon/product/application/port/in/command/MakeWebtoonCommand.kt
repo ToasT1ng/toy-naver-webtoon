@@ -1,4 +1,4 @@
-package com.toast1ng.webtoon.product.application.port.`in`
+package com.toast1ng.webtoon.product.application.port.`in`.command
 
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 

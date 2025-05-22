@@ -1,8 +1,8 @@
-package com.toast1ng.webtoon.product.application.port.out
+package com.toast1ng.webtoon.product.application.port.out.query
 
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 
-data class GetThreeWebtoonsQuery(
+data class ThreeWebtoonsQuery(
     val day: DayOfWeek? = null,
     val randomRowNumbers: List<Long>,
 )

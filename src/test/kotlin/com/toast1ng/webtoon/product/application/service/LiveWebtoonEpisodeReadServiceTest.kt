@@ -1,7 +1,7 @@
 package com.toast1ng.webtoon.product.application.service
 
-import com.toast1ng.webtoon.product.application.port.`in`.GetPagingWebtoonEpisodesCommand
-import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeCommand
+import com.toast1ng.webtoon.product.application.port.`in`.command.GetPagingWebtoonEpisodesCommand
+import com.toast1ng.webtoon.product.application.port.`in`.command.GetWebtoonEpisodeCommand
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeUseCase
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DisplayName

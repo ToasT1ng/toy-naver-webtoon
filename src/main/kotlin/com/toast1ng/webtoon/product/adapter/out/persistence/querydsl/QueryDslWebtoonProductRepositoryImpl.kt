@@ -5,12 +5,12 @@ import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QCreatorJpaEn
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QPersonJpaEntity.personJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QWebtoonProductJpaEntity.webtoonProductJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonProductJpaEntity
-import com.toast1ng.webtoon.product.application.port.out.GetWebtoonProductQuery
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 
 class QueryDslWebtoonProductRepositoryImpl(
     private val queryFactory: JPAQueryFactory
 ) : QueryDslWebtoonProductRepository {
-    override fun find(query: GetWebtoonProductQuery): WebtoonProductJpaEntity? {
+    override fun find(query: WebtoonProductQuery): WebtoonProductJpaEntity? {
         return queryFactory
             .selectDistinct(
                 webtoonProductJpaEntity
@@ -25,7 +25,7 @@ class QueryDslWebtoonProductRepositoryImpl(
             .fetchOne()
     }
 
-    override fun findAll(query: GetWebtoonProductQuery): List<WebtoonProductJpaEntity> {
+    override fun findAll(query: WebtoonProductQuery): List<WebtoonProductJpaEntity> {
         return queryFactory
             .selectDistinct(
                 webtoonProductJpaEntity
@@ -39,7 +39,7 @@ class QueryDslWebtoonProductRepositoryImpl(
             .fetch()
     }
 
-    override fun count(query: GetWebtoonProductQuery): Long {
+    override fun count(query: WebtoonProductQuery): Long {
         return queryFactory
             .select(webtoonProductJpaEntity.countDistinct())
             .from(webtoonProductJpaEntity)

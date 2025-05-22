@@ -1,7 +1,7 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
-import com.toast1ng.webtoon.product.application.port.out.GetThreeWebtoonsQuery
-import com.toast1ng.webtoon.product.application.port.out.GetWebtoonProductQuery
+import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DisplayName
@@ -20,7 +20,7 @@ class WebtoonProductPersistenceAdapterTest @Autowired constructor(
     @DisplayName("웹툰 전체 리스트 DB상에서 불러오기")
     fun getEveryWebtoons() {
         //given
-        val query = GetWebtoonProductQuery()
+        val query = WebtoonProductQuery()
 
         //when
         val result = webtoonProductPersistenceAdapter.getWebtoons(query)
@@ -33,7 +33,7 @@ class WebtoonProductPersistenceAdapterTest @Autowired constructor(
     @DisplayName("웹툰 리스트 DB상에서 불러오기")
     fun getWebtoons() {
         //given
-        val query = GetWebtoonProductQuery(
+        val query = WebtoonProductQuery(
             day = DayOfWeek.WEDNESDAY,
         )
 
@@ -48,7 +48,7 @@ class WebtoonProductPersistenceAdapterTest @Autowired constructor(
     @DisplayName("웹툰 하나 DB상에서 불러오기")
     fun getWebtoon() {
         //given
-        val query = GetWebtoonProductQuery(
+        val query = WebtoonProductQuery(
             id = 1L,
         )
 
@@ -64,7 +64,7 @@ class WebtoonProductPersistenceAdapterTest @Autowired constructor(
     @DisplayName("랜덤 웹툰 N개 불러오기")
     fun getRandomThreeWebtoon() {
         //given
-        val query = GetThreeWebtoonsQuery(
+        val query = ThreeWebtoonsQuery(
             day = DayOfWeek.SATURDAY,
             randomRowNumbers = listOf(2, 1),
         )

@@ -6,7 +6,7 @@ import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QWebtoonEpiso
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QWebtoonImageJpaEntity.webtoonImageJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QWebtoonProductJpaEntity.webtoonProductJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonEpisodeJpaEntity
-import com.toast1ng.webtoon.product.application.port.out.GetWebtoonEpisodeQuery
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodeQuery
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable
 class QueryDslWebtoonEpisodeRepositoryImpl(
     private val queryFactory: JPAQueryFactory
 ) : QueryDslWebtoonEpisodeRepository {
-    override fun find(query: GetWebtoonEpisodeQuery): WebtoonEpisodeJpaEntity? {
+    override fun find(query: WebtoonEpisodeQuery): WebtoonEpisodeJpaEntity? {
         return queryFactory
             .selectDistinct(
                 webtoonEpisodeJpaEntity,
@@ -29,7 +29,7 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
     }
 
     //TODO: 페이징 처리 최적화
-    override fun findAll(query: GetWebtoonEpisodeQuery, pageable: Pageable): Page<WebtoonEpisodeJpaEntity> {
+    override fun findAll(query: WebtoonEpisodeQuery, pageable: Pageable): Page<WebtoonEpisodeJpaEntity> {
         val content = queryFactory
             .selectDistinct(
                 webtoonEpisodeJpaEntity,
@@ -53,7 +53,7 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
         return PageImpl(content, pageable, total)
     }
 
-    private fun makeBooleanExpression(query: GetWebtoonEpisodeQuery): BooleanBuilder {
+    private fun makeBooleanExpression(query: WebtoonEpisodeQuery): BooleanBuilder {
         val builder = BooleanBuilder()
         query.id?.let { builder.and(webtoonEpisodeJpaEntity.id.eq(it)) }
         query.webtoonId?.let { builder.and(webtoonEpisodeJpaEntity.webtoon().id.eq(it)) }
