@@ -28,7 +28,6 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
             .fetchOne()
     }
 
-    //TODO: 페이징 처리 최적화
     override fun findAll(query: WebtoonEpisodeQuery, pageable: Pageable): Page<WebtoonEpisodeJpaEntity> {
         val content = queryFactory
             .selectDistinct(
@@ -44,13 +43,19 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
             .limit(pageable.pageSize.toLong())
             .fetch()
 
-        val total = queryFactory
-            .select(webtoonEpisodeJpaEntity.count())
-            .from(webtoonEpisodeJpaEntity)
-            .where(makeBooleanExpression(query))
-            .fetchOne() ?: 0L
+        val total = count(query)
 
         return PageImpl(content, pageable, total)
+    }
+
+    private fun count(query: WebtoonEpisodeQuery): Long {
+        return queryFactory
+            .select(webtoonEpisodeJpaEntity.countDistinct())
+            .from(webtoonEpisodeJpaEntity)
+            .leftJoin(webtoonEpisodeJpaEntity.webtoonImages, webtoonImageJpaEntity)
+            .leftJoin(webtoonEpisodeJpaEntity.webtoon(), webtoonProductJpaEntity)
+            .where(makeBooleanExpression(query))
+            .fetchOne() ?: 0L
     }
 
     private fun makeBooleanExpression(query: WebtoonEpisodeQuery): BooleanBuilder {
