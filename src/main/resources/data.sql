@@ -102,10 +102,21 @@ VALUES (1, '슬기로운 코딩 생활', '오늘도 우리는 코딩을 한다. 
         false)
 ;
 
-INSERT INTO webtoon_episode (id, webtoon_id, seq, title, rating, thumbnail_link)
+INSERT INTO webtoon_episode (id, webtoon_id, seq, title, rating, thumbnail_link, upload_at)
 VALUES
-    (1, 1, 1, '1화 : 시작', 9.50, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png'),
-    (2, 1, 2, '2화 : 다음', 7.48, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png');
+    (1, 1, 1, '1화 : 시작', 8.12, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-03-11 00:00:00'),
+    (2, 1, 2, '2화 : 모험', 5.67, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-03-18 00:00:00'),
+    (3, 1, 3, '3화 : 비밀', 7.23, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-03-25 00:00:00'),
+    (4, 1, 4, '4화 : 추격', 9.74, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-04-01 00:00:00'),
+    (5, 1, 5, '5화 : 위기', 4.55, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-04-08 00:00:00'),
+    (6, 1, 6, '6화 : 반전', 6.38, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-04-15 00:00:00'),
+    (7, 1, 7, '7화 : 결심', 8.91, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-04-22 00:00:00'),
+    (8, 1, 8, '8화 : 승리', 3.47, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-04-29 00:00:00'),
+    (9, 1, 9, '9화 : 시작', 9.02, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-05-06 00:00:00'),
+    (10, 1, 10, '10화 : 약속', 6.94, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-05-13 00:00:00'),
+    (11, 1, 11, '11화 : 희망', 3.88, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-05-20 00:00:00'),
+    (12, 1, 12, '12화 : 운명', 7.79, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-05-27 00:00:00'),
+    (13, 1, 13, '13화 : 선택', 9.57, 'https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/content/1/thumb.png', '2025-06-03 00:00:00');
 
 INSERT INTO webtoon_image (webtoon_id, webtoon_episode_id, seq, img_link)
 VALUES

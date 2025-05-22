@@ -14,8 +14,14 @@ class WebtoonEpisodeMapper {
             episodeTitle = jpaEntity.title,
             rating = jpaEntity.rating,
             thumbnail = jpaEntity.thumbnailLink,
-            uploadDate = jpaEntity.createdAt,
-            images = emptyList()
+            uploadDate = jpaEntity.uploadAt,
+            images = jpaEntity.webtoonImages.map { it.imgLink },
+            webtoon = jpaEntity.webtoon.let {
+                WebtoonEpisode.WebtoonProductBriefInfo(
+                    id = it.id ?: 0L,
+                    title = it.title,
+                )
+            }
         )
     }
 }

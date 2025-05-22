@@ -56,6 +56,7 @@ CREATE TABLE webtoon_episode
     thumbnail_link VARCHAR(500) NOT NULL,
     created_at     TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
     updated_at     TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
+    upload_at      TIMESTAMP     DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (webtoon_id) REFERENCES webtoon (id)
 );
 

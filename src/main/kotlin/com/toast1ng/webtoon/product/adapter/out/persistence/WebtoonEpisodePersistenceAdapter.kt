@@ -12,6 +12,9 @@ class WebtoonEpisodePersistenceAdapter(
     private val mapper: WebtoonEpisodeMapper,
     private val repository: SpringDataWebtoonEpisodeRepository
 ) : ReadWebtoonEpisodePort{
+    override fun getWebtoonEpisode(query: GetWebtoonEpisodeQuery): WebtoonEpisode? {
+        return repository.find(query)?.let { mapper.mapToEntity(it) }
+    }
 
     override fun getPagingWebtoonEpisodes(
         query: GetWebtoonEpisodeQuery,

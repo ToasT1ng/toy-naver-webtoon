@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
 @Service
-class GetWebtoonService(
+class WebtoonReadService(
     private val readWebtoonProductPort: ReadWebtoonProductPort
 ) : GetWebtoonUseCase {
     override fun getWebtoon(webtoonId: Long): WebtoonProduct {

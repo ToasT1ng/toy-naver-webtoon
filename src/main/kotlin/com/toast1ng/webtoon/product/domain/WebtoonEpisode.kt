@@ -12,4 +12,10 @@ data class WebtoonEpisode(
     val thumbnail: String,
     val uploadDate: LocalDateTime,
     val images: List<String>,
-)
+    val webtoon: WebtoonProductBriefInfo,
+) {
+    data class WebtoonProductBriefInfo(
+        val id: Long,
+        val title: String,
+    )
+}

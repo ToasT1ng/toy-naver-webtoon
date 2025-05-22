@@ -8,9 +8,6 @@ import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import java.math.BigDecimal
 import java.sql.Timestamp
 
-//TODO
-// 1. n+1 문제 해결
-// 2. queryDSL로 변경
 @PersistenceAdapter
 class WebtoonProductPersistenceAdapter(
     private val mapper: WebtoonProductMapper,

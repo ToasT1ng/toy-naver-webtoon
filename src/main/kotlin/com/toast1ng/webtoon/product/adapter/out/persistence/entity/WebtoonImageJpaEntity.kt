@@ -22,5 +22,9 @@ class WebtoonImageJpaEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "webtoon_id")
-    val webtoon: WebtoonProductJpaEntity
+    val webtoon: WebtoonProductJpaEntity,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "webtoon_episode_id")
+    val webtoonEpisode: WebtoonEpisodeJpaEntity,
 )

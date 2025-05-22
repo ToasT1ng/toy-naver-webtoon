@@ -1,5 +1,6 @@
 package com.toast1ng.webtoon.product.application.service
 
+import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonUseCase
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -11,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
 @SpringBootTest
-class GetWebtoonServiceTest @Autowired constructor(
-    private val getWebtoonService: GetWebtoonService,
+class WebtoonReadServiceTest @Autowired constructor(
+    private val webtoonReadService: GetWebtoonUseCase,
 ) {
     @DisplayName("웹툰 1개 불러오기")
     @Test
@@ -21,7 +22,7 @@ class GetWebtoonServiceTest @Autowired constructor(
         val id = 10L
 
         //when
-        val result = getWebtoonService.getWebtoon(id)
+        val result = webtoonReadService.getWebtoon(id)
 
         //then
         result.id shouldBe id
@@ -34,7 +35,7 @@ class GetWebtoonServiceTest @Autowired constructor(
         val day = DayOfWeek.SATURDAY
 
         //when
-        val result = getWebtoonService.getWebtoons(day)
+        val result = webtoonReadService.getWebtoons(day)
 
         //then
         result.size shouldBe 2
@@ -47,7 +48,7 @@ class GetWebtoonServiceTest @Autowired constructor(
     @Test
     fun getEveryWebtoons() {
         //given - when
-        val result = getWebtoonService.getEveryWebtoons()
+        val result = webtoonReadService.getEveryWebtoons()
 
         //then
         result.size shouldBe 12
@@ -63,7 +64,7 @@ class GetWebtoonServiceTest @Autowired constructor(
         val day = DayOfWeek.WEDNESDAY
 
         //when
-        val result = getWebtoonService.getRandomThreeWebtoons(day)
+        val result = webtoonReadService.getRandomThreeWebtoons(day)
 
         //then
         result.size shouldBe 3
