@@ -1,4 +1,4 @@
-package com.toast1ng.webtoon.common
+package com.toast1ng.webtoon.common.config
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager

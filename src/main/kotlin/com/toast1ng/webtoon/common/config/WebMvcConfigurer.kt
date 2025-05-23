@@ -1,4 +1,4 @@
-package com.toast1ng.webtoon.common
+package com.toast1ng.webtoon.common.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry

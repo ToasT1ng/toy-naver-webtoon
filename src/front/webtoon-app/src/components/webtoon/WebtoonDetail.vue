@@ -1,12 +1,14 @@
 <script setup lang="ts">
 
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {navigateToWebtoonEpisode} from "@/utils/navigation";
+import {useWebtoonEpisodes} from "@/composables/useWebtoonEpisodes";
 
 interface Props {
   webtoonId: string
   tab: string
 }
+
 const props = defineProps<Props>()
 
 interface IPerson {
@@ -66,48 +68,10 @@ function getDayOfWeek(inputDay: string) {
   return dayOfWeek ? dayOfWeek.name : ''
 }
 
-interface IEpisode {
-  episodeId: number;
-  title: string;
-  thumbnail: string;
-  rating: string;
-  createdAt: string;
-}
+const {data: webtoonEpisodesData, updateWebtoonId: updateWebtoonEpisodesWebtoonId} = useWebtoonEpisodes()
 
-interface IEpisodes {
-  webtoonId: number;
-  pageNo: number;
-  pageSize: number;
-  totalCount: number;
-  totalPage: number;
-  isLastPage: boolean;
-  episodes: IEpisode[];
-}
-
-const webtoonListData = ref<IEpisodes>({
-  webtoonId: 123,
-  pageNo: 0,
-  pageSize: 10,
-  totalCount: 100,
-  totalPage: 10,
-  isLastPage: false,
-  episodes: [
-    {
-      episodeId: 2,
-      title: '2화 : 다음',
-      thumbnail: 'https://image-comic.pstatic.net/webtoon/796075/128/thumbnail_202x120_7c90ceae-294a-4bce-8f19-bd3dd8f86412.jpg',
-      rating: '5.67',
-      createdAt: '2023-10-02'
-    },
-    {
-      episodeId: 1,
-      title: '1화 : 시작',
-      thumbnail: 'https://image-comic.pstatic.net/webtoon/796075/128/thumbnail_202x120_7c90ceae-294a-4bce-8f19-bd3dd8f86412.jpg',
-      rating: '4.51',
-      createdAt: '2023-10-01'
-    }
-  ]
-})
+const totalCount = computed(() => webtoonEpisodesData.value?.totalCount ?? 0)
+const episodes = computed(() => webtoonEpisodesData.value?.content ?? [])
 
 function formatDate(dateString: string) {
   const date = new Date(dateString)
@@ -130,9 +94,19 @@ function onSort() {
   console.log(selectedSort.value) //TODO api 재호출
 }
 
-function onClickEpisode(episode: IEpisode) {
-  navigateToWebtoonEpisode(episode.episodeId, props.tab)
+function onClickEpisode(episodeId: number) {
+  navigateToWebtoonEpisode(episodeId, props.tab)
 }
+
+watch(
+    () => props.webtoonId,
+    (newWebtoonId) => {
+      if (newWebtoonId) {
+        updateWebtoonEpisodesWebtoonId(Number(newWebtoonId))
+      }
+    },
+    { immediate: true }
+)
 
 onMounted(() => {
   console.log('webtoonId:', props.webtoonId)
@@ -188,7 +162,7 @@ onMounted(() => {
   <v-card class="pa-4" elevation="0">
     <div class="d-flex justify-space-between align-center">
       <div class="entire-episode text-body-1 font-weight-bold text-grey-darken-1 pa-0 ma-0">
-        총 {{ webtoonListData.episodes.length }}화
+        총 {{ totalCount }}화
       </div>
 
       <v-btn-toggle
@@ -215,10 +189,10 @@ onMounted(() => {
     </div>
     <v-list>
       <v-list-item
-          v-for="episode in webtoonListData.episodes"
+          v-for="episode in episodes"
           :key="episode.episodeId"
           class="pa-0 pt-1 pb-1"
-          @click="onClickEpisode(episode)"
+          @click="onClickEpisode(episode.episodeId)"
       >
         <v-row no-gutters align="center">
           <div style="width: 10%;" class="pt-1 pb-1 mr-4">
@@ -232,7 +206,7 @@ onMounted(() => {
           <div style="flex: 1;">
             <div class="font-weight-bold text-body-1">{{ episode.title }}</div>
             <div class="font-weight-bold text-grey text-body-2">
-              ★ {{ episode.rating }} &nbsp; {{ formatDate(episode.createdAt) }}
+              ★ {{ episode.rating }} &nbsp; {{ formatDate(episode.uploadDate) }}
             </div>
           </div>
         </v-row>
