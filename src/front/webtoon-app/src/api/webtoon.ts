@@ -79,3 +79,31 @@ export const getEveryWebtoon = async (): Promise<IEveryWebtoonResponse> => {
     const response: AxiosResponse<IEveryWebtoonResponse> = await apiClient.get<IEveryWebtoonResponse>('/webtoons',)
     return response.data
 }
+
+interface IGetWebtoonRequest {
+    id: number
+}
+
+interface IPerson {
+    personId: number;
+    name: string;
+}
+
+interface IGetWebtoonResponse {
+    id: number;
+    title: string;
+    writer: IPerson
+    illustrator: IPerson
+    originalAuthor?: IPerson
+    dayOfWeek: string;
+    restrictedAge: number;
+    description: string;
+    tags: string[];
+    thumbnail: string;
+    likeCount: number;
+}
+
+export const getWebtoon = async (req: IGetWebtoonRequest): Promise<IGetWebtoonResponse> => {
+    const response: AxiosResponse<IGetWebtoonResponse> = await apiClient.get<IGetWebtoonResponse>(`/webtoons/${req.id}`,)
+    return response.data
+}

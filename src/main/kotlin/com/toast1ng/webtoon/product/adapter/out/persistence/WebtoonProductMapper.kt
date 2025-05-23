@@ -3,6 +3,7 @@ package com.toast1ng.webtoon.product.adapter.out.persistence
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonProductJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPersonDto
 import com.toast1ng.webtoon.product.domain.Creator
+import com.toast1ng.webtoon.product.domain.CreatorRole
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import com.toast1ng.webtoon.product.domain.Genre
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
@@ -27,7 +28,7 @@ class WebtoonProductMapper {
                 Creator(
                     personId = it.person.id ?: 0L,
                     name = it.person.name,
-                    role = it.person.role,
+                    role = CreatorRole.fromValue(it.person.role),
                 )
             },
         )
@@ -49,7 +50,7 @@ class WebtoonProductMapper {
                 Creator(
                     personId = it.personId,
                     name = it.name,
-                    role = it.role,
+                    role = CreatorRole.fromValue(it.role),
                 )
             },
         )
