@@ -2,12 +2,9 @@
 import {computed, ref, watch} from "vue";
 import {navigateToWebtoonEpisode} from "@/utils/navigation";
 import {useWebtoonEpisodes} from "@/composables/useWebtoonEpisodes";
+import {useWebtoonStore} from "@/stores/webtoonStore";
 
-interface Props {
-  webtoonId: string
-  tab: string
-}
-const props = defineProps<Props>()
+const webtoonStore = useWebtoonStore()
 
 const {
   data: webtoonEpisodesData,
@@ -43,11 +40,11 @@ function onSort() {
 }
 
 function onClickEpisode(episodeId: number) {
-  navigateToWebtoonEpisode(Number(props.webtoonId), episodeId, props.tab)
+  navigateToWebtoonEpisode(webtoonStore.webtoonId, episodeId, webtoonStore.tab)
 }
 
 watch(
-    () => props.webtoonId,
+    () => webtoonStore.webtoonId,
     (newWebtoonId) => {
       if (newWebtoonId) {
         updateWebtoonEpisodesWebtoonId(Number(newWebtoonId))
@@ -64,66 +61,68 @@ watch(() => page.value,
 )
 </script>
 <template>
-  <div class="d-flex justify-space-between align-center">
-    <div class="entire-episode text-body-1 font-weight-bold text-grey-darken-1 pa-0 ma-0">
-      총 {{ totalCount }}화
-    </div>
+  <v-card class="pa-4" elevation="0">
+    <div class="d-flex justify-space-between align-center">
+      <div class="entire-episode text-body-1 font-weight-bold text-grey-darken-1 pa-0 ma-0">
+        총 {{ totalCount }}화
+      </div>
 
-    <v-btn-toggle
-        v-model="selectedSort"
-        color="black"
-        variant="plain"
-        class="pa-0 ma-0"
-        style="height: 24px; line-height: 24px; min-height: 24px;"
-        mandatory
-    >
-      <v-btn
-          v-for="option in sortOptions"
-          :key="option.value"
-          :value="option.value"
-          @click="onSort"
-          small
-          elevation="0"
-          :ripple="false"
-          class="pa-0"
+      <v-btn-toggle
+          v-model="selectedSort"
+          color="black"
+          variant="plain"
+          class="pa-0 ma-0"
+          style="height: 24px; line-height: 24px; min-height: 24px;"
+          mandatory
       >
-        {{ option.label }}
-      </v-btn>
-    </v-btn-toggle>
-  </div>
-  <v-list>
-    <v-list-item
-        v-for="episode in episodes"
-        :key="episode.episodeId"
-        class="pa-0 pt-1 pb-1"
-        @click="onClickEpisode(episode.episodeId)"
-    >
-      <v-row no-gutters align="center">
-        <div style="width: 10%;" class="pt-1 pb-1 mr-4">
-          <v-img
-              class="with-border"
-              width="100%"
-              cover
-              :src="episode.thumbnail"
-          />
-        </div>
-        <div style="flex: 1;">
-          <div class="font-weight-bold text-body-1">{{ episode.title }}</div>
-          <div class="font-weight-bold text-grey text-body-2">
-            ★ {{ episode.rating }} &nbsp; {{ formatDate(episode.uploadDate) }}
+        <v-btn
+            v-for="option in sortOptions"
+            :key="option.value"
+            :value="option.value"
+            @click="onSort"
+            small
+            elevation="0"
+            :ripple="false"
+            class="pa-0"
+        >
+          {{ option.label }}
+        </v-btn>
+      </v-btn-toggle>
+    </div>
+    <v-list>
+      <v-list-item
+          v-for="episode in episodes"
+          :key="episode.episodeId"
+          class="pa-0 pt-1 pb-1"
+          @click="onClickEpisode(episode.episodeId)"
+      >
+        <v-row no-gutters align="center">
+          <div style="width: 10%;" class="pt-1 pb-1 mr-4">
+            <v-img
+                class="with-border"
+                width="100%"
+                cover
+                :src="episode.thumbnail"
+            />
           </div>
-        </div>
-      </v-row>
-    </v-list-item>
-  </v-list>
-  <div v-if="episodes.length > 0" class="d-flex justify-center mt-4">
-    <v-pagination
-        v-model="page"
-        :length="Math.ceil(totalCount / size)"
-        total-visible="5"
-        color="black"
-    />
-  </div>
+          <div style="flex: 1;">
+            <div class="font-weight-bold text-body-1">{{ episode.title }}</div>
+            <div class="font-weight-bold text-grey text-body-2">
+              ★ {{ episode.rating }} &nbsp; {{ formatDate(episode.uploadDate) }}
+            </div>
+          </div>
+        </v-row>
+      </v-list-item>
+    </v-list>
+    <div v-if="episodes.length > 0" class="d-flex justify-center mt-4">
+      <v-pagination
+          v-model="page"
+          :length="Math.ceil(totalCount / size)"
+          total-visible="5"
+          color="black"
+      />
+    </div>
+  </v-card>
 </template>
 <style scoped>
 .v-list-item {
