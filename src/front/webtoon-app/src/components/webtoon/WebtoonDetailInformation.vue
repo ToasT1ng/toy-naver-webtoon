@@ -1,11 +1,20 @@
-<script setup lang="ts" >
+<script setup lang="ts">
 import {useWebtoonStore} from "@/stores/webtoonStore";
 import {useWebtoon} from "@/composables/useWebtoons";
-import {watch} from "vue";
+import {computed, nextTick, ref, watch} from "vue";
 
 const webtoonStore = useWebtoonStore()
 
 const {data: webtoonData, updateWebtoonId: updateWebtoonId} = useWebtoon()
+
+const isTextAreaExpanded = ref(false)
+const shouldShowToggleButton = ref(false)
+const descRef = ref<HTMLElement | null>(null)
+const tagRef = ref<HTMLElement | null>(null)
+
+const convertedDescription = computed(() =>
+    webtoonData.value?.description.replace(/\\n/g, '<br/>') ?? ''
+)
 
 const daysOfWeek = [
   {name: '월요', value: 'mon'},
@@ -32,6 +41,24 @@ watch(
     {immediate: true}
 )
 
+watch(
+    () => webtoonData?.value,
+    () => {
+      nextTick(() => {
+        setTimeout(() => {
+          const desc = descRef.value
+          const tags = tagRef.value
+
+          const descTooTall = desc instanceof HTMLElement && desc.scrollHeight > 140
+          const tagsTooTall = tags instanceof HTMLElement && tags.scrollHeight > 32
+
+          shouldShowToggleButton.value = descTooTall || tagsTooTall
+        }, 0)
+      })
+    },
+    {immediate: true}
+)
+
 </script>
 <template>
   <v-card class="pa-3" elevation="0">
@@ -47,27 +74,53 @@ watch(
       <v-col cols="8" md="10" lg="10" class="pl-0">
         <v-card-title class="font-weight-extra-bold pt-0">{{ webtoonData?.title }}</v-card-title>
         <v-card-text class="pb-0">
-          <span class="font-weight-semi-bold">{{ webtoonData?.writer.name }}</span> · 글 / <span class="font-weight-semi-bold">{{ webtoonData?.illustrator.name }}</span> · 그림
-          <span v-if="webtoonData?.originalAuthor"> / <span class="font-weight-semi-bold">{{ webtoonData?.originalAuthor?.name }}</span> · 원작</span>
+          <span class="font-weight-semi-bold">{{ webtoonData?.writer.name }}</span> · 글 / <span
+            class="font-weight-semi-bold">{{ webtoonData?.illustrator.name }}</span> · 그림
+          <span v-if="webtoonData?.originalAuthor"> / <span
+              class="font-weight-semi-bold">{{ webtoonData?.originalAuthor?.name }}</span> · 원작</span>
           ｜ {{ makDayOfWeekString(webtoonData?.dayOfWeek) }}웹툰 · {{ webtoonData?.restrictedAge }}세 이용가
         </v-card-text>
-        <v-card-text class="pt-2" style="white-space: pre-line;">
-          {{ webtoonData?.description }}
-        </v-card-text>
-        <v-card-text class="pt-0">
-          <v-chip v-for="tag in webtoonData?.tags" :key="tag"
+        <div class="description-wrapper mt-2">
+          <v-card-text class="pt-2">
+            <div
+                ref="descRef"
+                :class="['clamp-text', { clamped: !isTextAreaExpanded }]"
+                v-html="convertedDescription"
+            >
+            </div>
+          </v-card-text>
+
+          <v-card-text class="pt-0 tag-container" :class="{ 'tag-clamp': !isTextAreaExpanded }">
+            <div ref="tagRef">
+              <v-chip
+                  v-for="tag in webtoonData?.tags"
+                  :key="tag"
                   class="mr-2 text-grey-darken-2 pl-2 pr-2 font-weight-medium"
                   variant="tonal"
-                  color="grey-lighten-5" rounded="sm" density="compact" small>
-            #{{ tag }}
-          </v-chip>
-        </v-card-text>
+                  color="grey-lighten-5"
+                  rounded="sm"
+                  density="compact"
+                  small
+              >
+                #{{ tag }}
+              </v-chip>
+            </div>
+          </v-card-text>
+
+          <v-icon
+              v-if="shouldShowToggleButton"
+              class="toggle-icon text-grey"
+              @click="isTextAreaExpanded = !isTextAreaExpanded"
+          >
+            {{ isTextAreaExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+          </v-icon>
+        </div>
       </v-col>
     </v-row>
     <v-row style="height: 80px">
       <v-col cols="5" class="mr-0 pr-0 h-100">
         <v-btn class="h-100 like-count-button" elevation="0" block>＋ 관심 {{
-          webtoonData?.likeCount?.toLocaleString()
+            webtoonData?.likeCount?.toLocaleString()
           }}
         </v-btn>
       </v-col>
@@ -91,4 +144,53 @@ watch(
   color: black;
 }
 
+.description-wrapper {
+  position: relative;
+}
+
+.clamp-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  font-size: 14px;
+  color: #333;
+  white-space: normal;
+}
+
+.clamp-text:not(.clamped) {
+  -webkit-line-clamp: unset;
+  display: block;
+}
+
+.tag-clamp {
+  max-height: 32px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.toggle-icon {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 1;
+  font-size: 28px;
+  cursor: pointer;
+  background: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+  user-select: none;
+}
+
+.toggle-icon:hover,
+.toggle-icon:focus,
+.toggle-icon:active {
+  background: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  opacity: 1 !important;
+}
 </style>

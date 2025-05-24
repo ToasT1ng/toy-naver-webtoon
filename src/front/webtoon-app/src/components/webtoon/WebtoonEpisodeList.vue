@@ -125,12 +125,15 @@ watch(() => page.value,
         </v-row>
       </v-list-item>
     </v-list>
-    <div v-if="episodes.length > 0" class="d-flex justify-center mt-4">
+    <div v-if="episodes.length > 0" class="d-flex justify-center mt-8">
       <v-pagination
+          class="my-pagination"
           v-model="page"
           :length="Math.ceil(totalCount / size)"
-          total-visible="5"
+          total-visible="10"
           color="black"
+          variant="plain"
+          ripple="false"
       />
     </div>
   </v-card>
@@ -173,5 +176,23 @@ watch(() => page.value,
   flex-shrink: 0;
   position: relative;
   top: -2px;
+}
+::v-deep(.v-btn--icon.v-btn--density-default) {
+  width: calc(var(--v-btn-height) + 1px) !important;
+}
+</style>
+<style>
+.v-pagination .v-pagination__item {
+  margin-inline: 0 !important;
+}
+.v-pagination .v-btn {
+  font-size: 14px !important;
+  min-width: 28px !important;
+  height: 28px !important;
+  margin: 0 !important;
+  padding: 0 6px !important;
+}
+.v-pagination .v-pagination__item--is-active .v-btn__content {
+  font-weight: bold !important;
 }
 </style>
