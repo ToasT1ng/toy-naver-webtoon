@@ -1,0 +1,17 @@
+html, body, #app, .v-application {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.font-weight-extra-bold {
+    font-weight: 800;
+}
+
+.font-weight-semi-bold {
+    font-weight: 600;
+}
+
+.text-body-3 {
+    font-size: 13px;
+}

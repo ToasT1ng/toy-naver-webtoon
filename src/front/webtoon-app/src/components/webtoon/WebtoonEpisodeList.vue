@@ -96,10 +96,10 @@ watch(() => page.value,
           class="pa-0 pt-1 pb-1"
           @click="onClickEpisode(episode.episodeId)"
       >
-        <v-row no-gutters align="center">
-          <div style="width: 10%;" class="pt-1 pb-1 mr-4">
+        <v-row no-gutters align="center" style="height: 78px;">
+          <div style="width: 10%; height: 76px" class="pa-0 ma-0 mr-4">
             <v-img
-                class="with-border"
+                class="with-border rounded"
                 width="100%"
                 cover
                 :src="episode.thumbnail"
@@ -107,8 +107,19 @@ watch(() => page.value,
           </div>
           <div style="flex: 1;">
             <div class="font-weight-bold text-body-1">{{ episode.title }}</div>
-            <div class="font-weight-bold text-grey text-body-2">
-              ★ {{ episode.rating }} &nbsp; {{ formatDate(episode.uploadDate) }}
+            <div class="font-weight-bold text-grey text-body-2 episode-meta">
+              <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="#9e9e9e"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="star-svg"
+              >
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2
+         9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+              {{ episode.rating }} &nbsp; {{ formatDate(episode.uploadDate) }}
             </div>
           </div>
         </v-row>
@@ -146,5 +157,21 @@ watch(() => page.value,
 
 ::v-deep(.v-list-item:hover .text-body-1) {
   text-decoration: underline;
+}
+
+.episode-meta {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #9e9e9e;
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.star-svg {
+  margin-right: 4px;
+  flex-shrink: 0;
+  position: relative;
+  top: -2px;
 }
 </style>

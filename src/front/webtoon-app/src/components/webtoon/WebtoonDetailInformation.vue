@@ -41,13 +41,14 @@ watch(
             :src="webtoonData?.thumbnail"
             class="rounded-lg"
             cover
+            style="height: 280px"
         />
       </v-col>
       <v-col cols="8" md="10" lg="10" class="pl-0">
-        <v-card-title class="font-weight-bold pt-0">{{ webtoonData?.title }}</v-card-title>
+        <v-card-title class="font-weight-extra-bold pt-0">{{ webtoonData?.title }}</v-card-title>
         <v-card-text class="pb-0">
-          {{ webtoonData?.writer.name }} · 글 / {{ webtoonData?.illustrator.name }} · 그림
-          <span v-if="webtoonData?.originalAuthor"> / {{ webtoonData?.originalAuthor?.name }} · 원작</span>
+          <span class="font-weight-semi-bold">{{ webtoonData?.writer.name }}</span> · 글 / <span class="font-weight-semi-bold">{{ webtoonData?.illustrator.name }}</span> · 그림
+          <span v-if="webtoonData?.originalAuthor"> / <span class="font-weight-semi-bold">{{ webtoonData?.originalAuthor?.name }}</span> · 원작</span>
           ｜ {{ makDayOfWeekString(webtoonData?.dayOfWeek) }}웹툰 · {{ webtoonData?.restrictedAge }}세 이용가
         </v-card-text>
         <v-card-text class="pt-2" style="white-space: pre-line;">

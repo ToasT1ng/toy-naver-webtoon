@@ -53,7 +53,7 @@ const maxRowCount = computed(() => {
           <v-card-item class="pa-1" v-if="colItems.items[rowIndex]">
             <v-img
                 class="with-border"
-                height="100%"
+                style="height: 240px"
                 cover
                 :src="colItems.items[rowIndex]?.thumbnail"
                 @click="navigateToWebtoonDetail(colItems.items[rowIndex].id, 'tab을 넣어야합니다.....')"

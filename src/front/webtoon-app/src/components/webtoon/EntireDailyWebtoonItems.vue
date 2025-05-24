@@ -28,14 +28,26 @@ const {data} = useDailyWebtoon()
                 @click="navigateToWebtoonDetail(item.id, 'tab을 넣어야합니다.....')"
             />
           </v-card-item>
-          <v-card-text class="pa-1 mt-1 pb-0 text-subtitle-1 font-weight-bold ellipsis">
+          <v-card-text class="pa-1 mt-1 pb-0 text-subtitle-1 font-weight-extra-bold ellipsis">
             {{ item.title }}
           </v-card-text>
-          <v-card-text class="pa-1 pt-0 pb-0 text-body-2 font-weight-medium ellipsis">
+          <v-card-text class="pa-1 pt-0 pb-0 text-body-2 font-weight-semi-bold ellipsis">
             {{ item.authorNames }}
           </v-card-text>
-          <v-card-text class="pa-1 pt-0 text-caption font-weight-regular">
-            {{ item.rating }}
+          <v-card-text class="pa-1 pt-0 text-body-3 font-weight-semi-bold text-grey">
+            <span class="star-with-rating">
+              <svg
+                  class="star-icon"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="#9e9e9e"
+                  xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2
+                     9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>{{ item.rating }}
+            </span>
           </v-card-text>
         </v-card>
       </v-col>
@@ -63,5 +75,17 @@ const {data} = useDailyWebtoon()
 .with-border {
   border: 1px solid #ccc;
   border-radius: 8px;
+}
+
+.star-with-rating {
+  display: inline-flex;
+  align-items: center;
+}
+
+.star-icon {
+  position: relative;
+  top: 1px;
+  margin-right: 2px;
+  flex-shrink: 0;
 }
 </style>

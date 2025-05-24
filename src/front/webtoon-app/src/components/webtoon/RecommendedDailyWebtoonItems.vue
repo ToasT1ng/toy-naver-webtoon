@@ -20,19 +20,19 @@ const {data} = useDailyRecommendedWebtoon()
           <v-card-item class="pa-0">
             <v-img
                 class="with-border"
-                height="100%"
+                style="height: 240px"
                 cover
                 :src="item.thumbnail"
                 @click="navigateToWebtoonDetail(item.id, 'tab을 넣어야합니다.....')"
             />
           </v-card-item>
-          <v-card-text class="pa-1 mt-1 pb-0 text-subtitle-1 font-weight-bold ellipsis">
+          <v-card-text class="pa-1 mt-1 pb-0 text-subtitle-1 font-weight-extra-bold ellipsis">
             {{ item.title }}
           </v-card-text>
-          <v-card-text class="pa-1 pt-0 pb-0 text-body-2 font-weight-medium ellipsis">
+          <v-card-text class="pa-1 pt-0 pb-0 text-body-2 font-weight-semi-bold ellipsis">
             {{ item.authorNames }}
           </v-card-text>
-          <v-card-text class="pa-1 pt-0 pb-0 text-body-2 font-weight-medium ellipsis">
+          <v-card-text class="pa-1 pt-0 pb-0 text-body-2 font-weight-semi-bold ellipsis">
             {{ item.latestEpisodeName }}
           </v-card-text>
           <v-card-text class="pa-1 pt-0 text-caption font-weight-regular">

@@ -3,7 +3,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import {loadFonts} from './plugins/webfontloader'
 import router from './router'
-import './assets/main.css'
+import './assets/global.css'
 import {VueQueryPlugin, QueryClient} from '@tanstack/vue-query'
 import {createPinia} from 'pinia'
 
