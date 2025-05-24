@@ -14,7 +14,11 @@ const props = defineProps<Props>()
 
 //TODO: webtoonId를 store에서 관리
 const {data: webtoonData, updateWebtoonId: updateWebtoonId} = useWebtoon()
-const {data: webtoonEpisodesData, updateWebtoonId: updateWebtoonEpisodesWebtoonId} = useWebtoonEpisodes()
+const {
+  data: webtoonEpisodesData,
+  updateWebtoonId: updateWebtoonEpisodesWebtoonId,
+  updatePageNo: updateWebtoonEpisodesPageNo
+} = useWebtoonEpisodes()
 
 const daysOfWeek = [
   {name: '월요', value: 'mon'},
@@ -56,8 +60,11 @@ function onSort() {
 }
 
 function onClickEpisode(episodeId: number) {
-  navigateToWebtoonEpisode(episodeId, props.tab)
+  navigateToWebtoonEpisode(Number(props.webtoonId), episodeId, props.tab)
 }
+
+const page = ref(1)
+const size = 10
 
 watch(
     () => props.webtoonId,
@@ -67,7 +74,14 @@ watch(
         updateWebtoonId(Number(newWebtoonId))
       }
     },
-    { immediate: true }
+    {immediate: true}
+)
+
+watch(() => page.value,
+    (newPage) => {
+      console.log("Updating page number to:", newPage)
+      updateWebtoonEpisodesPageNo(newPage - 1)
+    }
 )
 
 onMounted(() => {
@@ -98,7 +112,8 @@ onMounted(() => {
           {{ webtoonData?.description }}
         </v-card-text>
         <v-card-text class="pt-0">
-          <v-chip v-for="tag in webtoonData?.tags" :key="tag" class="mr-2 text-grey-darken-2 pl-2 pr-2 font-weight-medium"
+          <v-chip v-for="tag in webtoonData?.tags" :key="tag"
+                  class="mr-2 text-grey-darken-2 pl-2 pr-2 font-weight-medium"
                   variant="tonal"
                   color="grey-lighten-5" rounded="sm" density="compact" small>
             #{{ tag }}
@@ -108,7 +123,10 @@ onMounted(() => {
     </v-row>
     <v-row style="height: 80px">
       <v-col cols="5" class="mr-0 pr-0 h-100">
-        <v-btn class="h-100 like-count-button" elevation="0" block>＋ 관심 {{ webtoonData?.likeCount?.toLocaleString() }}</v-btn>
+        <v-btn class="h-100 like-count-button" elevation="0" block>＋ 관심 {{
+            webtoonData?.likeCount?.toLocaleString()
+          }}
+        </v-btn>
       </v-col>
       <v-col cols="5" class="mr-0 pr-0 h-100">
         <v-btn class="h-100 other-button" elevation="0" block>최근 본 · N화 : 제목이름</v-btn>
@@ -174,6 +192,15 @@ onMounted(() => {
         </v-row>
       </v-list-item>
     </v-list>
+
+    <div v-if="episodes.length > 0" class="d-flex justify-center mt-4">
+      <v-pagination
+          v-model="page"
+          :length="Math.ceil(totalCount / size)"
+          total-visible="5"
+          color="black"
+      />
+    </div>
   </v-card>
 </template>
 

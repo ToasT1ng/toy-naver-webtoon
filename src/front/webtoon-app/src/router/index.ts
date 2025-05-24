@@ -33,10 +33,11 @@ const routes = [
                 }),
             },
             {
-                path: 'episode/:episodeId',
+                path: ':webtoonId/episode/:episodeId',
                 name: 'WebtoonEpisode',
                 component: WebtoonEpisode,
-                props: (route: { params: { episodeId: any; }; query: { tab: any; }; }) => ({
+                props: (route: { params: { webtoonId: any; episodeId: any; }; query: { tab: any; }; }) => ({
+                    webtoonId: route.params.webtoonId,
                     episodeId: route.params.episodeId,
                     tab: route.query.tab
                 }),

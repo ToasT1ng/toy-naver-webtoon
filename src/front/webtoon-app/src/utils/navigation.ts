@@ -9,9 +9,9 @@ export const navigateToWebtoonDetail = (webtoonId: number, tab: string) => {
     })
  }
 
-export const navigateToWebtoonEpisode = (episodeId: number, tab: string)=> {
+export const navigateToWebtoonEpisode = (webtoonId: number, episodeId: number, tab: string)=> {
     router.push({
-        path: `/webtoon/episode/${episodeId}`,
+        path: `/webtoon/${webtoonId}/episode/${episodeId}`,
         query: {tab}
     }).then(r => {
         // console.log(r)
