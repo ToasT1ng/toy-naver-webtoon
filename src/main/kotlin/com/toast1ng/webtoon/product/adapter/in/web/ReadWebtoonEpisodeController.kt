@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController
 class ReadWebtoonEpisodeController(
     private val liveWebtoonEpisodeReadService: GetWebtoonEpisodeUseCase,
 ) {
-    //TODO sorting 기능 추가
     @GetMapping("/webtoons/{webtoonId}/episodes")
     fun getWebtoonEpisodes(
         @Valid request: PagingWebtoonEpisodesRequest,

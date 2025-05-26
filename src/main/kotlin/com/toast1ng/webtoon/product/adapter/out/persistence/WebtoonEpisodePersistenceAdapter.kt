@@ -2,6 +2,7 @@ package com.toast1ng.webtoon.product.adapter.out.persistence
 
 import com.toast1ng.webtoon.common.PersistenceAdapter
 import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonEpisodePort
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodePagingQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodeQuery
 import com.toast1ng.webtoon.product.domain.WebtoonEpisode
 import org.springframework.data.domain.Page
@@ -17,10 +18,9 @@ class WebtoonEpisodePersistenceAdapter(
     }
 
     override fun getPagingWebtoonEpisodes(
-        query: WebtoonEpisodeQuery,
-        pageable: Pageable
+        query: WebtoonEpisodePagingQuery,
     ): Page<WebtoonEpisode> {
-        return repository.findAll(query, pageable).map (
+        return repository.findAll(query).map (
             mapper::mapToEntity
         )
     }

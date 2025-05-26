@@ -5,9 +5,9 @@ import com.toast1ng.webtoon.product.application.port.`in`.command.GetWebtoonEpis
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeUseCase
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodeQuery
 import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonEpisodePort
+import com.toast1ng.webtoon.product.application.port.out.query.toPagingQuery
 import com.toast1ng.webtoon.product.domain.WebtoonEpisode
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -25,10 +25,8 @@ class LiveWebtoonEpisodeReadService(
     override fun getWebtoonEpisodes(
         command: GetPagingWebtoonEpisodesCommand
     ): Page<WebtoonEpisode> {
-        val query = WebtoonEpisodeQuery(
-            webtoonId = command.webtoonId,
-            uploadDateTo = LocalDateTime.now(),
+        return readWebtoonEpisodePort.getPagingWebtoonEpisodes(
+            query = command.toPagingQuery(uploadDateTo = LocalDateTime.now())
         )
-        return readWebtoonEpisodePort.getPagingWebtoonEpisodes(query, PageRequest.of(command.pageNo, command.pageSize))
     }
 }

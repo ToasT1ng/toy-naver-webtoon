@@ -4,17 +4,33 @@ import com.toast1ng.webtoon.product.application.port.`in`.command.GetPagingWebto
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetWebtoonEpisodeCommand
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeUseCase
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockkStatic
+import io.mockk.unmockkAll
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Transactional(readOnly = true)
 @SpringBootTest
 class LiveWebtoonEpisodeReadServiceTest @Autowired constructor(
     private val getLiveWebtoonEpisodeService: GetWebtoonEpisodeUseCase,
 ) {
+
+    @BeforeEach
+    fun beforeEach() {
+        mockkStatic(LocalDateTime::class)
+    }
+
+    @AfterEach
+    fun afterEach() {
+        unmockkAll()
+    }
 
     @DisplayName("웹툰 회차 1개 불러오기")
     @Test
@@ -39,6 +55,8 @@ class LiveWebtoonEpisodeReadServiceTest @Autowired constructor(
     @Test
     fun getWebtoonEpisodes() {
         //given
+        val fixed = LocalDateTime.of(2025, 5, 26, 12, 0)
+        every { LocalDateTime.now() } returns fixed
         val givenWebtoonId = 1L
         val command = GetPagingWebtoonEpisodesCommand(
             webtoonId = givenWebtoonId,
@@ -51,6 +69,7 @@ class LiveWebtoonEpisodeReadServiceTest @Autowired constructor(
 
         //then
         result.content.size shouldBe 1
+//        result.content[0].id shouldBe 11 //TODO 정렬 제대로 되도록 수정
         result.number shouldBe 1
         result.numberOfElements shouldBe 1
         result.isLast shouldBe true
