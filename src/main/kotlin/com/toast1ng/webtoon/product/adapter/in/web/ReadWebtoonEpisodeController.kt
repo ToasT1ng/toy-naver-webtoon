@@ -24,7 +24,7 @@ class ReadWebtoonEpisodeController(
         return ResponseEntity.ok().body(
             PagingWebtoonEpisodesResponse(
                 webtoonId = webtoonId,
-                pageNo = result.number,
+                pageNo = result.number + 1,
                 pageSize = result.size,
                 totalCount = result.totalElements,
                 totalPage = result.totalPages,

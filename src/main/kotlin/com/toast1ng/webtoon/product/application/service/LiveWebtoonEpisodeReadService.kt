@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
+@Transactional(readOnly = true)
 @Service
 class LiveWebtoonEpisodeReadService(
     private val readWebtoonEpisodePort: ReadWebtoonEpisodePort,
 ) : GetWebtoonEpisodeUseCase {
-    @Transactional(readOnly = true)
     override fun getWebtoonEpisode(command: GetWebtoonEpisodeCommand): WebtoonEpisode {
         val query = WebtoonEpisodeQuery(
             id = command.id,
@@ -24,7 +24,6 @@ class LiveWebtoonEpisodeReadService(
         return requireNotNull(readWebtoonEpisodePort.getWebtoonEpisode(query))
     }
 
-    @Transactional(readOnly = true)
     override fun getWebtoonEpisodes(
         command: GetPagingWebtoonEpisodesCommand
     ): Page<WebtoonEpisode> {
