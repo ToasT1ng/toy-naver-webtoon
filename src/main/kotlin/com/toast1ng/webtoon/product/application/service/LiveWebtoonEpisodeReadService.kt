@@ -9,12 +9,14 @@ import com.toast1ng.webtoon.product.application.port.out.query.toPagingQuery
 import com.toast1ng.webtoon.product.domain.WebtoonEpisode
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Service
 class LiveWebtoonEpisodeReadService(
     private val readWebtoonEpisodePort: ReadWebtoonEpisodePort,
 ) : GetWebtoonEpisodeUseCase {
+    @Transactional(readOnly = true)
     override fun getWebtoonEpisode(command: GetWebtoonEpisodeCommand): WebtoonEpisode {
         val query = WebtoonEpisodeQuery(
             id = command.id,
@@ -22,6 +24,7 @@ class LiveWebtoonEpisodeReadService(
         return requireNotNull(readWebtoonEpisodePort.getWebtoonEpisode(query))
     }
 
+    @Transactional(readOnly = true)
     override fun getWebtoonEpisodes(
         command: GetPagingWebtoonEpisodesCommand
     ): Page<WebtoonEpisode> {

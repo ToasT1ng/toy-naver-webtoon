@@ -60,7 +60,7 @@ class LiveWebtoonEpisodeReadServiceTest @Autowired constructor(
         val givenWebtoonId = 1L
         val command = GetPagingWebtoonEpisodesCommand(
             webtoonId = givenWebtoonId,
-            pageNo = 1,
+            pageNo = 0,
             pageSize = 10
         )
 
@@ -68,11 +68,11 @@ class LiveWebtoonEpisodeReadServiceTest @Autowired constructor(
         val result = getLiveWebtoonEpisodeService.getWebtoonEpisodes(command)
 
         //then
-        result.content.size shouldBe 1
-//        result.content[0].id shouldBe 11 //TODO 정렬 제대로 되도록 수정
-        result.number shouldBe 1
-        result.numberOfElements shouldBe 1
-        result.isLast shouldBe true
+        result.content.size shouldBe 10
+        result.content[0].id shouldBe 11
+        result.number shouldBe 0
+        result.numberOfElements shouldBe 10
+        result.isLast shouldBe false
         result.totalPages shouldBe 2
         result.totalElements shouldBe 11
     }

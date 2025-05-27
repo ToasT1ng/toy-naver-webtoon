@@ -15,7 +15,6 @@ import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodeSor
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 
 class QueryDslWebtoonEpisodeRepositoryImpl(
     private val queryFactory: JPAQueryFactory
@@ -35,20 +34,14 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
     }
 
 
-    //TODO 페이징 + 정렬 동시 적용될 수 있도록 수정 필요
     override fun findAll(query: WebtoonEpisodePagingQuery): Page<WebtoonEpisodeJpaEntity> {
         val pageable = PageRequest.of(query.pageNumber, query.pageSize)
 
         val content = queryFactory
-            .selectDistinct(
-                webtoonEpisodeJpaEntity,
-            )
+            .select(webtoonEpisodeJpaEntity)
             .from(webtoonEpisodeJpaEntity)
-            .leftJoin(webtoonEpisodeJpaEntity.webtoonImages, webtoonImageJpaEntity).fetchJoin()
             .leftJoin(webtoonEpisodeJpaEntity.webtoon(), webtoonProductJpaEntity).fetchJoin()
-            .where(
-                makeBooleanExpression(query),
-            )
+            .where(makeBooleanExpression(query))
             .orderBy(*applySort(query.sortOptions).toTypedArray())
             .offset(pageable.offset)
             .limit(pageable.pageSize.toLong())
@@ -61,9 +54,8 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
 
     private fun count(query: WebtoonEpisodePagingQuery): Long {
         return queryFactory
-            .select(webtoonEpisodeJpaEntity.countDistinct())
+            .select(webtoonEpisodeJpaEntity.count())
             .from(webtoonEpisodeJpaEntity)
-            .leftJoin(webtoonEpisodeJpaEntity.webtoonImages, webtoonImageJpaEntity)
             .leftJoin(webtoonEpisodeJpaEntity.webtoon(), webtoonProductJpaEntity)
             .where(makeBooleanExpression(query))
             .fetchOne() ?: 0L
