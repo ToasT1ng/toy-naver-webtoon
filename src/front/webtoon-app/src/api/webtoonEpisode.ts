@@ -1,10 +1,12 @@
 import apiClient from './index'
 import {AxiosResponse} from "axios";
+import {SortDirection} from "@/types/common";
 
 interface IPagingWebtoonEpisodesRequest {
     webtoonId: number
     pageNo: number
     pageSize: number
+    sortDirection: SortDirection
 }
 
 interface IEpisode {
@@ -32,6 +34,7 @@ export const getPagingWebtoonEpisodes = async (
         params: {
             pageNo: req.pageNo,
             pageSize: req.pageSize,
+            sortDirection: req.sortDirection,
         },
     })
     return response.data

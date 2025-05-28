@@ -1,12 +1,13 @@
 import {computed, ref} from 'vue'
 import {useQuery} from '@tanstack/vue-query'
 import {getPagingWebtoonEpisodes} from "@/api/webtoonEpisode";
+import {SortDirection} from "@/types/common";
 
 export const useWebtoonEpisodes = () => {
-    const pageNo = ref(0)
+    const pageNo = ref(1)
     const pageSize = ref(10)
     const webtoonId = ref<number | undefined>(undefined)
-
+    const sortDirection = ref<SortDirection>('DESC')
 
     function updateWebtoonId(newWebtoonId: number) {
         webtoonId.value = newWebtoonId
@@ -16,8 +17,12 @@ export const useWebtoonEpisodes = () => {
         pageNo.value = newPageNo
     }
 
+    function updateSortDirection(newSortDirection: SortDirection){
+        sortDirection.value = newSortDirection
+    }
+
     const query = useQuery({
-        queryKey: computed(() => ['webtoonEpisodes', webtoonId.value, pageNo.value]),
+        queryKey: computed(() => ['webtoonEpisodes', webtoonId.value, pageNo.value, sortDirection.value]),
         queryFn: async () => {
             if (!webtoonId.value) {
                 return Promise.reject(new Error('webtoonId is required'))
@@ -25,7 +30,8 @@ export const useWebtoonEpisodes = () => {
             return await getPagingWebtoonEpisodes({
                 pageNo: pageNo.value,
                 pageSize: pageSize.value,
-                webtoonId: webtoonId.value
+                webtoonId: webtoonId.value,
+                sortDirection: sortDirection.value,
             })
         },
         enabled: () => !!webtoonId.value,
@@ -35,6 +41,7 @@ export const useWebtoonEpisodes = () => {
     return {
         updateWebtoonId,
         updatePageNo,
+        updateSortDirection,
         ...query,
     }
 }

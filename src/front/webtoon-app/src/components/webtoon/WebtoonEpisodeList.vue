@@ -3,13 +3,15 @@ import {computed, ref, watch} from "vue";
 import {navigateToWebtoonEpisode} from "@/utils/navigation";
 import {useWebtoonEpisodes} from "@/composables/useWebtoonEpisodes";
 import {useWebtoonStore} from "@/stores/webtoonStore";
+import {SortDirection} from "@/types/common";
 
 const webtoonStore = useWebtoonStore()
 
 const {
   data: webtoonEpisodesData,
   updateWebtoonId: updateWebtoonEpisodesWebtoonId,
-  updatePageNo: updateWebtoonEpisodesPageNo
+  updatePageNo: updateWebtoonEpisodesPageNo,
+  updateSortDirection: updateWebtoonEpisodesSortDirection
 } = useWebtoonEpisodes()
 
 const totalCount = computed(() => webtoonEpisodesData.value?.totalCount ?? 0)
@@ -17,15 +19,12 @@ const episodes = computed(() => webtoonEpisodesData.value?.content ?? [])
 
 const page = ref(1)
 const size = 10
-
-type SortOption = 'asc' | 'dec'
-
-const selectedSort = ref<SortOption>('asc')
+const selectedSortDirection = ref<SortDirection>('DESC')
 
 const sortOptions = [
-  {label: '최신화부터', value: 'dec'},
-  {label: '1화부터', value: 'asc'},
-] satisfies readonly { label: string; value: SortOption }[]
+  {label: '최신화부터', value: 'DESC'},
+  {label: '1화부터', value: 'ASC'},
+] satisfies readonly { label: string; value: SortDirection }[]
 
 function formatDate(dateString: string) {
   const date = new Date(dateString)
@@ -33,10 +32,6 @@ function formatDate(dateString: string) {
   const mm = String(date.getMonth() + 1).padStart(2, '0')
   const dd = String(date.getDate()).padStart(2, '0')
   return `${yy}.${mm}.${dd}`
-}
-
-function onSort() {
-  console.log(selectedSort.value) //TODO api 재호출
 }
 
 function onClickEpisode(episodeId: number) {
@@ -55,8 +50,14 @@ watch(
 
 watch(() => page.value,
     (newPage) => {
-      console.log("Updating page number to:", newPage)
-      updateWebtoonEpisodesPageNo(newPage - 1)
+      updateWebtoonEpisodesPageNo(newPage)
+    }
+)
+
+watch(() => selectedSortDirection.value,
+    (newSortDirection) => {
+      page.value = 1
+      updateWebtoonEpisodesSortDirection(newSortDirection)
     }
 )
 </script>
@@ -68,7 +69,7 @@ watch(() => page.value,
       </div>
 
       <v-btn-toggle
-          v-model="selectedSort"
+          v-model="selectedSortDirection"
           color="black"
           variant="plain"
           class="pa-0 ma-0"
@@ -79,7 +80,6 @@ watch(() => page.value,
             v-for="option in sortOptions"
             :key="option.value"
             :value="option.value"
-            @click="onSort"
             small
             elevation="0"
             :ripple="false"
