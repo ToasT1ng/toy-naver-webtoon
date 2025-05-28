@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
+import {WeekPageTab} from "@/types/common";
+import {useWebtoonStore} from "@/stores/webtoonStore";
 
 const router = useRouter()
-const route = useRoute()
+
+interface ITab {
+  label: string
+  value: WeekPageTab
+}
 
 const tabs = [
   { label: '전체', value: 'all' },
@@ -14,41 +19,29 @@ const tabs = [
   { label: '금', value: 'fri' },
   { label: '토', value: 'sat' },
   { label: '일', value: 'sun' },
-]
+] satisfies ITab[]
 
-const tabIndex = ref(0)
+const webtoonStore = useWebtoonStore()
 
-watch(
-    () => route.name,
-    () => {
-      if (route.name === 'WebtoonDetail' || route.name === 'WebtoonEpisode') return
+const onTabClick = (value: WeekPageTab) => {
+  webtoonStore.tab = value
 
-      const param = route.name === 'WebtoonAll'
-          ? 'all'
-          : route.params.daysOfWeekValue
+  const newRoute =
+      value === 'all'
+          ? { name: 'WebtoonAll' }
+          : { name: 'WebtoonDay', params: { daysOfWeekValue: value } }
 
-      const index = tabs.findIndex(tab => tab.value === param)
-      tabIndex.value = index !== -1 ? index : 0
-    },
-    { immediate: true }
-)
-
-watch(tabIndex, (i) => {
-  const tabValue = tabs[i].value
-  if (tabValue === 'all') {
-    router.push({ name: 'WebtoonAll' })
-  } else {
-    router.push({ name: 'WebtoonDay', params: { daysOfWeekValue: tabValue } })
-  }
-})
+  router.push(newRoute)
+}
 </script>
 
 <template>
-  <v-tabs v-model="tabIndex" align-tabs="start" class="week-tabs">
+  <v-tabs v-model="webtoonStore.tab" align-tabs="start" class="week-tabs">
     <v-tab
-        v-for="(tab, index) in tabs"
+        v-for="tab in tabs"
         :key="tab.value"
-        :value="index"
+        :value="tab.value"
+        @click="onTabClick(tab.value)"
     >
       {{ tab.label }}
     </v-tab>

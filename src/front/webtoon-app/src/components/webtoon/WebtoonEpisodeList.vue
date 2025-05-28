@@ -35,7 +35,7 @@ function formatDate(dateString: string) {
 }
 
 function onClickEpisode(episodeId: number) {
-  navigateToWebtoonEpisode(webtoonStore.webtoonId, episodeId, webtoonStore.tab)
+  navigateToWebtoonEpisode(webtoonStore.webtoonId, episodeId)
 }
 
 watch(

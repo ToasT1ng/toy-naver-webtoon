@@ -56,7 +56,7 @@ const maxRowCount = computed(() => {
                 style="height: 240px"
                 cover
                 :src="colItems.items[rowIndex]?.thumbnail"
-                @click="navigateToWebtoonDetail(colItems.items[rowIndex].id, 'tab을 넣어야합니다.....')"
+                @click="navigateToWebtoonDetail(colItems.items[rowIndex].id, 'mon')"
             />
           </v-card-item>
           <v-card-text class="pa-1 font-weight-medium ellipsis">

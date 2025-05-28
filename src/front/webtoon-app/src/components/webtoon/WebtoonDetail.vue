@@ -3,6 +3,7 @@ import {onMounted, watch} from "vue";
 import WebtoonEpisodeList from "@/components/webtoon/WebtoonEpisodeList.vue";
 import {useWebtoonStore} from "@/stores/webtoonStore";
 import WebtoonDetailInformation from "@/components/webtoon/WebtoonDetailInformation.vue";
+import {isWeekPageTab} from "@/types/common";
 
 interface Props {
   webtoonId: string
@@ -19,8 +20,10 @@ watch(
       if (newWebtoonId) {
         webtoonStore.setWebtoonId(Number(newWebtoonId))
       }
-      if (newTab) {
+      if (isWeekPageTab(newTab)) {
         webtoonStore.setTab(newTab)
+      } else {
+        console.warn(`Invalid tab: ${newTab}`)
       }
     },
     {immediate: true}

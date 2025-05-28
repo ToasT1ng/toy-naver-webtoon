@@ -23,7 +23,7 @@ const {data} = useMonthlyRecommendedWebtoon()
                 height="100%"
                 cover
                 :src="item.thumbnail"
-                @click="navigateToWebtoonDetail(item.id, 'tab을 넣어야합니다.....')"
+                @click="navigateToWebtoonDetail(item.id, 'mon')"
             />
           </v-card-item>
           <v-card-text class="pa-1 mt-1 pb-0 text-subtitle-1 font-weight-bold ellipsis">

@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { navigateToWebtoonDetail, navigateToWebtoonEpisode } from "@/utils/navigation";
+import {useWebtoonStore} from "@/stores/webtoonStore";
 
 interface Props {
   webtoonId: string;
   episodeId: string;
-  tab: string;
 }
 const props = defineProps<Props>();
+const webtoonStore = useWebtoonStore();
 
 interface IEpisodeContentImage {
   url: string;
@@ -44,12 +45,12 @@ const data = ref<IWebtoonEpisode>({
 
 onMounted(() => {
   console.log("episodeId:", props.episodeId);
-  console.log("tab:", props.tab);
+  console.log("tab:", webtoonStore.tab);
 });
 
 function onClickNextEpisode() {
   if (data.value.nextEpisodeId !== undefined) {
-    navigateToWebtoonEpisode(Number(props.webtoonId), data.value.nextEpisodeId, props.tab);
+    navigateToWebtoonEpisode(Number(props.webtoonId), data.value.nextEpisodeId);
   }
 }
 </script>
@@ -64,8 +65,8 @@ function onClickNextEpisode() {
       </v-col>
       <v-col class="tool-area d-flex justify-end align-center mr-10" style="height: 50px;" cols="auto">
         <div class="button-group">
-          <v-btn class="nav-button" @click="navigateToWebtoonEpisode(Number(props.webtoonId), data.previousEpisodeId, props.tab)"><v-icon>mdi-menu-left</v-icon>이전화</v-btn>
-          <v-btn class="nav-button" @click="navigateToWebtoonDetail(Number(props.webtoonId), props.tab)"><v-icon>mdi-format-list-bulleted</v-icon>목록</v-btn>
+          <v-btn class="nav-button" @click="navigateToWebtoonEpisode(Number(props.webtoonId), data.previousEpisodeId)"><v-icon>mdi-menu-left</v-icon>이전화</v-btn>
+          <v-btn class="nav-button" @click="navigateToWebtoonDetail(Number(props.webtoonId), webtoonStore.tab)"><v-icon>mdi-format-list-bulleted</v-icon>목록</v-btn>
           <v-btn class="nav-button" @click="onClickNextEpisode();">다음화<v-icon>mdi-menu-right</v-icon></v-btn>
         </div>
       </v-col>

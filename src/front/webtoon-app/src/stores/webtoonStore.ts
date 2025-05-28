@@ -1,15 +1,16 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import {defineStore} from 'pinia'
+import {ref} from 'vue'
+import {WeekPageTab} from "@/types/common";
 
 export const useWebtoonStore = defineStore('webtoon', () => {
     const webtoonId = ref<number | null>(null)
-    const tab = ref<string>('')
+    const tab = ref<WeekPageTab>('all')
 
     function setWebtoonId(newWebtoonId: number) {
         webtoonId.value = newWebtoonId
     }
 
-    function setTab(newTab: string) {
+    function setTab(newTab: WeekPageTab) {
         tab.value = newTab
     }
 
