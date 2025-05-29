@@ -1,7 +1,9 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonEpisodeJpaEntity
+import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonEpisodeNavigationDto
 import com.toast1ng.webtoon.product.domain.WebtoonEpisode
+import com.toast1ng.webtoon.product.domain.WebtoonEpisodeNavigation
 import org.springframework.stereotype.Component
 
 @Component
@@ -22,6 +24,14 @@ class WebtoonEpisodeMapper {
                     title = it.title,
                 )
             }
+        )
+    }
+
+    fun mapToEntity(dto: WebtoonEpisodeNavigationDto, currentEpisodeId: Long): WebtoonEpisodeNavigation {
+        return WebtoonEpisodeNavigation(
+            previousEpisodeId = dto.previousEpisodeId,
+            currentEpisodeId = currentEpisodeId,
+            nextEpisodeId = dto.nextEpisodeId
         )
     }
 }

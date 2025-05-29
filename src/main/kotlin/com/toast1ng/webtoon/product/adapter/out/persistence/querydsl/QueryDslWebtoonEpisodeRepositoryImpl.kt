@@ -9,6 +9,8 @@ import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QWebtoonEpiso
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QWebtoonImageJpaEntity.webtoonImageJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QWebtoonProductJpaEntity.webtoonProductJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonEpisodeJpaEntity
+import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonEpisodeNavigationDto
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodeNavigationQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodePagingQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodeQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodeSortColumn
@@ -31,6 +33,13 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
                 makeBooleanExpression(query),
             )
             .fetchOne()
+    }
+
+    private fun makeBooleanExpression(query: WebtoonEpisodeQuery): BooleanBuilder {
+        val builder = BooleanBuilder()
+        query.id?.let { builder.and(webtoonEpisodeJpaEntity.id.eq(it)) }
+        query.webtoonId?.let { builder.and(webtoonEpisodeJpaEntity.webtoon().id.eq(it)) }
+        return builder
     }
 
 
@@ -61,13 +70,6 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
             .fetchOne() ?: 0L
     }
 
-    private fun makeBooleanExpression(query: WebtoonEpisodeQuery): BooleanBuilder {
-        val builder = BooleanBuilder()
-        query.id?.let { builder.and(webtoonEpisodeJpaEntity.id.eq(it)) }
-        query.webtoonId?.let { builder.and(webtoonEpisodeJpaEntity.webtoon().id.eq(it)) }
-        return builder
-    }
-
     private fun makeBooleanExpression(query: WebtoonEpisodePagingQuery): BooleanBuilder {
         val builder = BooleanBuilder()
         query.id?.let { builder.and(webtoonEpisodeJpaEntity.id.eq(it)) }
@@ -76,7 +78,7 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
         return builder
     }
 
-    fun applySort(sortOptions: List<QuerySortOption<WebtoonEpisodeSortColumn>>): List<OrderSpecifier<*>> {
+    private fun applySort(sortOptions: List<QuerySortOption<WebtoonEpisodeSortColumn>>): List<OrderSpecifier<*>> {
         return sortOptions.map { option ->
             when (option.key) {
                 WebtoonEpisodeSortColumn.UPLOAD_DATE -> {
@@ -88,5 +90,45 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
                 }
             }
         }
+    }
+
+    override fun findNavigationIdsByEpisodeNumber(
+        query: WebtoonEpisodeNavigationQuery,
+    ): WebtoonEpisodeNavigationDto {
+        val currentEpisodeNumber = queryFactory
+            .select(webtoonEpisodeJpaEntity.episodeNumber)
+            .from(webtoonEpisodeJpaEntity)
+            .where(
+                webtoonEpisodeJpaEntity.id.eq(query.currentEpisodeId),
+                webtoonEpisodeJpaEntity.webtoon().id.eq(query.webtoonId),
+            )
+            .fetchOne() ?: throw IllegalArgumentException("Episode not found")
+
+        val previousEpisodeId = queryFactory
+            .select(webtoonEpisodeJpaEntity.id)
+            .from(webtoonEpisodeJpaEntity)
+            .where(
+                webtoonEpisodeJpaEntity.uploadAt.loe(query.uploadDateTo),
+                webtoonEpisodeJpaEntity.webtoon().id.eq(query.webtoonId),
+                webtoonEpisodeJpaEntity.episodeNumber.lt(currentEpisodeNumber),
+            )
+            .orderBy(webtoonEpisodeJpaEntity.id.desc())
+            .fetchFirst()
+
+        val nextEpisodeId = queryFactory
+            .select(webtoonEpisodeJpaEntity.id)
+            .from(webtoonEpisodeJpaEntity)
+            .where(
+                webtoonEpisodeJpaEntity.uploadAt.loe(query.uploadDateTo),
+                webtoonEpisodeJpaEntity.webtoon().id.eq(query.webtoonId),
+                webtoonEpisodeJpaEntity.episodeNumber.gt(currentEpisodeNumber),
+            )
+            .orderBy(webtoonEpisodeJpaEntity.id.asc())
+            .fetchFirst()
+
+        return WebtoonEpisodeNavigationDto(
+            previousEpisodeId = previousEpisodeId,
+            nextEpisodeId = nextEpisodeId,
+        )
     }
 }

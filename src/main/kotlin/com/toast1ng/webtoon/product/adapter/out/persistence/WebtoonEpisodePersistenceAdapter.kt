@@ -1,18 +1,20 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
 import com.toast1ng.webtoon.common.PersistenceAdapter
+import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonEpisodeNavigationPort
 import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonEpisodePort
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodeNavigationQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodePagingQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonEpisodeQuery
 import com.toast1ng.webtoon.product.domain.WebtoonEpisode
+import com.toast1ng.webtoon.product.domain.WebtoonEpisodeNavigation
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 
 @PersistenceAdapter
 class WebtoonEpisodePersistenceAdapter(
     private val mapper: WebtoonEpisodeMapper,
     private val repository: SpringDataWebtoonEpisodeRepository
-) : ReadWebtoonEpisodePort{
+) : ReadWebtoonEpisodePort, ReadWebtoonEpisodeNavigationPort{
     override fun getWebtoonEpisode(query: WebtoonEpisodeQuery): WebtoonEpisode? {
         return repository.find(query)?.let { mapper.mapToEntity(it) }
     }
@@ -23,5 +25,11 @@ class WebtoonEpisodePersistenceAdapter(
         return repository.findAll(query).map (
             mapper::mapToEntity
         )
+    }
+
+    override fun getWebtoonEpisodeNavigation(query: WebtoonEpisodeNavigationQuery): WebtoonEpisodeNavigation {
+        return repository.findNavigationIdsByEpisodeNumber(query).let {
+            mapper.mapToEntity(it, query.currentEpisodeId)
+        }
     }
 }
