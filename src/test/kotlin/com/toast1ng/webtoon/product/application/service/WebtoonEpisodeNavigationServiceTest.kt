@@ -1,9 +1,9 @@
 package com.toast1ng.webtoon.product.application.service
 
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetWebtoonEpisodeNavigationCommand
+import com.toast1ng.webtoon.test.utils.mockLocalDateTimeTo
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
-import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import org.junit.jupiter.api.AfterEach
@@ -34,8 +34,7 @@ class WebtoonEpisodeNavigationServiceTest @Autowired constructor(
     @ValueSource(longs = [1L, 2L, 3L, 4L, 5L])
     fun getWebtoonEpisodeNavigation(episodeId: Long) {
         //given
-        val fixed = LocalDateTime.of(2025, 4, 9, 12, 0)
-        every { LocalDateTime.now() } returns fixed
+        mockLocalDateTimeTo(LocalDateTime.of(2025, 4, 9, 12, 0))
         val command = GetWebtoonEpisodeNavigationCommand(
             webtoonId = 1L,
             episodeId = episodeId,

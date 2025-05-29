@@ -3,8 +3,8 @@ package com.toast1ng.webtoon.product.application.service
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeUseCase
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetPagingWebtoonEpisodesCommand
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetWebtoonEpisodeCommand
+import com.toast1ng.webtoon.test.utils.mockLocalDateTimeTo
 import io.kotest.matchers.shouldBe
-import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import org.junit.jupiter.api.AfterEach
@@ -53,8 +53,7 @@ class LiveWebtoonEpisodeReadServiceTest @Autowired constructor(
     @Test
     fun getWebtoonEpisodes() {
         //given
-        val fixed = LocalDateTime.of(2025, 5, 26, 12, 0)
-        every { LocalDateTime.now() } returns fixed
+        mockLocalDateTimeTo(LocalDateTime.of(2025, 5, 26, 12, 0))
         val givenWebtoonId = 1L
         val command = GetPagingWebtoonEpisodesCommand(
             webtoonId = givenWebtoonId,
