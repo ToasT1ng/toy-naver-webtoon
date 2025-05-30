@@ -30,12 +30,30 @@ interface IPagingWebtoonEpisodesResponse {
 export const getPagingWebtoonEpisodes = async (
     req: IPagingWebtoonEpisodesRequest
 ): Promise<IPagingWebtoonEpisodesResponse> => {
-    const response: AxiosResponse<IPagingWebtoonEpisodesResponse> = await apiClient.get<IPagingWebtoonEpisodesResponse>(`/webtoons/${req.webtoonId}/episodes`, {
+    const response = await apiClient.get<IPagingWebtoonEpisodesResponse>(`/webtoons/${req.webtoonId}/episodes`, {
         params: {
             pageNo: req.pageNo,
             pageSize: req.pageSize,
             sortDirection: req.sortDirection,
         },
     })
+    return response.data
+}
+
+interface IWebtoonEpisodeNavigationRequest {
+    webtoonId: number
+    episodeId: number
+}
+
+interface IWebtoonEpisodeNavigationResponse {
+    previousEpisodeId: number
+    currentEpisodeId: number
+    nextEpisodeId: number
+}
+
+export const getWebtoonEpisodeNavigation = async (
+    req: IWebtoonEpisodeNavigationRequest
+): Promise<IWebtoonEpisodeNavigationResponse> => {
+    const response = await apiClient.get<IWebtoonEpisodeNavigationResponse>(`/webtoons/${req.webtoonId}/episodes/${req.episodeId}/navigation`)
     return response.data
 }

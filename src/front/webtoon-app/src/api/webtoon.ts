@@ -17,7 +17,7 @@ interface IDailyRecommendedWebtoonResponse {
 export const getDailyRecommendedWebtoon = async (
     req: IDailyWebtoonsRequest
 ): Promise<IDailyRecommendedWebtoonsResponse> => {
-    const response: AxiosResponse<IDailyRecommendedWebtoonsResponse> = await apiClient.get<IDailyRecommendedWebtoonsResponse>('/webtoons/daily/recommend/three', {
+    const response = await apiClient.get<IDailyRecommendedWebtoonsResponse>('/webtoons/daily/recommend/three', {
         params: req,
     })
     return response.data
@@ -42,7 +42,7 @@ interface IDailyWebtoonResponse {
 export const getDailyWebtoon = async (
     req: IDailyWebtoonsRequest
 ): Promise<IDailyWebtoonsResponse> => {
-    const response: AxiosResponse<IDailyWebtoonsResponse> = await apiClient.get<IDailyWebtoonsResponse>('/webtoons/daily', {
+    const response = await apiClient.get<IDailyWebtoonsResponse>('/webtoons/daily', {
         params: req,
     })
     return response.data
@@ -61,7 +61,7 @@ interface IMonthlyRecommendedWebtoonResponse {
 }
 
 export const getMonthlyRecommendedWebtoon = async (): Promise<IMonthlyRecommendedWebtoonsResponse> => {
-    const response: AxiosResponse<IMonthlyRecommendedWebtoonsResponse> = await apiClient.get<IMonthlyRecommendedWebtoonsResponse>('/webtoons/monthly/recommend/three',)
+    const response = await apiClient.get<IMonthlyRecommendedWebtoonsResponse>('/webtoons/monthly/recommend/three',)
     return response.data
 }
 
@@ -76,7 +76,7 @@ interface IEachWebtoonResponse {
 }
 
 export const getEveryWebtoon = async (): Promise<IEveryWebtoonResponse> => {
-    const response: AxiosResponse<IEveryWebtoonResponse> = await apiClient.get<IEveryWebtoonResponse>('/webtoons',)
+    const response = await apiClient.get<IEveryWebtoonResponse>('/webtoons',)
     return response.data
 }
 
@@ -104,6 +104,6 @@ interface IGetWebtoonResponse {
 }
 
 export const getWebtoon = async (req: IGetWebtoonRequest): Promise<IGetWebtoonResponse> => {
-    const response: AxiosResponse<IGetWebtoonResponse> = await apiClient.get<IGetWebtoonResponse>(`/webtoons/${req.id}`,)
+    const response = await apiClient.get<IGetWebtoonResponse>(`/webtoons/${req.id}`,)
     return response.data
 }
