@@ -4,12 +4,10 @@ import com.toast1ng.webtoon.product.adapter.`in`.web.request.PagingWebtoonEpisod
 import com.toast1ng.webtoon.product.adapter.`in`.web.request.toCommand
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.PagingWebtoonEpisodesResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.WebtoonEpisodeResponse
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.WebtoonNavigationResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.toResponse
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeNavigationUseCase
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeUseCase
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetWebtoonEpisodeCommand
-import com.toast1ng.webtoon.product.application.port.`in`.command.GetWebtoonEpisodeNavigationCommand
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -53,16 +51,4 @@ class ReadWebtoonEpisodeController(
         return ResponseEntity.ok().body(result.toResponse())
     }
 
-    @GetMapping("/webtoons/{webtoonId}/episodes/{episodeId}/navigation")
-    fun getWebtoonEpisodeNavigation(
-        @PathVariable webtoonId: Long,
-        @PathVariable episodeId: Long
-    ): ResponseEntity<WebtoonNavigationResponse> {
-        val command = GetWebtoonEpisodeNavigationCommand(
-            webtoonId = webtoonId,
-            episodeId = episodeId
-        )
-        val result = webtoonEpisodeNavigationService.getWebtoonEpisodeNavigation(command)
-        return ResponseEntity.ok().body(result.toResponse())
-    }
 }
