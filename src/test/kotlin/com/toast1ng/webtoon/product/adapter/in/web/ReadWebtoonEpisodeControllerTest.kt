@@ -10,7 +10,6 @@ import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.not
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -119,22 +118,18 @@ class ReadWebtoonEpisodeControllerTest @Autowired constructor(
 
     @DisplayName("웹툰 회차 단건 조회 - 회차가 없는 경우")
     @Test
-    @Disabled
-    //TODO 성공하도록 수정
     fun getWebtoonEpisode_error() {
         // given
         val webtoonId = 1L
-        val episodeId = 1L
+        val episodeId = 100L
 
         // when & then
         mockMvc.get("/webtoons/$webtoonId/episodes/$episodeId") {
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
-            status { isOk() }
-            jsonPath("$.episodeId") { value(episodeId) }
-            jsonPath("$.title") { exists() }
-            jsonPath("$.thumbnail") { exists() }
-            jsonPath("$.uploadDate") { exists() }
+            status { isInternalServerError() }
+            jsonPath("$.code") { value("INTERNAL_SERVER_ERROR") }
+            jsonPath("$.message") { value("An unexpected error occurred.") }
         }.andDo {
             print()
         }
