@@ -1,5 +1,4 @@
 import apiClient from './index'
-import {AxiosResponse} from "axios";
 
 interface IDailyRecommendedWebtoonsResponse {
     result: IDailyRecommendedWebtoonResponse[]

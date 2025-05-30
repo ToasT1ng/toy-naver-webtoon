@@ -1,5 +1,4 @@
 import apiClient from './index'
-import {AxiosResponse} from "axios";
 import {SortDirection} from "@/types/common";
 
 interface IPagingWebtoonEpisodesRequest {
