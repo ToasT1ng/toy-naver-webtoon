@@ -4,6 +4,7 @@ import com.toast1ng.webtoon.product.adapter.`in`.web.request.PagingWebtoonEpisod
 import com.toast1ng.webtoon.product.adapter.`in`.web.request.toCommand
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.PagingWebtoonEpisodesResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.WebtoonEpisodeResponse
+import com.toast1ng.webtoon.product.adapter.`in`.web.response.toBriefResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.toResponse
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeNavigationUseCase
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeUseCase
@@ -33,7 +34,7 @@ class ReadWebtoonEpisodeController(
                 totalCount = result.totalElements,
                 totalPage = result.totalPages,
                 isLastPage = result.isLast,
-                content = result.content.map { it.toResponse() }
+                content = result.content.map { it.toBriefResponse() }
             )
         )
     }

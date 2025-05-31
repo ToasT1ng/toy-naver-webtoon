@@ -24,39 +24,6 @@ const {
   updateEpisodeId: webtoonEpisodeUpdateEpisodeId
 } = useWebtoonEpisode()
 
-interface IEpisodeContentImage {
-  url: string;
-}
-
-interface IWebtoonEpisode {
-  webtoonId: number;
-  webtoonTitle: string;
-  episodeId: number;
-  episodeTitle: string;
-  previousEpisodeId: number;
-  nextEpisodeId?: number;
-  likeCount: number;
-  images: IEpisodeContentImage[];
-}
-
-const data = ref<IWebtoonEpisode>({
-  webtoonId: 123456,
-  webtoonTitle: "웹툰제목",
-  episodeId: 123,
-  episodeTitle: "1화 시작",
-  previousEpisodeId: 122,
-  nextEpisodeId: 124,
-  likeCount: 1000,
-  images: [
-    {
-      url: "https://image-comic.pstatic.net/webtoon/796075/128/thumbnail.jpg",
-    },
-    {
-      url: "https://image-comic.pstatic.net/webtoon/796075/128/thumbnail.jpg",
-    },
-  ],
-});
-
 onMounted(() => {
   console.log("episodeId:", props.episodeId);
   console.log("tab:", webtoonStore.tab);
@@ -80,7 +47,7 @@ function onClickNavigateToEpisode(episodeId: number) {
     <v-row class="episode-header no-gutters justify-space-between">
       <v-col class="title-area d-flex align-center ml-10" style="height: 50px; overflow: visible;">
         <span class="title-text mr-4"><a>〈</a></span>
-        <span class="title-text with-divider">웹툰제목</span>
+        <span class="title-text with-divider">{{ webtoonEpisodeData?.webtoonTitle }}</span>
         <span class="title-text">{{ webtoonEpisodeData?.title }}</span>
       </v-col>
       <v-col class="tool-area d-flex justify-end align-center mr-10" style="height: 50px;" cols="auto">
@@ -96,6 +63,27 @@ function onClickNavigateToEpisode(episodeId: number) {
           <v-btn class="nav-button" @click="onClickNavigateToEpisode(webtoonEpisodeNavigationData?.nextEpisodeId);">다음화
             <v-icon>mdi-menu-right</v-icon>
           </v-btn>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <div v-if="webtoonEpisodeData?.images?.length">
+          <div
+            v-for="(img, index) in webtoonEpisodeData.images"
+            :key="index"
+            class="image-wrapper"
+          >
+            <v-img
+              :src="img"
+              class="mb-4"
+              height="100%"
+              cover
+            />
+          </div>
+        </div>
+        <div v-else>
+          <p>이미지가 없습니다.</p>
         </div>
       </v-col>
     </v-row>
@@ -164,5 +152,17 @@ function onClickNavigateToEpisode(episodeId: number) {
   width: 1px;
   background-color: #e0e0e0;
   opacity: 0.3;
+}
+</style>
+<style scoped>
+.image-wrapper {
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
+.image-wrapper .v-img {
+  width: 100%;
+  max-width: 100%;
+  object-fit: contain;
 }
 </style>

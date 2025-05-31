@@ -37,11 +37,14 @@ interface IWebtoonEpisodeRequest {
 }
 
 interface IWebtoonEpisodeResponse {
+    webtoonTitle: string;
+    webtoonId: number;
     episodeId: number;
     title: string;
     thumbnail: string;
     rating: string;
     uploadDate: string;
+    images: string[];
 }
 
 export const getWebtoonEpisode = async (
