@@ -8,14 +8,6 @@ interface IPagingWebtoonEpisodesRequest {
     sortDirection: SortDirection
 }
 
-interface IEpisode {
-    episodeId: number;
-    title: string;
-    thumbnail: string;
-    rating: string;
-    uploadDate: string;
-}
-
 interface IPagingWebtoonEpisodesResponse {
     webtoonId: number;
     pageNo: number;
@@ -23,7 +15,7 @@ interface IPagingWebtoonEpisodesResponse {
     totalCount: number;
     totalPage: number;
     isLastPage: boolean;
-    content: IEpisode[];
+    content: IWebtoonEpisodeResponse[];
 }
 
 export const getPagingWebtoonEpisodes = async (
@@ -36,6 +28,26 @@ export const getPagingWebtoonEpisodes = async (
             sortDirection: req.sortDirection,
         },
     })
+    return response.data
+}
+
+interface IWebtoonEpisodeRequest {
+    webtoonId: number
+    episodeId: number
+}
+
+interface IWebtoonEpisodeResponse {
+    episodeId: number;
+    title: string;
+    thumbnail: string;
+    rating: string;
+    uploadDate: string;
+}
+
+export const getWebtoonEpisode = async (
+    req: IWebtoonEpisodeRequest
+): Promise<IWebtoonEpisodeResponse> => {
+    const response = await apiClient.get<IWebtoonEpisodeResponse>(`/webtoons/${req.webtoonId}/episodes/${req.episodeId}`)
     return response.data
 }
 

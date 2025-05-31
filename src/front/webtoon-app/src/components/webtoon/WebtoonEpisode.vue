@@ -2,7 +2,7 @@
 import {onMounted, ref} from "vue";
 import {navigateToWebtoonDetail, navigateToWebtoonEpisode} from "@/utils/navigation";
 import {useWebtoonStore} from "@/stores/webtoonStore";
-import {useWebtoonEpisodeNavigation} from "@/composables/useWebtoonEpisodes";
+import {useWebtoonEpisode, useWebtoonEpisodeNavigation} from "@/composables/useWebtoonEpisodes";
 
 interface Props {
   webtoonId: string;
@@ -17,6 +17,12 @@ const {
   updateWebtoonId: webtoonEpisodeNavigationUpdateWebtoonId,
   updateEpisodeId: webtoonEpisodeNavigationUpdateEpisodeId
 } = useWebtoonEpisodeNavigation()
+
+const {
+  data: webtoonEpisodeData,
+  updateWebtoonId: webtoonEpisodeUpdateWebtoonId,
+  updateEpisodeId: webtoonEpisodeUpdateEpisodeId
+} = useWebtoonEpisode()
 
 interface IEpisodeContentImage {
   url: string;
@@ -54,6 +60,8 @@ const data = ref<IWebtoonEpisode>({
 onMounted(() => {
   console.log("episodeId:", props.episodeId);
   console.log("tab:", webtoonStore.tab);
+  webtoonEpisodeUpdateWebtoonId(Number(props.webtoonId));
+  webtoonEpisodeUpdateEpisodeId(Number(props.episodeId));
   webtoonEpisodeNavigationUpdateWebtoonId(Number(props.webtoonId));
   webtoonEpisodeNavigationUpdateEpisodeId(Number(props.episodeId));
 });
@@ -72,12 +80,12 @@ function onClickNavigateToEpisode(episodeId: number) {
     <v-row class="episode-header no-gutters justify-space-between">
       <v-col class="title-area d-flex align-center ml-10" style="height: 50px; overflow: visible;">
         <span class="title-text mr-4"><a>〈</a></span>
-        <span class="title-text with-divider">{{ data.webtoonTitle }}</span>
-        <span class="title-text">{{ data.episodeTitle }}</span>
+        <span class="title-text with-divider">웹툰제목</span>
+        <span class="title-text">{{ webtoonEpisodeData?.title }}</span>
       </v-col>
       <v-col class="tool-area d-flex justify-end align-center mr-10" style="height: 50px;" cols="auto">
         <div class="button-group">
-          <v-btn class="nav-button" @click="onClickNavigateToEpisode(webtoonEpisodeNavigationData.previousEpisodeId)">
+          <v-btn class="nav-button" @click="onClickNavigateToEpisode(webtoonEpisodeNavigationData?.previousEpisodeId)">
             <v-icon>mdi-menu-left</v-icon>
             이전화
           </v-btn>
@@ -85,7 +93,7 @@ function onClickNavigateToEpisode(episodeId: number) {
             <v-icon>mdi-format-list-bulleted</v-icon>
             목록
           </v-btn>
-          <v-btn class="nav-button" @click="onClickNavigateToEpisode(webtoonEpisodeNavigationData.nextEpisodeId);">다음화
+          <v-btn class="nav-button" @click="onClickNavigateToEpisode(webtoonEpisodeNavigationData?.nextEpisodeId);">다음화
             <v-icon>mdi-menu-right</v-icon>
           </v-btn>
         </div>
