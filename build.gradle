@@ -51,6 +51,10 @@ dependencies {
 
     // MockK
     testImplementation("io.mockk:mockk:1.13.10")
+
+    //TODO Swagger 적용
+
+    //TODO Test Coverage Tool 적용
 }
 
 kapt {
