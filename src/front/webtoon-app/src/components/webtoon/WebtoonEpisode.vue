@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 import {navigateToWebtoonDetail, navigateToWebtoonEpisode} from "@/utils/navigation";
 import {useWebtoonStore} from "@/stores/webtoonStore";
 import {useWebtoonEpisode, useWebtoonEpisodeNavigation} from "@/composables/useWebtoonEpisodes";
@@ -93,19 +93,23 @@ function onClickNavigateToEpisode(episodeId: number) {
 <style scoped>
 .episode-header {
   background-color: black;
-  padding: 12px;
-  position: relative;
+  height: 56px;
+  box-sizing: border-box;
+  margin-top: 1px;
 }
 
-.title-area {
-  overflow: visible;
+.title-area,
+.tool-area {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .title-text {
   color: white;
   font-weight: bold;
   font-size: 16px;
-  line-height: 40px;
+  line-height: normal;
   position: relative;
 }
 
