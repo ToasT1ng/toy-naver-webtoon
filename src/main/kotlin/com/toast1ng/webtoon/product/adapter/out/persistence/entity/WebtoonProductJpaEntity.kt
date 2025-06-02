@@ -21,6 +21,8 @@ class WebtoonProductJpaEntity(
     val subThumbnail: String?,
     @Column(name="day_of_week")
     val day: String,
+    @Column(name="restrict_age")
+    val restrictAge: Int,
     val status: String,
     @Column(name="is_deleted")
     val isDeleted: Boolean,

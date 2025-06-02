@@ -23,6 +23,7 @@ class WebtoonProductMapper {
             mainThumbnail = jpaEntity.mainThumbnail ?: "",
             subThumbnail = jpaEntity.mainThumbnail ?: "",
             day = DayOfWeek.fromValue(jpaEntity.day),
+            restrictedAge = jpaEntity.restrictAge,
             status = WebtoonStatus.valueOf(jpaEntity.status),
             genres = listOf(jpaEntity.genre.let { Genre(it.id ?: 0L, it.name, it.description ?: "") }),
             creators = jpaEntity.creators.map {
@@ -46,6 +47,7 @@ class WebtoonProductMapper {
             mainThumbnail = dto.mainThumbnailLink ?: "",
             subThumbnail = dto.subThumbnailLink ?: "",
             day = DayOfWeek.fromValue(dto.dayOfWeek),
+            restrictedAge = dto.restrictedAge,
             status = WebtoonStatus.valueOf(dto.status),
             genres = emptyList(),
             creators = dto.creators.map {

@@ -12,7 +12,7 @@ interface SpringDataWebtoonProductRepository : JpaRepository<WebtoonProductJpaEn
         SELECT
                 w.id, w.title, w.description, w.genre_id, w.views,
                 w.rating, w.likes, w.main_thumbnail_link, w.sub_thumbnail_link,
-                w.day_of_week, w.status, w.is_deleted, w.created_at, w.updated_at,
+                w.day_of_week, w.restrict_age, w.status, w.is_deleted, w.created_at, w.updated_at,
                 p.id AS person_id, p.name AS person_name, p.role AS person_role
             FROM (
                 SELECT *, ROW_NUMBER() OVER (ORDER BY id) AS rn

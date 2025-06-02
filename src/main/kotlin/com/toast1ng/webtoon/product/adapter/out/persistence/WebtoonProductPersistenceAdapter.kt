@@ -54,15 +54,16 @@ class WebtoonProductPersistenceAdapter(
                 mainThumbnailLink = first[7] as String?,
                 subThumbnailLink = first[8] as String?,
                 dayOfWeek = first[9] as String,
-                status = first[10] as String,
-                isDeleted = first[11] as Boolean,
-                createdAt = first[12] as Timestamp,
-                updatedAt = first[13] as Timestamp,
+                restrictedAge = first[10] as Int,
+                status = first[11] as String,
+                isDeleted = first[12] as Boolean,
+                createdAt = first[13] as Timestamp,
+                updatedAt = first[14] as Timestamp,
                 creators = rows.map { row ->
                     CreatorDto(
-                        personId = (row[14] as Number).toLong(),
-                        name = row[15] as String,
-                        role = row[16] as String
+                        personId = (row[15] as Number).toLong(),
+                        name = row[16] as String,
+                        role = row[17] as String
                     )
                 }
             )

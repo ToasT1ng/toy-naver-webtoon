@@ -14,6 +14,7 @@ data class WebtoonWithPersonDto(
     val mainThumbnailLink: String?,
     val subThumbnailLink: String?,
     val dayOfWeek: String,
+    val restrictedAge: Int,
     val status: String,
     val isDeleted: Boolean,
     val createdAt: Timestamp,

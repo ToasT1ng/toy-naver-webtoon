@@ -18,6 +18,7 @@ CREATE TABLE webtoon
     main_thumbnail_link VARCHAR(500),
     sub_thumbnail_link  VARCHAR(500),
     day_of_week         VARCHAR(5)   NOT NULL,
+    restrict_age        INT          NOT NULL DEFAULT 0,
     status              VARCHAR(20)  NOT NULL,
     is_deleted          BOOLEAN      NOT NULL DEFAULT FALSE,
     created_at          TIMESTAMP             DEFAULT CURRENT_TIMESTAMP,
