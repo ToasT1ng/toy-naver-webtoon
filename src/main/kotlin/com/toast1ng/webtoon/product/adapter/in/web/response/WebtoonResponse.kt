@@ -14,7 +14,7 @@ data class WebtoonResponse(
     val description: String,
     val tags: List<String>,
     val thumbnail: String,
-    val likesCount: Int,
+    val likeCount: Int,
 ) {
     data class CreatorResponse(
         val personId: Long,
@@ -34,7 +34,7 @@ fun WebtoonProduct.toWebtoonResponse(): WebtoonResponse {
         description = this.description,
         thumbnail = this.mainThumbnail,
         tags = this.genres.map { it.name },
-        likesCount = this.likes,
+        likeCount = this.likes,
     )
 }
 
