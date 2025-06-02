@@ -6,8 +6,6 @@ import com.toast1ng.webtoon.test.utils.mockLocalDateTimeTo
 import com.toast1ng.webtoon.test.utils.toQueryString
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
-import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.not
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -107,10 +105,10 @@ class ReadWebtoonEpisodeControllerTest @Autowired constructor(
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk() }
-            jsonPath("$.episodeId") { value(episodeId) }
-            jsonPath("$.title") { exists() }
-            jsonPath("$.thumbnail") { exists() }
-            jsonPath("$.uploadDate") { exists() }
+            jsonPath("$.data.episodeId") { value(episodeId) }
+            jsonPath("$.data.title") { exists() }
+            jsonPath("$.data.thumbnail") { exists() }
+            jsonPath("$.data.uploadDate") { exists() }
         }.andDo {
             print()
         }
@@ -128,8 +126,8 @@ class ReadWebtoonEpisodeControllerTest @Autowired constructor(
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isInternalServerError() }
-            jsonPath("$.code") { value("INTERNAL_SERVER_ERROR") }
-            jsonPath("$.message") { value("An unexpected error occurred.") }
+            jsonPath("$.code") { value(50000) }
+            jsonPath("$.message") { value("서버 내부 오류가 발생했습니다.") }
         }.andDo {
             print()
         }

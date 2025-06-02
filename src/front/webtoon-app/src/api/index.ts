@@ -9,3 +9,9 @@ const apiClient = axios.create({
 })
 
 export default apiClient
+
+export interface ICommonResponse<T = any> {
+    code: number
+    message: string
+    data?: T
+}

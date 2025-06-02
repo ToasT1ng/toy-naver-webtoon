@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+//TODO: SuccessResponse로 변경
 @RestController
 class ReadWebtoonProductController(
     private val getWebtoonUseCase: GetWebtoonUseCase,

@@ -1,4 +1,4 @@
-import apiClient from './index'
+import apiClient, {ICommonResponse} from './index'
 import {SortDirection} from "@/types/common";
 
 interface IPagingWebtoonEpisodesRequest {
@@ -49,8 +49,8 @@ interface IWebtoonEpisodeResponse {
 
 export const getWebtoonEpisode = async (
     req: IWebtoonEpisodeRequest
-): Promise<IWebtoonEpisodeResponse> => {
-    const response = await apiClient.get<IWebtoonEpisodeResponse>(`/webtoons/${req.webtoonId}/episodes/${req.episodeId}`)
+): Promise<ICommonResponse<IWebtoonEpisodeResponse>> => {
+    const response = await apiClient.get<ICommonResponse<IWebtoonEpisodeResponse>>(`/webtoons/${req.webtoonId}/episodes/${req.episodeId}`)
     return response.data
 }
 
@@ -67,7 +67,7 @@ interface IWebtoonEpisodeNavigationResponse {
 
 export const getWebtoonEpisodeNavigation = async (
     req: IWebtoonEpisodeNavigationRequest
-): Promise<IWebtoonEpisodeNavigationResponse> => {
-    const response = await apiClient.get<IWebtoonEpisodeNavigationResponse>(`/webtoons/${req.webtoonId}/episodes/${req.episodeId}/navigation`)
+): Promise<ICommonResponse<IWebtoonEpisodeNavigationResponse>> => {
+    const response = await apiClient.get<ICommonResponse<IWebtoonEpisodeNavigationResponse>>(`/webtoons/${req.webtoonId}/episodes/${req.episodeId}/navigation`)
     return response.data
 }

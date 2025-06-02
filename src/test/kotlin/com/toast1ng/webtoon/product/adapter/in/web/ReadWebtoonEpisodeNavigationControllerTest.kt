@@ -45,9 +45,9 @@ class ReadWebtoonEpisodeNavigationControllerTest @Autowired constructor(
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk() }
-            jsonPath("$.previousEpisodeId") { value(0L) }
-            jsonPath("$.currentEpisodeId") { isNumber() }
-            jsonPath("$.nextEpisodeId") { isNumber() }
+            jsonPath("$.data.previousEpisodeId") { value(0L) }
+            jsonPath("$.data.currentEpisodeId") { isNumber() }
+            jsonPath("$.data.nextEpisodeId") { isNumber() }
         }.andDo {
             print()
         }
@@ -66,11 +66,11 @@ class ReadWebtoonEpisodeNavigationControllerTest @Autowired constructor(
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk() }
-            jsonPath("$.previousEpisodeId") { not(equalTo(0L)) }
-            jsonPath("$.previousEpisodeId") { isNumber() }
-            jsonPath("$.currentEpisodeId") { value(episodeId) }
-            jsonPath("$.nextEpisodeId") { not(equalTo(0L)) }
-            jsonPath("$.nextEpisodeId") { isNumber() }
+            jsonPath("$.data.previousEpisodeId") { not(equalTo(0L)) }
+            jsonPath("$.data.previousEpisodeId") { isNumber() }
+            jsonPath("$.data.currentEpisodeId") { value(episodeId) }
+            jsonPath("$.data.nextEpisodeId") { not(equalTo(0L)) }
+            jsonPath("$.data.nextEpisodeId") { isNumber() }
         }.andDo {
             print()
         }
@@ -89,9 +89,9 @@ class ReadWebtoonEpisodeNavigationControllerTest @Autowired constructor(
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk() }
-            jsonPath("$.previousEpisodeId") { isNumber() }
-            jsonPath("$.currentEpisodeId") { isNumber() }
-            jsonPath("$.nextEpisodeId") { value(0L) }
+            jsonPath("$.data.previousEpisodeId") { isNumber() }
+            jsonPath("$.data.currentEpisodeId") { isNumber() }
+            jsonPath("$.data.nextEpisodeId") { value(0L) }
         }.andDo {
             print()
         }

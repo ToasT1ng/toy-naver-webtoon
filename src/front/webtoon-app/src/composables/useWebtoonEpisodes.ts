@@ -2,6 +2,7 @@ import {computed, ref} from 'vue'
 import {useQuery} from '@tanstack/vue-query'
 import {getPagingWebtoonEpisodes, getWebtoonEpisode, getWebtoonEpisodeNavigation} from "@/api/webtoonEpisode";
 import {SortDirection} from "@/types/common";
+import {extractValidData} from "@/utils/extractValidData";
 
 //TODO webtoonId를 store에서 가져오도록 변경?
 
@@ -20,10 +21,12 @@ export const useWebtoonEpisode = () => {
             if (!webtoonId.value || !episodeId.value) {
                 return Promise.reject(new Error('webtoonId and episodeId are required'))
             }
-            return await getWebtoonEpisode({
+            const result = await getWebtoonEpisode({
                 webtoonId: webtoonId.value,
                 episodeId: episodeId.value
             })
+            //TODO 오류 발생 시 Vue에서 Handling 하도록 수정
+            return extractValidData(result)
         },
         enabled: () => !!webtoonId.value || !!episodeId.value,
         staleTime: 1000 * 10,
@@ -95,10 +98,11 @@ export const useWebtoonEpisodeNavigation = () => {
             if (!webtoonId.value || !episodeId.value) {
                 return Promise.reject(new Error('webtoonId and episodeId are required'))
             }
-            return await getWebtoonEpisodeNavigation({
+            const result = await getWebtoonEpisodeNavigation({
                 webtoonId: webtoonId.value,
                 episodeId: episodeId.value
             })
+            return extractValidData(result)
         },
         enabled: () => !!webtoonId.value || !!episodeId.value,
         staleTime: 1000 * 10,
