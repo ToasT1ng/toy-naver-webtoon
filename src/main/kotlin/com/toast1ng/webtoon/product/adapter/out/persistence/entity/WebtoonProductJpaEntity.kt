@@ -14,6 +14,7 @@ class WebtoonProductJpaEntity(
     val description: String,
     val views: Int,
     val rating: BigDecimal,
+    val likes: Int,
     @Column(name="main_thumbnail_link")
     val mainThumbnail: String?,
     @Column(name="sub_thumbnail_link")

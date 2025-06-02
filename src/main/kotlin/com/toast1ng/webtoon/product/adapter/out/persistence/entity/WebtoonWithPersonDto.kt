@@ -10,6 +10,7 @@ data class WebtoonWithPersonDto(
     val genreId: Long,
     val views: Int,
     val rating: BigDecimal,
+    val likes: Int,
     val mainThumbnailLink: String?,
     val subThumbnailLink: String?,
     val dayOfWeek: String,

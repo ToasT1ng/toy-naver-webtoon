@@ -8,6 +8,7 @@ data class WebtoonProduct(
     val description: String,
     val views: Int,
     val rating: BigDecimal,
+    val likes: Int,
     val mainThumbnail: String,
     val subThumbnail: String,
     val day: DayOfWeek,

@@ -35,7 +35,7 @@ fun WebtoonProduct.toWebtoonResponse(): WebtoonResponse {
         description = this.description,
         thumbnail = this.mainThumbnail,
         tags = this.genres.map { it.name },
-        likesCount = 0, // TODO: Implement likes count mapping
+        likesCount = this.likes,
     )
 }
 

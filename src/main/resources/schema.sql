@@ -14,6 +14,7 @@ CREATE TABLE webtoon
     genre_id            BIGINT       NOT NULL,
     views               BIGINT                DEFAULT 0,
     rating              DECIMAL(3, 2)         DEFAULT 0.00,
+    likes               BIGINT                DEFAULT 0,
     main_thumbnail_link VARCHAR(500),
     sub_thumbnail_link  VARCHAR(500),
     day_of_week         VARCHAR(5)   NOT NULL,
