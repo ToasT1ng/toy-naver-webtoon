@@ -1,6 +1,7 @@
 import {computed} from 'vue'
 import {useQuery} from '@tanstack/vue-query'
 import {getMonthlyRecommendedWebtoon} from '@/api/webtoon'
+import {extractValidData} from "@/utils/extractValidData";
 
 
 export const useMonthlyRecommendedWebtoon = () => {
@@ -8,8 +9,8 @@ export const useMonthlyRecommendedWebtoon = () => {
 
         queryKey: computed(() => ['monthlyRecommendedWebtoon']),
         queryFn: async () => {
-            const res = await getMonthlyRecommendedWebtoon()
-            return res.result
+            const result = await getMonthlyRecommendedWebtoon()
+            return extractValidData(result)
         },
         enabled: true,
         staleTime: 1000 * 10,

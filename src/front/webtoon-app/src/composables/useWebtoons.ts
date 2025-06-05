@@ -1,13 +1,14 @@
 import {useQuery} from "@tanstack/vue-query";
 import {computed, ref} from "vue";
 import {getEveryWebtoon, getWebtoon} from "@/api/webtoon";
+import {extractValidData} from "@/utils/extractValidData";
 
 export const useWebtoons = () => {
     const query = useQuery({
         queryKey: computed(() => ['webtoons']),
         queryFn: async () => {
-            const res = await getEveryWebtoon()
-            return res.result
+            const result = await getEveryWebtoon()
+            return extractValidData(result)
         },
         enabled: true,
         staleTime: 1000 * 10,
@@ -29,7 +30,8 @@ export const useWebtoon = () => {
             if (!webtoonId.value) {
                 return Promise.reject(new Error('webtoonId is required'))
             }
-            return await getWebtoon({id: webtoonId.value})
+            const result = await getWebtoon({id: webtoonId.value})
+            return extractValidData(result)
         },
         enabled: true,
         staleTime: 1000 * 10,

@@ -1,4 +1,4 @@
-import apiClient from './index'
+import apiClient, {ICommonResponse} from './index'
 
 interface IDailyRecommendedWebtoonsResponse {
     result: IDailyRecommendedWebtoonResponse[]
@@ -15,8 +15,8 @@ interface IDailyRecommendedWebtoonResponse {
 
 export const getDailyRecommendedWebtoon = async (
     req: IDailyWebtoonsRequest
-): Promise<IDailyRecommendedWebtoonsResponse> => {
-    const response = await apiClient.get<IDailyRecommendedWebtoonsResponse>('/webtoons/daily/recommend/three', {
+): Promise<ICommonResponse<IDailyRecommendedWebtoonsResponse>> => {
+    const response = await apiClient.get<ICommonResponse<IDailyRecommendedWebtoonsResponse>>('/webtoons/daily/recommend/three', {
         params: req,
     })
     return response.data
@@ -40,8 +40,8 @@ interface IDailyWebtoonResponse {
 
 export const getDailyWebtoon = async (
     req: IDailyWebtoonsRequest
-): Promise<IDailyWebtoonsResponse> => {
-    const response = await apiClient.get<IDailyWebtoonsResponse>('/webtoons/daily', {
+): Promise<ICommonResponse<IDailyWebtoonsResponse>> => {
+    const response = await apiClient.get<ICommonResponse<IDailyWebtoonsResponse>>('/webtoons/daily', {
         params: req,
     })
     return response.data
@@ -59,8 +59,8 @@ interface IMonthlyRecommendedWebtoonResponse {
     description: string,
 }
 
-export const getMonthlyRecommendedWebtoon = async (): Promise<IMonthlyRecommendedWebtoonsResponse> => {
-    const response = await apiClient.get<IMonthlyRecommendedWebtoonsResponse>('/webtoons/monthly/recommend/three',)
+export const getMonthlyRecommendedWebtoon = async (): Promise<ICommonResponse<IMonthlyRecommendedWebtoonsResponse>> => {
+    const response = await apiClient.get<ICommonResponse<IMonthlyRecommendedWebtoonsResponse>>('/webtoons/monthly/recommend/three',)
     return response.data
 }
 
@@ -74,8 +74,8 @@ interface IEachWebtoonResponse {
     thumbnail: string
 }
 
-export const getEveryWebtoon = async (): Promise<IEveryWebtoonResponse> => {
-    const response = await apiClient.get<IEveryWebtoonResponse>('/webtoons',)
+export const getEveryWebtoon = async (): Promise<ICommonResponse<IEveryWebtoonResponse>> => {
+    const response = await apiClient.get<ICommonResponse<IEveryWebtoonResponse>>('/webtoons',)
     return response.data
 }
 
@@ -102,7 +102,7 @@ interface IGetWebtoonResponse {
     likeCount: number;
 }
 
-export const getWebtoon = async (req: IGetWebtoonRequest): Promise<IGetWebtoonResponse> => {
-    const response = await apiClient.get<IGetWebtoonResponse>(`/webtoons/${req.id}`,)
+export const getWebtoon = async (req: IGetWebtoonRequest): Promise<ICommonResponse<IGetWebtoonResponse>> => {
+    const response = await apiClient.get<ICommonResponse<IGetWebtoonResponse>>(`/webtoons/${req.id}`,)
     return response.data
 }

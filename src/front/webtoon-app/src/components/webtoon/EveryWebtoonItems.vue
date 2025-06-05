@@ -19,7 +19,7 @@ const orderedColumnsData = computed(() => {
   return daysOfWeek.map(day => ({
     key: day.name,
     label: day.value,
-    items: data.value?.[day.name] || []
+    items: data.value?.result?.[day.name] || []
   }));
 });
 

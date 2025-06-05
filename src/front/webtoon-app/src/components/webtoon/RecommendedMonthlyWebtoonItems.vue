@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import {useMonthlyRecommendedWebtoon} from "@/composables/useMonthlyWebtoon";
 import {navigateToWebtoonDetail} from "@/utils/navigation";
+import {computed} from "vue";
 const {data} = useMonthlyRecommendedWebtoon()
+const items = computed(() => data.value?.result)
 </script>
 
 <template>
@@ -9,9 +11,9 @@ const {data} = useMonthlyRecommendedWebtoon()
       class="flex-wrap pa-0 ma-0"
       style="gap: 10px;"
   >
-    <template v-if="Array.isArray(data) && data.length">
+    <template v-if="Array.isArray(items) && items.length">
       <v-col
-          v-for="item in data"
+          v-for="item in item"
           :key="item.id"
           cols="auto"
           class="pa-0 webtoon-col mb-1"

@@ -1,6 +1,7 @@
 import {computed, ref} from 'vue'
 import {useQuery} from '@tanstack/vue-query'
 import {getDailyRecommendedWebtoon, getDailyWebtoon} from '@/api/webtoon'
+import {extractValidData} from "@/utils/extractValidData";
 
 const dayOfWeek = ref<string | undefined>(undefined)
 
@@ -15,8 +16,8 @@ export const useDailyRecommendedWebtoon = () => {
             if (!dayOfWeek.value) {
                 return Promise.reject(new Error('dayOfWeek is required'))
             }
-            const res = await getDailyRecommendedWebtoon({dayOfWeek: dayOfWeek.value})
-            return res.result
+            const result = await getDailyRecommendedWebtoon({dayOfWeek: dayOfWeek.value})
+            return extractValidData(result)
         },
         enabled: computed(() => !!dayOfWeek.value),
         staleTime: 1000 * 10,
@@ -36,8 +37,8 @@ export const useDailyWebtoon = () => {
             if (!dayOfWeek.value) {
                 return Promise.reject(new Error('dayOfWeek is required'))
             }
-            const res = await getDailyWebtoon({dayOfWeek: dayOfWeek.value})
-            return res.result
+            const result = await getDailyWebtoon({dayOfWeek: dayOfWeek.value})
+            return extractValidData(result)
         },
         enabled: computed(() => !!dayOfWeek.value),
         staleTime: 1000 * 10,

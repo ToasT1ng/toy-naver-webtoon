@@ -1,15 +1,8 @@
 package com.toast1ng.webtoon.product.adapter.`in`.web
 
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.DailyRecommendedWebtoonsResponse
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.DailyWebtoonsResponse
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.EveryWebtoonResponse
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.MonthlyRecommendedWebtoonsResponse
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.WebtoonResponse
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.toDailyRecommendedWebtoonResponse
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.toDailyWebtoonResponse
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.toEachWebtoonResponse
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.toMonthlyRecommendedWebtoonResponse
-import com.toast1ng.webtoon.product.adapter.`in`.web.response.toWebtoonResponse
+import com.toast1ng.webtoon.common.response.ResponseEntityFactory
+import com.toast1ng.webtoon.common.response.SuccessResponse
+import com.toast1ng.webtoon.product.adapter.`in`.web.response.*
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonUseCase
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import org.springframework.http.ResponseEntity
@@ -18,16 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-//TODO: SuccessResponse로 변경
 @RestController
 class ReadWebtoonProductController(
     private val getWebtoonUseCase: GetWebtoonUseCase,
 ) {
     @GetMapping("/webtoons/daily/recommend/three")
-    fun getDailyRecommendedWebtoon(@RequestParam("dayOfWeek") dayOfWeekValue: String): ResponseEntity<DailyRecommendedWebtoonsResponse> {
+    fun getDailyRecommendedWebtoon(@RequestParam("dayOfWeek") dayOfWeekValue: String): ResponseEntity<SuccessResponse<DailyRecommendedWebtoonsResponse>> {
         val dayOfWeek = DayOfWeek.fromValue(dayOfWeekValue)
         val result = getWebtoonUseCase.getRandomThreeWebtoons(dayOfWeek)
-        return ResponseEntity.ok().body(
+        return ResponseEntityFactory.success(
             DailyRecommendedWebtoonsResponse(
                 result = result.map { it.toDailyRecommendedWebtoonResponse() }
             )
@@ -36,10 +28,10 @@ class ReadWebtoonProductController(
 
 
     @GetMapping("/webtoons/daily")
-    fun getDailyWebtoons(@RequestParam("dayOfWeek") dayOfWeekValue: String): ResponseEntity<DailyWebtoonsResponse> {
+    fun getDailyWebtoons(@RequestParam("dayOfWeek") dayOfWeekValue: String): ResponseEntity<SuccessResponse<DailyWebtoonsResponse>> {
         val dayOfWeek = DayOfWeek.fromValue(dayOfWeekValue)
         val result = getWebtoonUseCase.getWebtoons(dayOfWeek)
-        return ResponseEntity.ok().body(
+        return ResponseEntityFactory.success(
             DailyWebtoonsResponse(
                 result = result.map { it.toDailyWebtoonResponse() }
             )
@@ -47,9 +39,9 @@ class ReadWebtoonProductController(
     }
 
     @GetMapping("/webtoons/monthly/recommend/three")
-    fun getMonthlyRecommendedWebtoon(): ResponseEntity<MonthlyRecommendedWebtoonsResponse> {
+    fun getMonthlyRecommendedWebtoon(): ResponseEntity<SuccessResponse<MonthlyRecommendedWebtoonsResponse>> {
         val result = getWebtoonUseCase.getRandomThreeWebtoons()
-        return ResponseEntity.ok().body(
+        return ResponseEntityFactory.success(
             MonthlyRecommendedWebtoonsResponse(
                 result = result.map { it.toMonthlyRecommendedWebtoonResponse() }
             )
@@ -57,9 +49,9 @@ class ReadWebtoonProductController(
     }
 
     @GetMapping("/webtoons")
-    fun getWebtoons(): ResponseEntity<EveryWebtoonResponse> {
+    fun getWebtoons(): ResponseEntity<SuccessResponse<EveryWebtoonResponse>> {
         val result = getWebtoonUseCase.getEveryWebtoons()
-        return ResponseEntity.ok().body(
+        return ResponseEntityFactory.success(
             EveryWebtoonResponse(
                 result = result
                     .groupBy { it.day.value }
@@ -69,9 +61,9 @@ class ReadWebtoonProductController(
     }
 
     @GetMapping("/webtoons/{id}")
-    fun getWebtoon(@PathVariable id: Long): ResponseEntity<WebtoonResponse> {
+    fun getWebtoon(@PathVariable id: Long): ResponseEntity<SuccessResponse<WebtoonResponse>> {
         val result = getWebtoonUseCase.getWebtoon(id)
-        return ResponseEntity.ok().body(
+        return ResponseEntityFactory.success(
             result.toWebtoonResponse()
         )
     }

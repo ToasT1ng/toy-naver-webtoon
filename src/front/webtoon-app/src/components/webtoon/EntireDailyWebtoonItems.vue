@@ -2,8 +2,10 @@
 import {useDailyWebtoon} from "@/composables/useDailyWebtoon";
 
 import {navigateToWebtoonDetail} from "@/utils/navigation";
+import {computed} from "vue";
 
 const {data} = useDailyWebtoon()
+const items = computed(() => data.value?.result)
 
 </script>
 <template>
@@ -11,9 +13,9 @@ const {data} = useDailyWebtoon()
       class="flex-wrap pa-0 ma-0"
       style="gap: 10px;"
   >
-    <template v-if="Array.isArray(data) && data.length">
+    <template v-if="Array.isArray(items) && items.length">
       <v-col
-          v-for="item in data"
+          v-for="item in items"
           :key="item.id"
           cols="auto"
           class="pa-0 webtoon-col mb-1"

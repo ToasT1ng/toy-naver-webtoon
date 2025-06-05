@@ -10,11 +10,13 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
+//TODO SpringBooTest Context 1개 사용되도록 수정
 @SpringBootTest
 @AutoConfigureMockMvc
 class ReadWebtoonProductControllerTest @Autowired constructor(
     val mockMvc: MockMvc
 ){
+    //TODO 테스트 정확히 작성
     @DisplayName("일별 웹툰 불러오기")
     @Test
     fun getDailyWebtoons() {
@@ -26,7 +28,7 @@ class ReadWebtoonProductControllerTest @Autowired constructor(
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk() }
-            jsonPath("$.result") { exists() }
+            jsonPath("$.data.result") { exists() }
         }.andDo {
             print()
         }
