@@ -20,8 +20,8 @@ interface IPagingWebtoonEpisodesResponse {
 
 export const getPagingWebtoonEpisodes = async (
     req: IPagingWebtoonEpisodesRequest
-): Promise<IPagingWebtoonEpisodesResponse> => {
-    const response = await apiClient.get<IPagingWebtoonEpisodesResponse>(`/webtoons/${req.webtoonId}/episodes`, {
+): Promise<ICommonResponse<IPagingWebtoonEpisodesResponse>> => {
+    const response = await apiClient.get<ICommonResponse<IPagingWebtoonEpisodesResponse>>(`/webtoons/${req.webtoonId}/episodes`, {
         params: {
             pageNo: req.pageNo,
             pageSize: req.pageSize,

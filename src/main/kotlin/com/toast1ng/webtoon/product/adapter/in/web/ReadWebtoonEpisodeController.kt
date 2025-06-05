@@ -20,14 +20,13 @@ import org.springframework.web.bind.annotation.RestController
 class ReadWebtoonEpisodeController(
     private val liveWebtoonEpisodeReadService: GetWebtoonEpisodeUseCase,
 ) {
-    //TODO: SuccessResponse로 변경
     @GetMapping("/webtoons/{webtoonId}/episodes")
     fun getWebtoonEpisodes(
         @Valid request: PagingWebtoonEpisodesRequest,
         @PathVariable webtoonId: Long
-    ): ResponseEntity<PagingWebtoonEpisodesResponse> {
+    ): ResponseEntity<SuccessResponse<PagingWebtoonEpisodesResponse>> {
         val result = liveWebtoonEpisodeReadService.getWebtoonEpisodes(request.toCommand(webtoonId))
-        return ResponseEntity.ok().body(
+        return ResponseEntityFactory.success(
             PagingWebtoonEpisodesResponse(
                 webtoonId = webtoonId,
                 pageNo = result.number + 1,

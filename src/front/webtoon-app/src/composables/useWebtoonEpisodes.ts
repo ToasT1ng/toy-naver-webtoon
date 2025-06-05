@@ -63,12 +63,13 @@ export const useWebtoonEpisodes = () => {
             if (!webtoonId.value) {
                 return Promise.reject(new Error('webtoonId is required'))
             }
-            return await getPagingWebtoonEpisodes({
+            const result = await getPagingWebtoonEpisodes({
                 pageNo: pageNo.value,
                 pageSize: pageSize.value,
                 webtoonId: webtoonId.value,
                 sortDirection: sortDirection.value,
             })
+            return extractValidData(result)
         },
         enabled: () => !!webtoonId.value,
         staleTime: 1000 * 10,
