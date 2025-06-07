@@ -33,7 +33,7 @@ class WebtoonReadServiceTest @Autowired constructor(
         val day = DayOfWeek.SATURDAY
 
         //when
-        val result = webtoonReadService.getWebtoons(day)
+        val result = webtoonReadService.getDailyWebtoons(day)
 
         //then
         result.size shouldBe 2

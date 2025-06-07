@@ -79,15 +79,13 @@ class QueryDslWebtoonEpisodeRepositoryImpl(
     }
 
     private fun applySort(sortOptions: List<QuerySortOption<WebtoonEpisodeSortColumn>>): List<OrderSpecifier<*>> {
-        return sortOptions.map { option ->
-            when (option.key) {
-                WebtoonEpisodeSortColumn.UPLOAD_DATE -> {
-                    if (option.direction == SortDirection.ASC) {
-                        webtoonEpisodeJpaEntity.uploadAt.asc()
-                    } else {
-                        webtoonEpisodeJpaEntity.uploadAt.desc()
-                    }
-                }
+        return sortOptions.mapNotNull { option ->
+            val expression = when (option.key) {
+                WebtoonEpisodeSortColumn.UPLOAD_DATE -> webtoonEpisodeJpaEntity.uploadAt
+            }
+            when (option.direction) {
+                SortDirection.ASC -> expression.asc()
+                SortDirection.DESC -> expression.desc()
             }
         }
     }

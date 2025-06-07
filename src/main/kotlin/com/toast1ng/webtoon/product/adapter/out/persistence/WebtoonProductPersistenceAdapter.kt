@@ -6,6 +6,7 @@ import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPe
 import com.toast1ng.webtoon.product.application.port.out.*
 import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductSortQuery
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import java.math.BigDecimal
 import java.sql.Timestamp
@@ -20,6 +21,12 @@ class WebtoonProductPersistenceAdapter(
     }
 
     override fun getWebtoons(query: WebtoonProductQuery): List<WebtoonProduct> {
+        return webtoonProductRepository.findAll(query).map {
+            mapper.mapToEntity(it)
+        }
+    }
+
+    override fun getSortedWebtoons(query: WebtoonProductSortQuery): List<WebtoonProduct> {
         return webtoonProductRepository.findAll(query).map {
             mapper.mapToEntity(it)
         }

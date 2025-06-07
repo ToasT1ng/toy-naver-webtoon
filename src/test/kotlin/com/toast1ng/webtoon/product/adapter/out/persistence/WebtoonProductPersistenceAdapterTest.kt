@@ -1,9 +1,14 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
+import com.toast1ng.webtoon.common.QuerySortOption
+import com.toast1ng.webtoon.common.SortDirection
 import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductSortColumn
+import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductSortQuery
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import com.toast1ng.webtoon.test.annotation.MySpringBootTest
+import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -42,6 +47,54 @@ class WebtoonProductPersistenceAdapterTest @Autowired constructor(
 
         //then
         result.size shouldBe 4
+    }
+
+    @Test
+    @DisplayName("정렬된 웹툰 리스트 DB상에서 불러오기 - 평점 기준")
+    fun getSortedWebtoons_RATING() {
+        // given
+        val query = WebtoonProductSortQuery(
+            day = DayOfWeek.WEDNESDAY,
+            sortOptions = listOf(
+                QuerySortOption(
+                    key = WebtoonProductSortColumn.RATING,
+                    direction = SortDirection.DESC,
+                )
+            )
+        )
+
+        // when
+        val result = webtoonProductPersistenceAdapter.getSortedWebtoons(query)
+
+        // then
+        result.size shouldBe 4
+        result.zipWithNext().forEach { (prev, next) ->
+            prev.rating shouldBeGreaterThan next.rating
+        }
+    }
+
+    @Test
+    @DisplayName("정렬된 웹툰 리스트 DB상에서 불러오기 - 조회수 기준")
+    fun getSortedWebtoons_VIEWS() {
+        // given
+        val query = WebtoonProductSortQuery(
+            day = DayOfWeek.WEDNESDAY,
+            sortOptions = listOf(
+                QuerySortOption(
+                    key = WebtoonProductSortColumn.VIEWS,
+                    direction = SortDirection.DESC,
+                )
+            )
+        )
+
+        // when
+        val result = webtoonProductPersistenceAdapter.getSortedWebtoons(query)
+
+        // then
+        result.size shouldBe 4
+        result.zipWithNext().forEach { (prev, next) ->
+            prev.views shouldBeGreaterThan next.views
+        }
     }
 
     @Test

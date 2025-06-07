@@ -30,7 +30,7 @@ class ReadWebtoonProductController(
     @GetMapping("/webtoons/daily")
     fun getDailyWebtoons(@RequestParam("dayOfWeek") dayOfWeekValue: String): ResponseEntity<SuccessResponse<DailyWebtoonsResponse>> {
         val dayOfWeek = DayOfWeek.fromValue(dayOfWeekValue)
-        val result = getWebtoonUseCase.getWebtoons(dayOfWeek)
+        val result = getWebtoonUseCase.getDailyWebtoons(dayOfWeek)
         return ResponseEntityFactory.success(
             DailyWebtoonsResponse(
                 result = result.map { it.toDailyWebtoonResponse() }

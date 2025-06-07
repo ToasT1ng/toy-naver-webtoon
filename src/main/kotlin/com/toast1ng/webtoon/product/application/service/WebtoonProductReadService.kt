@@ -18,7 +18,8 @@ class WebtoonProductReadService(
         return requireNotNull(readWebtoonProductPort.getWebtoon(WebtoonProductQuery(id = webtoonId)))
     }
 
-    override fun getWebtoons(day: DayOfWeek): List<WebtoonProduct> {
+    //TODO: 정렬 기능 추가
+    override fun getDailyWebtoons(day: DayOfWeek): List<WebtoonProduct> {
         return readWebtoonProductPort.getWebtoons(WebtoonProductQuery(day = day))
     }
 
