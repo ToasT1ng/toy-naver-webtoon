@@ -51,13 +51,13 @@ class ReadWebtoonEpisodeControllerTest @Autowired constructor(
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk() }
-            jsonPath("$.webtoonId") { value(givenWebtoonId) }
-            jsonPath("$.pageNo") { value(request.pageNo) }
-            jsonPath("$.pageSize") { value(request.pageSize) }
-            jsonPath("$.totalCount") { value(12) }
-            jsonPath("$.isLastPage") { value(false) }
-            jsonPath("$.content") { isArray() }
-            jsonPath("$.content[0].episodeId") { value(12) }
+            jsonPath("$.data.webtoonId") { value(givenWebtoonId) }
+            jsonPath("$.data.pageNo") { value(request.pageNo) }
+            jsonPath("$.data.pageSize") { value(request.pageSize) }
+            jsonPath("$.data.totalCount") { value(12) }
+            jsonPath("$.data.isLastPage") { value(false) }
+            jsonPath("$.data.content") { isArray() }
+            jsonPath("$.data.content[0].episodeId") { value(12) }
         }.andDo {
             print()
         }
@@ -81,13 +81,13 @@ class ReadWebtoonEpisodeControllerTest @Autowired constructor(
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
             status { isOk() }
-            jsonPath("$.webtoonId") { value(givenWebtoonId) }
-            jsonPath("$.pageNo") { value(request.pageNo) }
-            jsonPath("$.pageSize") { value(request.pageSize) }
-            jsonPath("$.totalCount") { value(9) }
-            jsonPath("$.isLastPage") { value(true) }
-            jsonPath("$.content") { isArray() }
-            jsonPath("$.content[0].episodeId") { value(6) }
+            jsonPath("$.data.webtoonId") { value(givenWebtoonId) }
+            jsonPath("$.data.pageNo") { value(request.pageNo) }
+            jsonPath("$.data.pageSize") { value(request.pageSize) }
+            jsonPath("$.data.totalCount") { value(9) }
+            jsonPath("$.data.isLastPage") { value(true) }
+            jsonPath("$.data.content") { isArray() }
+            jsonPath("$.data.content[0].episodeId") { value(6) }
         }.andDo {
             print()
         }
@@ -128,6 +128,7 @@ class ReadWebtoonEpisodeControllerTest @Autowired constructor(
             status { isInternalServerError() }
             jsonPath("$.code") { value(50000) }
             jsonPath("$.message") { value("서버 내부 오류가 발생했습니다.") }
+            jsonPath("$.data") { doesNotExist() }
         }.andDo {
             print()
         }

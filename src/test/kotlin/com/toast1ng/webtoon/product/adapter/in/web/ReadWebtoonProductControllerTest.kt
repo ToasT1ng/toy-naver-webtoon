@@ -16,7 +16,20 @@ import org.springframework.test.web.servlet.get
 class ReadWebtoonProductControllerTest @Autowired constructor(
     val mockMvc: MockMvc
 ){
-    //TODO 테스트 정확히 작성
+
+    @DisplayName("일별 추천 웹툰 3개 불러오기")
+    @Test
+    fun getDailyRecommendedWebtoon() {
+        val dayOfWeekValue = DayOfWeek.MONDAY.value
+
+        mockMvc.get("/webtoons/daily/recommend/three?dayOfWeek=$dayOfWeekValue") {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.data.result") { exists() }
+        }.andDo { print() }
+    }
+
     @DisplayName("일별 웹툰 불러오기")
     @Test
     fun getDailyWebtoons() {
@@ -32,5 +45,39 @@ class ReadWebtoonProductControllerTest @Autowired constructor(
         }.andDo {
             print()
         }
+    }
+    @DisplayName("월별 추천 웹툰 3개 불러오기")
+    @Test
+    fun getMonthlyRecommendedWebtoon() {
+        mockMvc.get("/webtoons/monthly/recommend/three") {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.data.result") { exists() }
+        }.andDo { print() }
+    }
+
+    @DisplayName("전체 웹툰 목록 불러오기")
+    @Test
+    fun getWebtoons() {
+        mockMvc.get("/webtoons") {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.data.result") { exists() }
+        }.andDo { print() }
+    }
+
+    @DisplayName("웹툰 단건 조회")
+    @Test
+    fun getWebtoon() {
+        val webtoonId = 1L
+
+        mockMvc.get("/webtoons/$webtoonId") {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.data.id") { exists() }
+        }.andDo { print() }
     }
 }
