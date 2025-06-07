@@ -2,6 +2,7 @@ package com.toast1ng.webtoon.product.adapter.`in`.web
 
 import com.toast1ng.webtoon.common.SortDirection
 import com.toast1ng.webtoon.product.adapter.`in`.web.request.PagingWebtoonEpisodesRequest
+import com.toast1ng.webtoon.test.annotation.MySpringBootTest
 import com.toast1ng.webtoon.test.utils.mockLocalDateTimeTo
 import com.toast1ng.webtoon.test.utils.toQueryString
 import io.mockk.mockkStatic
@@ -11,15 +12,12 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import java.time.LocalDateTime
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@MySpringBootTest
 class ReadWebtoonEpisodeControllerTest @Autowired constructor(
     val mockMvc: MockMvc
 ){

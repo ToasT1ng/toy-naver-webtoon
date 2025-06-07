@@ -3,15 +3,15 @@ package com.toast1ng.webtoon.product.adapter.out.persistence
 import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 import com.toast1ng.webtoon.product.domain.DayOfWeek
+import com.toast1ng.webtoon.test.annotation.MySpringBootTest
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional
-@SpringBootTest
+@MySpringBootTest
 class WebtoonProductPersistenceAdapterTest @Autowired constructor(
     private val webtoonProductPersistenceAdapter: WebtoonProductPersistenceAdapter,
 ) {

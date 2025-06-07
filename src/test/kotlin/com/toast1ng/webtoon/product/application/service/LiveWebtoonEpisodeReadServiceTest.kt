@@ -3,6 +3,7 @@ package com.toast1ng.webtoon.product.application.service
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeUseCase
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetPagingWebtoonEpisodesCommand
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetWebtoonEpisodeCommand
+import com.toast1ng.webtoon.test.annotation.MySpringBootTest
 import com.toast1ng.webtoon.test.utils.mockLocalDateTimeTo
 import io.kotest.matchers.shouldBe
 import io.mockk.mockkStatic
@@ -12,10 +13,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDateTime
 
-@SpringBootTest
+@MySpringBootTest
 class LiveWebtoonEpisodeReadServiceTest @Autowired constructor(
     private val getLiveWebtoonEpisodeService: GetWebtoonEpisodeUseCase,
 ) {

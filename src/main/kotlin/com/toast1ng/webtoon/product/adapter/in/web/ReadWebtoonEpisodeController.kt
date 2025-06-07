@@ -39,6 +39,7 @@ class ReadWebtoonEpisodeController(
         )
     }
 
+    // 조회 수 증가 기능 처리
     @GetMapping("/webtoons/{webtoonId}/episodes/{episodeId}")
     fun getWebtoonEpisode(
         @PathVariable webtoonId: Long,
