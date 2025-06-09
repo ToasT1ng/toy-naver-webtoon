@@ -1,9 +1,12 @@
 package com.toast1ng.webtoon.product.application.service
 
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonUseCase
+import com.toast1ng.webtoon.product.application.port.`in`.command.GetSortedDailyWebtoonsCommand
+import com.toast1ng.webtoon.product.application.port.`in`.command.WebtoonProductSortKey
 import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonProductPort
+import com.toast1ng.webtoon.product.application.port.out.query.toSortQuery
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import org.springframework.stereotype.Service
@@ -18,9 +21,23 @@ class WebtoonProductReadService(
         return requireNotNull(readWebtoonProductPort.getWebtoon(WebtoonProductQuery(id = webtoonId)))
     }
 
-    //TODO: 정렬 기능 추가
-    override fun getDailyWebtoons(day: DayOfWeek): List<WebtoonProduct> {
-        return readWebtoonProductPort.getWebtoons(WebtoonProductQuery(day = day))
+    override fun getDailyWebtoons(command: GetSortedDailyWebtoonsCommand): List<WebtoonProduct> {
+        //TODO : POPULAR, UPLOADED 정렬 구현
+        return when (command.sortOption.key) {
+            WebtoonProductSortKey.POPULAR -> {
+                readWebtoonProductPort.getWebtoons(
+                    WebtoonProductQuery(day = command.day)
+                )
+            }
+            WebtoonProductSortKey.UPLOADED -> {
+                readWebtoonProductPort.getWebtoons(
+                    WebtoonProductQuery(day = command.day)
+                )
+            }
+            WebtoonProductSortKey.VIEWS, WebtoonProductSortKey.RATING -> {
+                readWebtoonProductPort.getSortedWebtoons(command.toSortQuery())
+            }
+        }
     }
 
     override fun getEveryWebtoons(): List<WebtoonProduct> {

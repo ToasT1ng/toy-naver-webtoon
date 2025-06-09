@@ -38,6 +38,6 @@ fun GetPagingWebtoonEpisodesCommand.toPagingQuery(uploadDateTo: LocalDateTime): 
 
 private fun WebtoonEpisodeSortKey.toSortColumn(): WebtoonEpisodeSortColumn {
     return when (this) {
-        WebtoonEpisodeSortKey.UPLOAD_DATE -> WebtoonEpisodeSortColumn.UPLOAD_DATE
+        WebtoonEpisodeSortKey.UPLOADED -> WebtoonEpisodeSortColumn.UPLOAD_DATE
     }
 }

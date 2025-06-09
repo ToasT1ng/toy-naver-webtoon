@@ -1,6 +1,7 @@
 package com.toast1ng.webtoon.product.application.service
 
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonUseCase
+import com.toast1ng.webtoon.product.application.port.`in`.command.GetSortedDailyWebtoonsCommand
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import com.toast1ng.webtoon.test.annotation.MySpringBootTest
 import io.kotest.matchers.shouldBe
@@ -30,10 +31,12 @@ class WebtoonReadServiceTest @Autowired constructor(
     @Test
     fun getWebtoons() {
         //given
-        val day = DayOfWeek.SATURDAY
+        val command = GetSortedDailyWebtoonsCommand(
+            day = DayOfWeek.SATURDAY,
+        )
 
         //when
-        val result = webtoonReadService.getDailyWebtoons(day)
+        val result = webtoonReadService.getDailyWebtoons(command)
 
         //then
         result.size shouldBe 2

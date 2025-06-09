@@ -10,7 +10,7 @@ data class GetPagingWebtoonEpisodesCommand(
     override val pageSize: Int,
     override val sortOptions: List<SortOption<WebtoonEpisodeSortKey>> = listOf(
         SortOption(
-            key = WebtoonEpisodeSortKey.UPLOAD_DATE,
+            key = WebtoonEpisodeSortKey.UPLOADED,
             direction = SortDirection.DESC
         )
     ),
@@ -18,5 +18,5 @@ data class GetPagingWebtoonEpisodesCommand(
 ) : PagingCommand<WebtoonEpisodeSortKey>()
 
 enum class WebtoonEpisodeSortKey : SortKey {
-    UPLOAD_DATE,
+    UPLOADED,
 }

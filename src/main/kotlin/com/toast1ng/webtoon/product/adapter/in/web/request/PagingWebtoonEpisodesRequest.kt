@@ -20,7 +20,7 @@ fun PagingWebtoonEpisodesRequest.toCommand(webtoonId: Long) = GetPagingWebtoonEp
     pageSize = this.pageSize,
     sortOptions = listOf(
         SortOption(
-            key = WebtoonEpisodeSortKey.UPLOAD_DATE,
+            key = WebtoonEpisodeSortKey.UPLOADED,
             direction = sortDirection
         )
     ),

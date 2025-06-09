@@ -1,9 +1,13 @@
 package com.toast1ng.webtoon.product.adapter.`in`.web
 
+import com.toast1ng.webtoon.common.SortDirection
+import com.toast1ng.webtoon.common.SortOption
 import com.toast1ng.webtoon.common.response.ResponseEntityFactory
 import com.toast1ng.webtoon.common.response.SuccessResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.*
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonUseCase
+import com.toast1ng.webtoon.product.application.port.`in`.command.GetSortedDailyWebtoonsCommand
+import com.toast1ng.webtoon.product.application.port.`in`.command.WebtoonProductSortKey
 import com.toast1ng.webtoon.product.domain.DayOfWeek
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -28,9 +32,21 @@ class ReadWebtoonProductController(
 
 
     @GetMapping("/webtoons/daily")
-    fun getDailyWebtoons(@RequestParam("dayOfWeek") dayOfWeekValue: String): ResponseEntity<SuccessResponse<DailyWebtoonsResponse>> {
+    fun getDailyWebtoons(
+        @RequestParam("dayOfWeek") dayOfWeekValue: String,
+        @RequestParam("orderBy") sortKey: WebtoonProductSortKey = WebtoonProductSortKey.POPULAR,
+        @RequestParam("direction") direction: SortDirection = SortDirection.DESC
+    ): ResponseEntity<SuccessResponse<DailyWebtoonsResponse>> {
         val dayOfWeek = DayOfWeek.fromValue(dayOfWeekValue)
-        val result = getWebtoonUseCase.getDailyWebtoons(dayOfWeek)
+        val result = getWebtoonUseCase.getDailyWebtoons(
+            GetSortedDailyWebtoonsCommand(
+                day = dayOfWeek,
+                sortOption = SortOption(
+                    key = sortKey,
+                    direction = direction
+                )
+            )
+        )
         return ResponseEntityFactory.success(
             DailyWebtoonsResponse(
                 result = result.map { it.toDailyWebtoonResponse() }
