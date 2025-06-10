@@ -1,8 +1,8 @@
 package com.toast1ng.webtoon.product.application.port.out.query
 
-import com.toast1ng.webtoon.common.PagingQuery
-import com.toast1ng.webtoon.common.QuerySortColumn
-import com.toast1ng.webtoon.common.QuerySortOption
+import com.toast1ng.webtoon.common.domain.PagingQuery
+import com.toast1ng.webtoon.common.domain.QuerySortColumn
+import com.toast1ng.webtoon.common.domain.QuerySortOption
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetPagingWebtoonEpisodesCommand
 import com.toast1ng.webtoon.product.application.port.`in`.command.WebtoonEpisodeSortKey
 import java.time.LocalDateTime

@@ -12,6 +12,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class GlobalExceptionHandler {
     private val log = getLogger()
 
+    @ExceptionHandler(WebtoonException::class)
+    fun handleWebtoonException(ex: WebtoonException): ResponseEntity<ErrorResponse> {
+        log.error("Webtoon exception occurred", ex)
+        return ResponseEntityFactory.error(ex.code)
+    }
+
+
     @ExceptionHandler(Exception::class)
     fun handleAllExceptions(ex: Exception): ResponseEntity<ErrorResponse> {
         log.error("Unhandled exception occurred", ex)

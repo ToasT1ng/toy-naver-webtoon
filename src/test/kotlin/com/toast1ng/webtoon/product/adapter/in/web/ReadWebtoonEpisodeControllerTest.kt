@@ -1,6 +1,6 @@
 package com.toast1ng.webtoon.product.adapter.`in`.web
 
-import com.toast1ng.webtoon.common.SortDirection
+import com.toast1ng.webtoon.common.domain.SortDirection
 import com.toast1ng.webtoon.product.adapter.`in`.web.request.PagingWebtoonEpisodesRequest
 import com.toast1ng.webtoon.test.annotation.MySpringBootTest
 import com.toast1ng.webtoon.test.utils.mockLocalDateTimeTo

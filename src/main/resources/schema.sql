@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS webtoon_users;
 DROP TABLE IF EXISTS creator;
 DROP TABLE IF EXISTS webtoon_image;
 DROP TABLE IF EXISTS webtoon_episode;
@@ -5,6 +6,18 @@ DROP TABLE IF EXISTS webtoon;
 DROP TABLE IF EXISTS person;
 DROP TABLE IF EXISTS genre;
 
+CREATE TABLE webtoon_users
+(
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username    VARCHAR(50) NOT NULL UNIQUE,
+    password    VARCHAR(255) NOT NULL,
+    email       VARCHAR(100) DEFAULT NULL,
+    nickname    VARCHAR(50)  DEFAULT NULL,
+    profile_img VARCHAR(500) DEFAULT NULL,
+    role        VARCHAR(20)  NOT NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE webtoon
 (

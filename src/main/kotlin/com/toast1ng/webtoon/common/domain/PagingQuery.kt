@@ -1,4 +1,4 @@
-package com.toast1ng.webtoon.common
+package com.toast1ng.webtoon.common.domain
 
 interface QuerySortColumn {
     val columnName: String

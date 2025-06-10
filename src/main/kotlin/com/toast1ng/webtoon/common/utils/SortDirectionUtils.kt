@@ -1,6 +1,6 @@
 package com.toast1ng.webtoon.common.utils
 
-import com.toast1ng.webtoon.common.SortDirection
+import com.toast1ng.webtoon.common.domain.SortDirection
 
 fun SortDirection.toJpaSortDirection(): org.springframework.data.domain.Sort.Direction {
     return when (this) {

@@ -1,7 +1,7 @@
 package com.toast1ng.webtoon.product.adapter.`in`.web
 
-import com.toast1ng.webtoon.common.SortDirection
-import com.toast1ng.webtoon.common.SortOption
+import com.toast1ng.webtoon.common.domain.SortDirection
+import com.toast1ng.webtoon.common.domain.SortOption
 import com.toast1ng.webtoon.common.response.ResponseEntityFactory
 import com.toast1ng.webtoon.common.response.SuccessResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.*

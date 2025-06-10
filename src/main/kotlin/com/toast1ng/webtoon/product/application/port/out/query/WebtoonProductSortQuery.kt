@@ -1,7 +1,7 @@
 package com.toast1ng.webtoon.product.application.port.out.query
 
-import com.toast1ng.webtoon.common.QuerySortColumn
-import com.toast1ng.webtoon.common.QuerySortOption
+import com.toast1ng.webtoon.common.domain.QuerySortColumn
+import com.toast1ng.webtoon.common.domain.QuerySortOption
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetSortedDailyWebtoonsCommand
 import com.toast1ng.webtoon.product.application.port.`in`.command.WebtoonProductSortKey
 import com.toast1ng.webtoon.product.domain.DayOfWeek

@@ -1,3 +1,7 @@
+INSERT INTO webtoon_users (username, password, role)
+VALUES ('admin', '$2a$10$aICWce6RmfBJ/keBNqHopePhuZjm8pAS4IuldvwXzqzdHff4sdv1q', 'ADMIN'),
+       ('user1', '$2a$10$hKQySo9eHkZ6jy3x3aGFG.ihtBWHUY3Tjh27CN9fyJr36EpdD/qgu', 'USER');
+
 INSERT INTO genre (id, name, description)
 VALUES (1, '스릴러', '긴장감과 반전으로 몰입을 유도하는 장르'),
        (2, '로맨스', '사랑과 감정의 흐름을 중심으로 전개되는 이야기'),

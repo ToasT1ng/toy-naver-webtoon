@@ -3,8 +3,8 @@ package com.toast1ng.webtoon.product.adapter.out.persistence.querydsl
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.jpa.impl.JPAQueryFactory
-import com.toast1ng.webtoon.common.QuerySortOption
-import com.toast1ng.webtoon.common.SortDirection
+import com.toast1ng.webtoon.common.domain.QuerySortOption
+import com.toast1ng.webtoon.common.domain.SortDirection
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QWebtoonEpisodeJpaEntity.webtoonEpisodeJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QWebtoonImageJpaEntity.webtoonImageJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.QWebtoonProductJpaEntity.webtoonProductJpaEntity

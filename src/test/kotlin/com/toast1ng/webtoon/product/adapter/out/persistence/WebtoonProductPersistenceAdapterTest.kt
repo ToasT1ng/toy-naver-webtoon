@@ -1,7 +1,7 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
-import com.toast1ng.webtoon.common.QuerySortOption
-import com.toast1ng.webtoon.common.SortDirection
+import com.toast1ng.webtoon.common.domain.QuerySortOption
+import com.toast1ng.webtoon.common.domain.SortDirection
 import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductSortColumn
