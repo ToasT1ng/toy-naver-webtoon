@@ -10,6 +10,8 @@ import com.toast1ng.webtoon.product.adapter.`in`.web.response.toBriefResponse
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.toResponse
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonEpisodeUseCase
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetWebtoonEpisodeCommand
+import com.toast1ng.webtoon.product.application.port.`in`.command.UpdateWebtoonViewsCommand
+import com.toast1ng.webtoon.product.application.service.WebtoonEpisodeViewsService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class ReadWebtoonEpisodeController(
     private val liveWebtoonEpisodeReadService: GetWebtoonEpisodeUseCase,
+    private val webtoonEpisodeViewsService: WebtoonEpisodeViewsService,
 ) {
     @GetMapping("/webtoons/{webtoonId}/episodes")
     fun getWebtoonEpisodes(
@@ -39,17 +42,24 @@ class ReadWebtoonEpisodeController(
         )
     }
 
-    //TODO 조회 수 증가 기능 처리 (w. Redis)
     @GetMapping("/webtoons/{webtoonId}/episodes/{episodeId}")
     fun getWebtoonEpisode(
         @PathVariable webtoonId: Long,
         @PathVariable episodeId: Long
     ): ResponseEntity<SuccessResponse<WebtoonEpisodeResponse>> {
-        val command = GetWebtoonEpisodeCommand(
-            id = episodeId,
-            webtoonId = webtoonId
+        webtoonEpisodeViewsService.updateWebtoonViews(
+            UpdateWebtoonViewsCommand(
+                userId = 123L, // TODO: 사용자 ID를 실제로 받아와야 합니다.
+                episodeId = episodeId,
+                webtoonId = webtoonId
+            )
         )
-        val result = liveWebtoonEpisodeReadService.getWebtoonEpisode(command)
+        val result = liveWebtoonEpisodeReadService.getWebtoonEpisode(
+            GetWebtoonEpisodeCommand(
+                id = episodeId,
+                webtoonId = webtoonId
+            )
+        )
         return ResponseEntityFactory.success(result.toResponse())
     }
 
