@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 
 @MySpringBootTest
 class ReadWebtoonEpisodeControllerTest @Autowired constructor(
-    val mockMvc: MockMvc
+    private val mockMvc: MockMvc
 ){
     @BeforeEach
     fun beforeEach() {

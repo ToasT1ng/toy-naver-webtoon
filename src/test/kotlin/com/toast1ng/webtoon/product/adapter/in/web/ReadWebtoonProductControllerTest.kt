@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.get
 
 @MySpringBootTest
 class ReadWebtoonProductControllerTest @Autowired constructor(
-    val mockMvc: MockMvc
+    private val mockMvc: MockMvc
 ){
 
     @DisplayName("일별 추천 웹툰 3개 불러오기")
