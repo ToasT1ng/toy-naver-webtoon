@@ -54,6 +54,8 @@ dependencies {
     // MockK
     testImplementation("io.mockk:mockk:1.13.10")
 
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.4.0'
+
     //TODO Swagger 적용
 
     //TODO Test Coverage Tool 적용
