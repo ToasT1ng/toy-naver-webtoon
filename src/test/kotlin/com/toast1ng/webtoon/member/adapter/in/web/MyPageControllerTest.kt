@@ -21,12 +21,13 @@ class MyPageControllerTest @Autowired constructor(
     @Autowired
     private lateinit var objectMapper: ObjectMapper
 
+    //TODO test용 WithMockUser 작성
     @DisplayName("마이페이지 접근 성공")
     @Test
     fun approachToMyPageSuccess() {
         //given
         val expectedResponseCode = CommonSuccessResponseCode.OK
-        val token = jwtProvider.createToken("user1")
+        val token = jwtProvider.createAccessToken("user1")
 
         //when - then
         mockMvc.get("/mypage") {
@@ -68,7 +69,7 @@ class MyPageControllerTest @Autowired constructor(
     fun approachToMyPageFailBecauseOfNotExitsUser() {
         //given
         val expectedResponseCode = CommonErrorResponseCode.UNAUTHORIZED
-        val token = jwtProvider.createToken("testUser1")
+        val token = jwtProvider.createAccessToken("testUser1")
 
         //when - then
         mockMvc.get("/mypage") {

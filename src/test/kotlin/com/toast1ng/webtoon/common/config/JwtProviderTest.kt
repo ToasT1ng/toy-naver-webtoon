@@ -10,15 +10,30 @@ import org.springframework.beans.factory.annotation.Autowired
 class JwtProviderTest @Autowired constructor(
     val jwtProvider: JwtProvider
 ) {
-    @DisplayName("JWT 토큰 생성 및 검증 테스트")
+    @DisplayName("JWT Access 토큰 생성 및 검증 테스트")
     @Test
-    fun makeTokenAndValidate() {
+    fun makeAccessTokenAndValidate() {
         // Given
         val username = "user1"
 
         // When
-        val token = jwtProvider.createToken(username)
-        println("Generated Token: $token")
+        val token = jwtProvider.createAccessToken(username)
+        println("Generated Access Token: $token")
+
+        // Then
+        jwtProvider.isValid(token) shouldBe true
+        jwtProvider.getUsername(token) shouldBe username
+    }
+
+    @DisplayName("JWT Refresh 토큰 생성 및 검증 테스트")
+    @Test
+    fun makeRefreshTokenAndValidate() {
+        // Given
+        val username = "user1"
+
+        // When
+        val token = jwtProvider.createRefreshToken(username, false)
+        println("Generated Refresh Token: $token")
 
         // Then
         jwtProvider.isValid(token) shouldBe true

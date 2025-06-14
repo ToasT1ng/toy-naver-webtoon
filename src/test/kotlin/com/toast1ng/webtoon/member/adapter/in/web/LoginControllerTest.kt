@@ -39,7 +39,8 @@ class LoginControllerTest @Autowired constructor(
             status().isOk
             jsonPath("$.code") { value(expectedResponseCode.code) }
             jsonPath("$.message") { value(expectedResponseCode.message) }
-            jsonPath("$.data") { doesNotExist() }
+            jsonPath("$.data") { isMap() }
+            jsonPath("$.data.accessToken") { exists() }
         }.andDo {
             print()
         }

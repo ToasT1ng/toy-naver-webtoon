@@ -29,7 +29,11 @@ spring:
 
 jwt:
   secret: "&cl%cl$6g2-q#2mkwf-qa9b+zhru95w$tg%t+fm(**w!9f9d4+"
-  expiration-min: 60
+  access-token:
+    expiration-min: 60
+  refresh-token:
+    default-expiration-min: 180 # 60 * 3 => 3시간
+    auto-login-expiration-min: 40320 #60 * 24 * 28 => 28일
 
 # 실제 쿼리에 어떤 값이 들어갔는지 확인
 #logging:

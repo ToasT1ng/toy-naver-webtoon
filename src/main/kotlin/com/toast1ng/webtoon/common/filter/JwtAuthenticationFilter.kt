@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
+import org.springframework.util.AntPathMatcher
 import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
@@ -17,6 +18,15 @@ class JwtAuthenticationFilter(
     private val userDetailsService: UserDetailsService
 ) : OncePerRequestFilter() {
     private val log = getLogger()
+
+    private val excludeUriPatterns = listOf("/auth/**")
+
+    override fun shouldNotFilter(request: HttpServletRequest): Boolean {
+        val path = request.servletPath
+        return excludeUriPatterns.any { antPattern ->
+            AntPathMatcher().match(antPattern, path)
+        }
+    }
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val authHeader = request.getHeader("Authorization")
