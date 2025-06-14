@@ -39,11 +39,12 @@ class SignupServiceTest @Autowired constructor(
             // given
             val givenUsername = "test_user"
             val givenPassword = "test_user_password"
+            val givenConfirmPassword = "test_user_password"
             val givenRole = UserRole.USER
             val command = SignupCommand(
                 username = givenUsername,
                 password = givenPassword,
-                role = givenRole
+                confirmPassword = givenConfirmPassword
             )
 
             // when
@@ -61,6 +62,7 @@ class SignupServiceTest @Autowired constructor(
     inner class MockingData {
         private val givenUsername = "new_user"
         private val givenPassword = "test_user_password"
+        private val givenConfirmPassword = "test_user_password"
 
         @BeforeEach
         fun setup() {
@@ -68,7 +70,6 @@ class SignupServiceTest @Autowired constructor(
                 UserFactory.create(
                     username = givenUsername,
                     password = passwordEncoder.encode(givenPassword),
-                    role = UserRole.USER
                 )
             )
                 .`when`(registerUserPort)
@@ -89,7 +90,7 @@ class SignupServiceTest @Autowired constructor(
             val command = SignupCommand(
                 username = givenUsername,
                 password = givenPassword,
-                role = UserRole.USER
+                confirmPassword = givenConfirmPassword
             )
 
             // when & then
@@ -97,6 +98,24 @@ class SignupServiceTest @Autowired constructor(
 
             // then
             user.username shouldBe givenUsername
+        }
+
+        @DisplayName("회원가입 실패 - 비밀번호 불일치")
+        @Test
+        fun signupFailBecauseOfPasswordMismatch() {
+            // given
+            mockingReadUserPortIsUserExists(true)
+            val command = SignupCommand(
+                username = givenUsername,
+                password = givenPassword,
+                confirmPassword = "mismatched_password"
+            )
+
+            // when & then
+            val exception = shouldThrow<UserAuthException> { signupService.signup(command) }
+
+            // then
+            exception.code shouldBe UserAuthErrorResponseCode.PASSWORD_MISMATCH
         }
 
         @DisplayName("회원가입 실패 - 유저가 이미 존재함")
@@ -107,7 +126,7 @@ class SignupServiceTest @Autowired constructor(
             val command = SignupCommand(
                 username = givenUsername,
                 password = givenPassword,
-                role = UserRole.USER
+                confirmPassword = givenConfirmPassword
             )
 
             // when & then

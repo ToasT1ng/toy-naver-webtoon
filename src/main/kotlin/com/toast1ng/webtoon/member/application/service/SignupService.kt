@@ -19,6 +19,9 @@ class SignupService(
     private val registerUserPort: RegisterUserPort,
 ) : SignupUserUseCase {
     override fun signup(command: SignupCommand): User {
+        if (command.password != command.confirmPassword) {
+            throw UserAuthException(UserAuthErrorResponseCode.PASSWORD_MISMATCH)
+        }
         if (readUserPort.isUserExists(UserQuery(username = command.username))) {
             throw UserAuthException(UserAuthErrorResponseCode.USER_ALREADY_EXISTS)
         }
@@ -27,7 +30,6 @@ class SignupService(
             UserFactory.create(
                 username = command.username,
                 password = encodedPassword,
-                role = command.role
             )
         )
     }

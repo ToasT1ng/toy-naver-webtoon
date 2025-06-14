@@ -25,11 +25,11 @@ data class User(
 }
 
 object UserFactory {
-    fun create(username: String, password: String, role: UserRole): User {
+    fun create(username: String, password: String): User {
         return User(
             username = username,
             password = password,
-            role = role
+            role = UserRole.USER
         )
     }
 
