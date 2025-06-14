@@ -5,12 +5,19 @@ import com.toast1ng.webtoon.common.response.ErrorResponse
 import com.toast1ng.webtoon.common.response.ResponseEntityFactory
 import com.toast1ng.webtoon.common.utils.getLogger
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
     private val log = getLogger()
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleValidationException(ex: MethodArgumentNotValidException): ResponseEntity<ErrorResponse> {
+        log.error("Validation exception occurred", ex)
+        return ResponseEntityFactory.error(CommonErrorResponseCode.BAD_REQUEST)
+    }
 
     @ExceptionHandler(WebtoonException::class)
     fun handleWebtoonException(ex: WebtoonException): ResponseEntity<ErrorResponse> {
