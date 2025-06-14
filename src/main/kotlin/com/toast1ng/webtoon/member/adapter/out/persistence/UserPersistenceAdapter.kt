@@ -1,6 +1,6 @@
 package com.toast1ng.webtoon.member.adapter.out.persistence
 
-import com.toast1ng.webtoon.common.PersistenceAdapter
+import com.toast1ng.webtoon.common.domain.PersistenceAdapter
 import com.toast1ng.webtoon.member.application.port.out.ReadUserPort
 import com.toast1ng.webtoon.member.application.port.out.RegisterUserPort
 import com.toast1ng.webtoon.member.application.port.out.query.UserQuery

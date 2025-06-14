@@ -15,6 +15,7 @@ data class SuccessResponse<T>(
     override val data: T? = null
 ): Response<T>
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 data class ErrorResponse(
     override val code: Int,
     override val message: String,

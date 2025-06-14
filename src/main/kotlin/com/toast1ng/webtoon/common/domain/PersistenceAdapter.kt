@@ -1,7 +1,5 @@
-package com.toast1ng.webtoon.common
+package com.toast1ng.webtoon.common.domain
 
-import kotlin.annotation.AnnotationTarget
-import kotlin.annotation.AnnotationRetention
 import org.springframework.core.annotation.AliasFor
 import org.springframework.stereotype.Component
 

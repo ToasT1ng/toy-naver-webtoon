@@ -1,5 +1,6 @@
 package com.toast1ng.webtoon.common.config
 
+import com.toast1ng.webtoon.common.filter.JwtAuthenticationFilter
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -13,11 +14,14 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @EnableWebSecurity
 @Configuration
 class SecurityConfig(
-    private val userDetailsService: UserDetailsService
+    private val userDetailsService: UserDetailsService,
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter,
+    private val customAuthenticationEntryPoint: ApiAuthenticationEntryPoint
 ) {
 
     @Bean
@@ -42,9 +46,15 @@ class SecurityConfig(
             .authorizeHttpRequests {
                 it.requestMatchers(PathRequest.toH2Console()).permitAll()
                     .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/mypage/**").authenticated()
                     .anyRequest().permitAll()
+            }
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .exceptionHandling {
+                it.authenticationEntryPoint(customAuthenticationEntryPoint)
             }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
         return http.build()
     }
 }
+

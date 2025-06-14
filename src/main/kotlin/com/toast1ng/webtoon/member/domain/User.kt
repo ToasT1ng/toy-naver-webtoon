@@ -1,6 +1,7 @@
 @file:Suppress("INAPPLICABLE_TARGET_ON_PROPERTY_WARNING")
 
 package com.toast1ng.webtoon.member.domain
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 data class User(
@@ -9,7 +10,7 @@ data class User(
     private val password: String,
     val role: UserRole,
 ) : UserDetails {
-    override fun getAuthorities() = listOf(this.role)
+    override fun getAuthorities() = listOf(SimpleGrantedAuthority("ROLE_$role"))
 
     override fun getPassword(): String = this.password
 

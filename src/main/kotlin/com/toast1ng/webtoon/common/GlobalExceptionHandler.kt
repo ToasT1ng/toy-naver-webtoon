@@ -1,5 +1,6 @@
 package com.toast1ng.webtoon.common
 
+import com.toast1ng.webtoon.common.domain.WebtoonException
 import com.toast1ng.webtoon.common.response.CommonErrorResponseCode
 import com.toast1ng.webtoon.common.response.ErrorResponse
 import com.toast1ng.webtoon.common.response.ResponseEntityFactory

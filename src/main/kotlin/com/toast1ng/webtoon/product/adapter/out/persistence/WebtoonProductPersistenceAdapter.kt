@@ -1,6 +1,6 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
-import com.toast1ng.webtoon.common.PersistenceAdapter
+import com.toast1ng.webtoon.common.domain.PersistenceAdapter
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.CreatorDto
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPersonDto
 import com.toast1ng.webtoon.product.application.port.out.*

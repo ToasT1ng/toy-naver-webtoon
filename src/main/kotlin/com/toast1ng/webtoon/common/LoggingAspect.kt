@@ -17,7 +17,7 @@ class LoggingAspect {
         INFO, TRACE
     }
 
-    @Around("execution(* *(..)) && (within(@org.springframework.stereotype.Service *) || within(@com.toast1ng.webtoon.common.PersistenceAdapter *))")
+    @Around("execution(* *(..)) && (within(@org.springframework.stereotype.Service *) || within(@com.toast1ng.webtoon.common.domain.PersistenceAdapter *))")
     fun logMethodExecution(joinPoint: ProceedingJoinPoint): Any? {
         val targetClass = joinPoint.target::class
         val methodName = joinPoint.signature.name
@@ -29,7 +29,7 @@ class LoggingAspect {
         val result = try {
             joinPoint.proceed()
         } catch (e: Throwable) {
-            log.error("LoggingAspect ERROR => ${e.message}", e)
+            log.error("== ERROR OCCUR == ${e.message}", e)
             throw e
         }
 
