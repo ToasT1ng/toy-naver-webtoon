@@ -1,4 +1,4 @@
-package com.toast1ng.webtoon.common.domain
+package com.toast1ng.webtoon.common.domain.annotations
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 

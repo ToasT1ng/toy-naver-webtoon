@@ -1,7 +1,14 @@
 package com.toast1ng.webtoon.common.filter
 
 import com.toast1ng.webtoon.common.config.JwtProvider
+import com.toast1ng.webtoon.common.domain.jwt.JwtErrorResponseCode
+import com.toast1ng.webtoon.common.domain.jwt.JwtTokenExpireAuthenticationException
 import com.toast1ng.webtoon.common.utils.getLogger
+import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.JwtException
+import io.jsonwebtoken.MalformedJwtException
+import io.jsonwebtoken.UnsupportedJwtException
+import io.jsonwebtoken.security.SignatureException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -15,7 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 @Component
 class JwtAuthenticationFilter(
     private val jwtProvider: JwtProvider,
-    private val userDetailsService: UserDetailsService
+    private val userDetailsService: UserDetailsService,
 ) : OncePerRequestFilter() {
     private val log = getLogger()
 
@@ -34,10 +41,10 @@ class JwtAuthenticationFilter(
         try {
             if (authHeader?.startsWith("Bearer ") == true) {
                 val token = authHeader.substring(7)
-                val username = jwtProvider.getUsername(token)
+                val username = jwtProvider.getUserId(token)
 
                 if (username != null && SecurityContextHolder.getContext().authentication == null) {
-                    val userDetails = userDetailsService.loadUserByUsername(username)
+                    val userDetails = userDetailsService.loadUserByUsername(username.toString())
 
                     val authentication = UsernamePasswordAuthenticationToken(
                         userDetails,
@@ -48,6 +55,21 @@ class JwtAuthenticationFilter(
                     SecurityContextHolder.getContext().authentication = authentication
                 }
             }
+        } catch (e: JwtException) {
+            log.error("JwtAuthenticationFilter ERROR: ${e.message}", e)
+
+            val responseCode = when (e) {
+                is ExpiredJwtException -> JwtErrorResponseCode.JWT_TOKEN_EXPIRED
+                is MalformedJwtException -> JwtErrorResponseCode.JWT_TOKEN_MALFORMED
+                is UnsupportedJwtException -> JwtErrorResponseCode.JWT_TOKEN_UNSUPPORTED
+                is SignatureException -> JwtErrorResponseCode.JWT_TOKEN_SIGNATURE_INVALID
+                else -> JwtErrorResponseCode.JWT_TOKEN_INVALID
+            }
+
+            val exception = JwtTokenExpireAuthenticationException(responseCode)
+
+            throw exception
+
         } catch (ex: Exception) {
             log.error("JwtAuthenticationFilter ERROR " + ex.message, ex)
         }

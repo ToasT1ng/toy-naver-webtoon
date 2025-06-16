@@ -17,9 +17,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @MySpringBootTest
 class SignupControllerTest @Autowired constructor(
     private val mockMvc: MockMvc,
+    private val objectMapper: ObjectMapper,
 ){
-    @Autowired
-    private lateinit var objectMapper: ObjectMapper
 
     @DisplayName("회원가입 성공")
     @Test

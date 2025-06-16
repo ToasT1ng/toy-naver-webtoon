@@ -1,6 +1,7 @@
 package com.toast1ng.webtoon.common.config
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.toast1ng.webtoon.common.domain.jwt.JwtTokenExpireAuthenticationException
 import com.toast1ng.webtoon.common.response.CommonErrorResponseCode
 import com.toast1ng.webtoon.common.response.ErrorResponse
 import jakarta.servlet.http.HttpServletRequest
@@ -16,7 +17,11 @@ class ApiAuthenticationEntryPoint : AuthenticationEntryPoint {
         response: HttpServletResponse,
         authException: AuthenticationException
     ) {
-        val errorResponseCode = CommonErrorResponseCode.UNAUTHORIZED
+        val errorResponseCode = when (authException) {
+            is JwtTokenExpireAuthenticationException -> authException.code
+            else -> CommonErrorResponseCode.UNAUTHORIZED
+        }
+
         response.status = errorResponseCode.code
         response.contentType = "application/json;charset=UTF-8"
         response.writer.write(
@@ -25,6 +30,7 @@ class ApiAuthenticationEntryPoint : AuthenticationEntryPoint {
                     code = errorResponseCode.code,
                     message = errorResponseCode.message
                 )
-        ))
+            )
+        )
     }
 }

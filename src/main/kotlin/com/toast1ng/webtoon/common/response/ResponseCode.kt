@@ -22,7 +22,7 @@ enum class CommonErrorResponseCode(
     override val code: Int,
     override val message: String,
     override val httpStatus: HttpStatus
-) : ResponseCode{
+) : ResponseCode {
     BAD_REQUEST(40000, "잘못된 요청입니다.", HttpStatus.BAD_REQUEST),
     UNAUTHORIZED(40100, "인증되지 않은 사용자입니다.", HttpStatus.UNAUTHORIZED),
     FORBIDDEN(40300, "접근이 금지된 리소스입니다.", HttpStatus.FORBIDDEN),

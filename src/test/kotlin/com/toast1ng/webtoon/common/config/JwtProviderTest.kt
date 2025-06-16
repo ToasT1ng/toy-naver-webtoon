@@ -14,29 +14,29 @@ class JwtProviderTest @Autowired constructor(
     @Test
     fun makeAccessTokenAndValidate() {
         // Given
-        val username = "user1"
+        val id = 1L
 
         // When
-        val token = jwtProvider.createAccessToken(username)
+        val token = jwtProvider.createAccessToken(id)
         println("Generated Access Token: $token")
 
         // Then
         jwtProvider.isValid(token) shouldBe true
-        jwtProvider.getUsername(token) shouldBe username
+        jwtProvider.getUserId(token) shouldBe id
     }
 
     @DisplayName("JWT Refresh 토큰 생성 및 검증 테스트")
     @Test
     fun makeRefreshTokenAndValidate() {
         // Given
-        val username = "user1"
+        val id = 1L
 
         // When
-        val token = jwtProvider.createRefreshToken(username, false)
+        val token = jwtProvider.createRefreshToken(id, false)
         println("Generated Refresh Token: $token")
 
         // Then
         jwtProvider.isValid(token) shouldBe true
-        jwtProvider.getUsername(token) shouldBe username
+        jwtProvider.getUserId(token) shouldBe id
     }
 }

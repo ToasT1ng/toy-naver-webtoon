@@ -1,5 +1,6 @@
 package com.toast1ng.webtoon.common.config
 
+import com.toast1ng.webtoon.common.properties.JwtProperties
 import com.toast1ng.webtoon.common.utils.toDate
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -12,33 +13,34 @@ import java.util.UUID
 
 @Component
 class JwtProvider(
-    @Value("\${jwt.secret}") private val secret: String,
-    @Value("\${jwt.access-token.expiration-min}") private val accessTokenExpirationMinute: Long,
-    @Value("\${jwt.refresh-token.default-expiration-min}") private val defaultRefreshTokenExpirationMinute: Long,
-    @Value("\${jwt.refresh-token.auto-login-expiration-min}") private val autoLoginRefreshTokenExpirationMinute: Long,
+    private val jwtProperties: JwtProperties,
+//    @Value("\${jwt.secret}") private val secret: String,
+//    @Value("\${jwt.access-token.expiration-min}") private val accessTokenExpirationMinute: Long,
+//    @Value("\${jwt.refresh-token.default-expiration-min}") private val defaultRefreshTokenExpirationMinute: Long,
+//    @Value("\${jwt.refresh-token.auto-login-expiration-min}") private val autoLoginRefreshTokenExpirationMinute: Long,
 ) {
     private val key: Key by lazy {
-        Keys.hmacShaKeyFor(secret.toByteArray())
+        Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
     }
 
-    fun createAccessToken(username: String): String {
+    fun createAccessToken(id: Long): String {
         val now = LocalDateTime.now()
-        val expiration = now.plusMinutes(accessTokenExpirationMinute)
+        val expiration = now.plusMinutes(jwtProperties.accessToken.expirationMin)
 
         return Jwts.builder()
-            .setSubject(username)
+            .setSubject(id.toString())
             .setIssuedAt(now.toDate())
             .setExpiration(expiration.toDate())
             .signWith(key, SignatureAlgorithm.HS256)
             .compact()
     }
 
-    fun createRefreshToken(username: String, isAutoLogin: Boolean): String {
+    fun createRefreshToken(id: Long, isAutoLogin: Boolean): String {
         val now = LocalDateTime.now()
         val expiration = now.plusMinutes(getRefreshTokenExpirationMinute(isAutoLogin))
 
         return Jwts.builder()
-            .setSubject(username)
+            .setSubject(id.toString())
             .claim("type", "refresh")
             .claim("tokenId", UUID.randomUUID().toString())
             .setIssuedAt(now.toDate())
@@ -48,20 +50,16 @@ class JwtProvider(
     }
 
     private fun getRefreshTokenExpirationMinute(isAutoLogin: Boolean): Long =
-        if (isAutoLogin) autoLoginRefreshTokenExpirationMinute else defaultRefreshTokenExpirationMinute
+        if (isAutoLogin) jwtProperties.refreshToken.autoLoginExpirationMin else jwtProperties.refreshToken.defaultExpirationMin
 
-    fun getUsername(token: String): String? {
-        return try {
-            Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .body
-                .subject
-        } catch (e: Exception) {
-            null
-        }
+    fun getUserId(token: String): Long? {
+        return Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .body
+            .subject?.toLong()
     }
 
-    fun isValid(token: String): Boolean = getUsername(token) != null
+    fun isValid(token: String): Boolean = getUserId(token) != null
 }

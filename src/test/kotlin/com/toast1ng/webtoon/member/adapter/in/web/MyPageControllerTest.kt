@@ -2,11 +2,11 @@ package com.toast1ng.webtoon.member.adapter.`in`.web
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.toast1ng.webtoon.common.config.JwtProvider
+import com.toast1ng.webtoon.common.domain.jwt.JwtErrorResponseCode
 import com.toast1ng.webtoon.common.response.CommonErrorResponseCode
 import com.toast1ng.webtoon.common.response.CommonSuccessResponseCode
 import com.toast1ng.webtoon.test.annotation.MySpringBootTest
 import com.toast1ng.webtoon.test.annotation.WithMyMockUser
-import com.toast1ng.webtoon.test.utils.mockLocalDateTimeTo
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import org.junit.jupiter.api.AfterEach
@@ -81,7 +81,7 @@ class MyPageControllerTest @Autowired constructor(
     fun approachToMyPageFailBecauseOfNotExitsUser() {
         //given
         val expectedResponseCode = CommonErrorResponseCode.UNAUTHORIZED
-        val token = jwtProvider.createAccessToken("testUser1")
+        val token = jwtProvider.createAccessToken(5L)
 
         //when - then
         mockMvc.get("/mypage") {
@@ -99,14 +99,35 @@ class MyPageControllerTest @Autowired constructor(
         }
     }
 
-    @DisplayName("마이페이지 접근 실패 - 만료된 토큰")
+    @DisplayName("마이페이지 접근 실패 - 토큰 만료")
     @Test
     fun approachToMyPageFailBecauseOfExpireToken() {
         //given
-        val expectedResponseCode = CommonErrorResponseCode.UNAUTHORIZED
-        val token = jwtProvider.createAccessToken("testUser1")
+        val expectedResponseCode = JwtErrorResponseCode.JWT_TOKEN_EXPIRED
+        val token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ5ODgxOTM0LCJleHAiOjE2NDk4ODU1MzR9.Lvh-YrLe8Nnrguuudw4tOn_LWXTADXQFGo4AWksm5Rc"
 
-        mockLocalDateTimeTo(LocalDateTime.now().minusDays(1))
+        //when - then
+        mockMvc.get("/mypage") {
+            contentType = MediaType.APPLICATION_JSON
+            headers {
+                set("Authorization", "Bearer $token")
+            }
+        }.andExpect {
+            status().isUnauthorized
+            jsonPath("$.code") { value(expectedResponseCode.code) }
+            jsonPath("$.message") { value(expectedResponseCode.message) }
+            jsonPath("$.data") { doesNotExist() }
+        }.andDo {
+            print()
+        }
+    }
+
+    @DisplayName("마이페이지 접근 실패 - 토큰 서명 유효하지 않음")
+    @Test
+    fun approachToMyPageFailBecauseOfInvalidSignatureToken() {
+        //given
+        val expectedResponseCode = JwtErrorResponseCode.JWT_TOKEN_SIGNATURE_INVALID
+        val token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjQ5ODgxOTM0LCJleHAiOjE2NDk4ODU1MzR9.BqWvQfdIo3CjOZvPgLW6HjVC0x0fCKgSkEPGJo5SnJI"
 
         //when - then
         mockMvc.get("/mypage") {

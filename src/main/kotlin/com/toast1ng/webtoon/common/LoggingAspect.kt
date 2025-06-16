@@ -17,7 +17,7 @@ class LoggingAspect {
         INFO, TRACE
     }
 
-    @Around("execution(* *(..)) && (within(@org.springframework.stereotype.Service *) || within(@com.toast1ng.webtoon.common.domain.PersistenceAdapter *))")
+    @Around("execution(* *(..)) && (within(@org.springframework.stereotype.Service *) || within(@com.toast1ng.webtoon.common.domain.annotations.PersistenceAdapter *))")
     fun logMethodExecution(joinPoint: ProceedingJoinPoint): Any? {
         val targetClass = joinPoint.target::class
         val methodName = joinPoint.signature.name

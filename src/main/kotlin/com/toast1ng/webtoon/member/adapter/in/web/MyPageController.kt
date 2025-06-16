@@ -1,6 +1,6 @@
 package com.toast1ng.webtoon.member.adapter.`in`.web
 
-import com.toast1ng.webtoon.common.domain.LoginUser
+import com.toast1ng.webtoon.common.domain.annotations.LoginUser
 import com.toast1ng.webtoon.common.response.ResponseEntityFactory
 import com.toast1ng.webtoon.common.response.SuccessResponse
 import com.toast1ng.webtoon.member.domain.User

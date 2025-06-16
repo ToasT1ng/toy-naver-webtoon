@@ -12,7 +12,7 @@ class CustomUserDetailsService(
     private val springDataUserRepository: UserPersistenceAdapter
 ) : SpringSecurityWebtoonUserDetailUseCase {
     override fun loadUserByUsername(username: String): UserDetails {
-        return springDataUserRepository.getUser(UserQuery(username = username))
+        return springDataUserRepository.getUser(UserQuery(id = username.toLong()))
             ?: throw UsernameNotFoundException("User not found")
     }
 }

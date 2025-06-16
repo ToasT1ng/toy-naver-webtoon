@@ -28,11 +28,12 @@ class LoginController(
                 password = request.password
             )
         )
-        val tokens = tokenUseCase.makeTokens(username = user.username, isAutoLogin = false) //TODO isAutoLogin 처리 필요
+        val tokens = tokenUseCase.makeTokens(id = user.id, isAutoLogin = false) //TODO isAutoLogin 처리 필요
         return ResponseEntityFactory.success(
             LoginResponse(
                 accessToken = tokens.accessToken,
                 refreshToken = tokens.refreshToken,
+                userId = user.id,
                 username = user.username,
                 nickname = user.nickname,
                 profileImageUrl = user.profileImage

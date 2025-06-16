@@ -10,16 +10,16 @@ class TokenService(
     private val jwtProvider: JwtProvider,
 ) : TokenUseCase {
     override fun makeTokens(
-        username: String,
+        id: Long,
         isAutoLogin: Boolean
     ): Tokens {
         return Tokens(
-            accessToken = jwtProvider.createAccessToken(username),
-            refreshToken = jwtProvider.createRefreshToken(username, isAutoLogin)
+            accessToken = jwtProvider.createAccessToken(id),
+            refreshToken = jwtProvider.createRefreshToken(id, isAutoLogin)
         )
     }
 
-    override fun makeAccessToken(username: String): String {
-        return jwtProvider.createAccessToken(username)
+    override fun makeAccessToken(id: Long): String {
+        return jwtProvider.createAccessToken(id)
     }
 }

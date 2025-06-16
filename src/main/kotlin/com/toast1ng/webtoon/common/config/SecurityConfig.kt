@@ -1,6 +1,7 @@
 package com.toast1ng.webtoon.common.config
 
 import com.toast1ng.webtoon.common.filter.JwtAuthenticationFilter
+import com.toast1ng.webtoon.common.filter.AuthenticationExceptionHandlingFilter
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -21,7 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig(
     private val userDetailsService: UserDetailsService,
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
-    private val customAuthenticationEntryPoint: ApiAuthenticationEntryPoint
+    private val customAuthenticationEntryPoint: ApiAuthenticationEntryPoint,
+    private val authenticationExceptionHandlingFilter: AuthenticationExceptionHandlingFilter,
 ) {
 
     @Bean
@@ -50,6 +52,7 @@ class SecurityConfig(
                     .anyRequest().permitAll()
             }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(authenticationExceptionHandlingFilter, JwtAuthenticationFilter::class.java)
             .exceptionHandling {
                 it.authenticationEntryPoint(customAuthenticationEntryPoint)
             }
