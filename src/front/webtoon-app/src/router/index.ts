@@ -5,6 +5,7 @@ import MonthlyWebtoon from "@/components/webtoon/MonthlyWebtoon.vue";
 import DailyWebtoon from "@/components/webtoon/DailyWebtoon.vue";
 import WebtoonDetail from "@/components/webtoon/WebtoonDetail.vue";
 import WebtoonEpisode from "@/components/webtoon/WebtoonEpisode.vue";
+import LoginPage from "@/views/LoginPage.vue";
 
 const routes = [
     {
@@ -48,6 +49,12 @@ const routes = [
         path: '/mypage',
         name: 'mypage',
         component: MyPage,
+    },
+    {
+        path: '/login',
+        name: 'loginpage',
+        component: LoginPage,
+        meta: { layout: 'none' }
     },
     {
         path: '/',

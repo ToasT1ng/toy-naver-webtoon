@@ -1,23 +1,25 @@
-<script lang="ts">
-import TopBar from '@/components/TopBar.vue';
-import TabBar from '@/components/TabBar.vue';
+<script setup lang="ts">
+import {ref} from 'vue'
+import TopBar from '@/components/TopBar.vue'
+import TabBar from '@/components/TabBar.vue'
+import router from '@/router'
 
-export default {
-  name: 'App',
-  components: {
-    TopBar,
-    TabBar,
-  },
-};
+const layoutVisible = ref(true)
+router.beforeEach((to, from, next) => {
+  layoutVisible.value = to.meta.layout !== 'none'
+  next()
+})
+
 </script>
 
 <template>
   <v-app>
-    <TopBar/>
-    <TabBar/>
+    <TopBar v-if="layoutVisible"/>
+    <TabBar v-if="layoutVisible"/>
+
     <router-view v-slot="{ Component }">
       <v-expand-transition>
-        <component :is="Component" />
+        <component :is="Component"/>
       </v-expand-transition>
     </router-view>
   </v-app>
