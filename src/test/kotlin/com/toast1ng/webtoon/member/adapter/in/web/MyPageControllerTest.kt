@@ -2,7 +2,7 @@ package com.toast1ng.webtoon.member.adapter.`in`.web
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.toast1ng.webtoon.common.config.JwtProvider
-import com.toast1ng.webtoon.common.domain.jwt.JwtErrorResponseCode
+import com.toast1ng.webtoon.common.domain.auth.JwtErrorResponseCode
 import com.toast1ng.webtoon.common.response.CommonErrorResponseCode
 import com.toast1ng.webtoon.common.response.CommonSuccessResponseCode
 import com.toast1ng.webtoon.test.annotation.MySpringBootTest
@@ -80,7 +80,7 @@ class MyPageControllerTest @Autowired constructor(
     @Test
     fun approachToMyPageFailBecauseOfNotExitsUser() {
         //given
-        val expectedResponseCode = CommonErrorResponseCode.UNAUTHORIZED
+        val expectedResponseCode = JwtErrorResponseCode.INVALID_TOKEN
         val token = jwtProvider.createAccessToken(5L)
 
         //when - then

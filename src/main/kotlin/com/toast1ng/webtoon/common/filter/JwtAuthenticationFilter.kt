@@ -1,8 +1,8 @@
 package com.toast1ng.webtoon.common.filter
 
 import com.toast1ng.webtoon.common.config.JwtProvider
-import com.toast1ng.webtoon.common.domain.jwt.JwtErrorResponseCode
-import com.toast1ng.webtoon.common.domain.jwt.JwtTokenExpireAuthenticationException
+import com.toast1ng.webtoon.common.domain.auth.JwtErrorResponseCode
+import com.toast1ng.webtoon.common.domain.auth.JwtTokenAuthenticationException
 import com.toast1ng.webtoon.common.utils.getLogger
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.JwtException
@@ -35,29 +35,27 @@ class JwtAuthenticationFilter(
         }
     }
 
-    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
+    ) {
         val authHeader = request.getHeader("Authorization")
 
         try {
             if (authHeader?.startsWith("Bearer ") == true) {
-                val token = authHeader.substring(7)
-                val username = jwtProvider.getUserId(token)
-
-                if (username != null && SecurityContextHolder.getContext().authentication == null) {
-                    val userDetails = userDetailsService.loadUserByUsername(username.toString())
-
-                    val authentication = UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.authorities
-                    )
-
-                    SecurityContextHolder.getContext().authentication = authentication
-                }
+                val accessToken = authHeader.removePrefix("Bearer ")
+                val username = jwtProvider.getUserId(accessToken)
+                require(username != null) { "User ID not found in JWT token" }
+                val userDetails = userDetailsService.loadUserByUsername(username.toString())
+                SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.authorities
+                )
             }
         } catch (e: JwtException) {
             log.error("JwtAuthenticationFilter ERROR: ${e.message}", e)
-
             val responseCode = when (e) {
                 is ExpiredJwtException -> JwtErrorResponseCode.JWT_TOKEN_EXPIRED
                 is MalformedJwtException -> JwtErrorResponseCode.JWT_TOKEN_MALFORMED
@@ -65,13 +63,11 @@ class JwtAuthenticationFilter(
                 is SignatureException -> JwtErrorResponseCode.JWT_TOKEN_SIGNATURE_INVALID
                 else -> JwtErrorResponseCode.JWT_TOKEN_INVALID
             }
-
-            val exception = JwtTokenExpireAuthenticationException(responseCode)
-
-            throw exception
+            throw JwtTokenAuthenticationException(responseCode)
 
         } catch (ex: Exception) {
             log.error("JwtAuthenticationFilter ERROR " + ex.message, ex)
+            throw JwtTokenAuthenticationException(JwtErrorResponseCode.INVALID_TOKEN)
         }
 
         filterChain.doFilter(request, response)

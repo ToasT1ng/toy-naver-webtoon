@@ -1,4 +1,4 @@
-package com.toast1ng.webtoon.common.domain.jwt
+package com.toast1ng.webtoon.common.domain.auth
 
 import com.toast1ng.webtoon.common.response.ResponseCode
 import org.springframework.http.HttpStatus
@@ -13,4 +13,5 @@ enum class JwtErrorResponseCode(
     JWT_TOKEN_MALFORMED(40193, "잘못된 형식의 JWT 토큰입니다.", HttpStatus.UNAUTHORIZED),
     JWT_TOKEN_SIGNATURE_INVALID(40194, "JWT 토큰의 서명이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED),
     JWT_TOKEN_UNSUPPORTED(40195, "지원되지 않는 JWT 토큰입니다.", HttpStatus.UNAUTHORIZED),
+    INVALID_TOKEN(40199, "잘못된 토큰입니다.", HttpStatus.UNAUTHORIZED),
 }

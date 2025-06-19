@@ -5,19 +5,14 @@ import com.toast1ng.webtoon.common.utils.toDate
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Component
 class JwtProvider(
     private val jwtProperties: JwtProperties,
-//    @Value("\${jwt.secret}") private val secret: String,
-//    @Value("\${jwt.access-token.expiration-min}") private val accessTokenExpirationMinute: Long,
-//    @Value("\${jwt.refresh-token.default-expiration-min}") private val defaultRefreshTokenExpirationMinute: Long,
-//    @Value("\${jwt.refresh-token.auto-login-expiration-min}") private val autoLoginRefreshTokenExpirationMinute: Long,
 ) {
     private val key: Key by lazy {
         Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
@@ -49,8 +44,10 @@ class JwtProvider(
             .compact()
     }
 
-    private fun getRefreshTokenExpirationMinute(isAutoLogin: Boolean): Long =
-        if (isAutoLogin) jwtProperties.refreshToken.autoLoginExpirationMin else jwtProperties.refreshToken.defaultExpirationMin
+    private fun getRefreshTokenExpirationMinute(isAutoLogin: Boolean): Long {
+        return if (isAutoLogin) jwtProperties.refreshToken.autoLoginExpirationMin
+        else jwtProperties.refreshToken.defaultExpirationMin
+    }
 
     fun getUserId(token: String): Long? {
         return Jwts.parserBuilder()

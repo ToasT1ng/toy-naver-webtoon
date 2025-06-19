@@ -1,7 +1,7 @@
-package com.toast1ng.webtoon.common.domain.jwt
+package com.toast1ng.webtoon.common.domain.auth
 
 import org.springframework.security.core.AuthenticationException
 
-class JwtTokenExpireAuthenticationException(
+class JwtTokenAuthenticationException(
     val code: JwtErrorResponseCode,
 ) : AuthenticationException(code.message)
