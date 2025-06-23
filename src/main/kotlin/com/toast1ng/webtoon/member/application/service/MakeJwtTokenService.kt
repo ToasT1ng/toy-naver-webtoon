@@ -8,7 +8,7 @@ import com.toast1ng.webtoon.member.domain.User
 import org.springframework.stereotype.Service
 
 @Service
-class TokenService(
+class MakeJwtTokenService(
     private val jwtProvider: JwtProvider,
     private val userDetailsService: CustomUserDetailsService,
 ) : MakeTokenUseCase, RefreshTokenUseCase {

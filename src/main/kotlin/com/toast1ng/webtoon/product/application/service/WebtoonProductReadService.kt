@@ -18,7 +18,7 @@ class WebtoonProductReadService(
     private val readWebtoonProductPort: ReadWebtoonProductPort
 ) : GetWebtoonUseCase {
     override fun getWebtoon(webtoonId: Long): WebtoonProduct {
-        return requireNotNull(readWebtoonProductPort.getWebtoon(WebtoonProductQuery(id = webtoonId)))
+        return checkNotNull(readWebtoonProductPort.getWebtoon(WebtoonProductQuery(id = webtoonId)))
     }
 
     override fun getDailyWebtoons(command: GetSortedDailyWebtoonsCommand): List<WebtoonProduct> {

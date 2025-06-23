@@ -15,3 +15,9 @@ fun LocalDateTime.toDateOnlyFormatString(): String {
 fun LocalDateTime.toDate(): Date {
     return Date.from(this.atZone(ZoneId.systemDefault()).toInstant())
 }
+
+fun Date.toLocalDateTime(): LocalDateTime {
+    return this.toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDateTime()
+}

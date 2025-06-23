@@ -26,6 +26,11 @@ class GlobalExceptionHandler {
         return ResponseEntityFactory.error(ex.code)
     }
 
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgumentException(ex: IllegalArgumentException): ResponseEntity<ErrorResponse> {
+        log.error("Illegal argument exception occurred", ex)
+        return ResponseEntityFactory.error(CommonErrorResponseCode.BAD_REQUEST)
+    }
 
     @ExceptionHandler(Exception::class)
     fun handleAllExceptions(ex: Exception): ResponseEntity<ErrorResponse> {

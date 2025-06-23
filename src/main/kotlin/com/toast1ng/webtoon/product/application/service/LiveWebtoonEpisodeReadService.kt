@@ -18,7 +18,7 @@ class LiveWebtoonEpisodeReadService(
     private val readWebtoonEpisodePort: ReadWebtoonEpisodePort,
 ) : GetWebtoonEpisodeUseCase {
     override fun getWebtoonEpisode(command: GetWebtoonEpisodeCommand): WebtoonEpisode {
-        return requireNotNull(readWebtoonEpisodePort.getWebtoonEpisode(command.toQuery()))
+        return checkNotNull(readWebtoonEpisodePort.getWebtoonEpisode(command.toQuery()))
     }
 
     override fun getWebtoonEpisodes(
