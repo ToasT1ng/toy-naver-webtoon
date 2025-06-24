@@ -4,6 +4,7 @@ import com.toast1ng.webtoon.common.config.JwtProvider
 import com.toast1ng.webtoon.common.domain.auth.JwtErrorResponseCode
 import com.toast1ng.webtoon.common.domain.auth.JwtTokenAuthenticationException
 import com.toast1ng.webtoon.common.utils.getLogger
+import com.toast1ng.webtoon.member.application.port.`in`.QueryTokenUseCase
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.MalformedJwtException
@@ -23,6 +24,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 class JwtAuthenticationFilter(
     private val jwtProvider: JwtProvider,
     private val userDetailsService: UserDetailsService,
+    private val queryTokenUseCase: QueryTokenUseCase,
 ) : OncePerRequestFilter() {
     private val log = getLogger()
 
@@ -45,6 +47,7 @@ class JwtAuthenticationFilter(
         try {
             if (authHeader?.startsWith("Bearer ") == true) {
                 val accessToken = authHeader.removePrefix("Bearer ")
+                queryTokenUseCase.validateTokenIsNotBlackListed(accessToken)
                 val username = jwtProvider.getUserId(accessToken)
                 require(username != null) { "User ID not found in JWT token" }
                 val userDetails = userDetailsService.loadUserByUsername(username.toString())

@@ -21,3 +21,14 @@ export const loginCall = async (
     const response = await apiClient.post<ICommonResponse<ILoginResponse>>('/auth/login', req)
     return response.data
 }
+
+interface ILogoutRequest {
+    accessToken: string
+}
+
+export const logoutCall = async (
+    req: ILogoutRequest
+): Promise<ICommonResponse> => {
+    const response = await apiClient.post<ICommonResponse<ILoginResponse>>('/auth/login', req)
+    return response.data
+}

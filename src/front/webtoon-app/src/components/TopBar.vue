@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import {useRouter} from 'vue-router'
 import {useUserStore} from '@/stores/userStore'
+import {useLogout} from "@/composables/useLogin";
 
+const {mutateAsync} = useLogout()
 const userStore = useUserStore()
 const router = useRouter()
 
-const logout = () => {
+const logout = async () => {
+  try {
+    await mutateAsync({accessToken: userStore.accessToken})
+  } catch (e) {
+    console.error('로그아웃 실패:', e)
+  }
   userStore.logout()
-  //TODO: 로그아웃 API 호출 필요
-  router.push('/login')
+  await router.push('/login')
 }
 </script>
 
@@ -28,7 +34,7 @@ const logout = () => {
         <template #activator="{ props }">
           <v-btn icon v-bind="props">
             <v-avatar size="32">
-              <img src="/default-profile.png" alt="프로필" />
+              <img src="/default-profile.png" alt="프로필"/>
             </v-avatar>
           </v-btn>
         </template>
@@ -37,13 +43,13 @@ const logout = () => {
         <v-card class="pa-4" width="250">
           <div class="profile-box">
             <v-avatar size="56">
-              <img src="/default-profile.png" alt="프로필" />
+              <img src="/default-profile.png" alt="프로필"/>
             </v-avatar>
             <div class="profile-info">
               <div class="nickname">{{ userStore.nickname ?? '디폴트닉네임' }}</div>
             </div>
           </div>
-          <v-divider class="my-3" />
+          <v-divider class="my-3"/>
           <v-btn block color="grey darken-1" @click="logout">로그아웃</v-btn>
         </v-card>
       </v-menu>

@@ -32,7 +32,6 @@ class RedisJwtTokenService(
                 device = command.device ?: "",
                 ttlSeconds = remainingSeconds
             )
-
         )
     }
 
