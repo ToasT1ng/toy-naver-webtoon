@@ -3,6 +3,7 @@ import {computed, ref, watch} from "vue";
 import {useDailyWebtoon} from "@/composables/useDailyWebtoon";
 import EntireDailyWebtoonItems from "@/components/webtoon/EntireDailyWebtoonItems.vue";
 import RecommendedDailyWebtoonItems from "@/components/webtoon/RecommendedDailyWebtoonItems.vue";
+import {TDailyWebtoonsSortOption} from "@/features/webtoon/types/sortOptions";
 
 const props = defineProps({
   daysOfWeekValue: {
@@ -11,7 +12,7 @@ const props = defineProps({
   }
 })
 
-const {updateDayOfWeek} = useDailyWebtoon()
+const {updateDayOfWeek, updateSortOption, refetchItems} = useDailyWebtoon()
 
 const daysOfWeek = [
   {name: '월요', value: 'mon'},
@@ -28,19 +29,18 @@ const currentDayName = computed(() => currentDay.value?.name ?? '')
 const currentDayParam = computed(() => currentDay.value?.value ?? undefined)
 
 function onSort() {
-  console.log(selectedSort.value) //TODO api 재호출
+  updateSortOption(selectedSort.value)
+  refetchItems()
 }
 
-type SortOption = 'popular' | 'updated' | 'views' | 'rating'
-
-const selectedSort = ref<SortOption>('popular')
+const selectedSort = ref<TDailyWebtoonsSortOption>('POPULAR')
 
 const sortOptions = [
-  {label: '인기순', value: 'popular'},
-  {label: '업데이트순', value: 'updated'},
-  {label: '조회순', value: 'views'},
-  {label: '별점순', value: 'rating'}
-] satisfies readonly { label: string; value: SortOption }[]
+  {label: '인기순', value: 'POPULAR'},
+  {label: '업데이트순', value: 'UPLOADED'},
+  {label: '조회순', value: 'VIEWS'},
+  {label: '별점순', value: 'RATING'}
+] satisfies readonly { label: string; value: TDailyWebtoonsSortOption }[]
 
 watch([currentDayParam], ([newDay]) => {
   if (newDay) {

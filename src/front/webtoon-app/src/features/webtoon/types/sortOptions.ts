@@ -1,0 +1,1 @@
+export type TDailyWebtoonsSortOption = 'POPULAR' | 'UPLOADED' | 'VIEWS' | 'RATING';

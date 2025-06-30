@@ -1,4 +1,9 @@
 import apiClient, {ICommonResponse} from './index'
+import {TDailyWebtoonsSortOption} from "@/features/webtoon/types/sortOptions";
+
+interface IDailyRecommendedWebtoonsRequest {
+    dayOfWeek: string
+}
 
 interface IDailyRecommendedWebtoonsResponse {
     result: IDailyRecommendedWebtoonResponse[]
@@ -14,7 +19,7 @@ interface IDailyRecommendedWebtoonResponse {
 }
 
 export const getDailyRecommendedWebtoon = async (
-    req: IDailyWebtoonsRequest
+    req: IDailyRecommendedWebtoonsRequest
 ): Promise<ICommonResponse<IDailyRecommendedWebtoonsResponse>> => {
     const response = await apiClient.get<ICommonResponse<IDailyRecommendedWebtoonsResponse>>('/webtoons/daily/recommend/three', {
         params: req,
@@ -24,6 +29,7 @@ export const getDailyRecommendedWebtoon = async (
 
 interface IDailyWebtoonsRequest {
     dayOfWeek: string
+    orderBy: TDailyWebtoonsSortOption
 }
 
 interface IDailyWebtoonsResponse {
