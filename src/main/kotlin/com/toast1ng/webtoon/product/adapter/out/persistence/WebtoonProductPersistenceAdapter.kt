@@ -3,7 +3,8 @@ package com.toast1ng.webtoon.product.adapter.out.persistence
 import com.toast1ng.webtoon.common.domain.annotations.PersistenceAdapter
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.CreatorDto
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPersonDto
-import com.toast1ng.webtoon.product.application.port.out.*
+import com.toast1ng.webtoon.product.application.port.out.MakeWebtoonPort
+import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonProductPort
 import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductSortQuery
@@ -22,6 +23,12 @@ class WebtoonProductPersistenceAdapter(
 
     override fun getWebtoons(query: WebtoonProductQuery): List<WebtoonProduct> {
         return webtoonProductRepository.findAll(query).map {
+            mapper.mapToEntity(it)
+        }
+    }
+
+    override fun getWebtoonsByLatestEpisodeUpload(query: WebtoonProductSortQuery): List<WebtoonProduct> {
+        return webtoonProductRepository.findAllByLatestEpisodeUpload(query).map {
             mapper.mapToEntity(it)
         }
     }

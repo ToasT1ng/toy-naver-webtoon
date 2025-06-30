@@ -50,6 +50,29 @@ class WebtoonProductPersistenceAdapterTest @Autowired constructor(
     }
 
     @Test
+    @DisplayName("정렬된 웹툰 리스트 DB상에서 불러오기 - 마지막 업로드 기준")
+    fun getWebtoonsSortedByLatestEpisodeUpload() {
+        // given
+        val query = WebtoonProductSortQuery(
+            day = DayOfWeek.TUESDAY,
+            sortOptions = listOf(
+                QuerySortOption(
+                    key = WebtoonProductSortColumn.UPLOAD_AT,
+                    direction = SortDirection.ASC
+                ),
+            )
+        )
+
+        // when
+        val result = webtoonProductPersistenceAdapter.getWebtoonsByLatestEpisodeUpload(query)
+
+        // then
+        result.size shouldBe 2
+        result[0].id shouldBe 4L
+        result[1].id shouldBe 1L
+    }
+
+    @Test
     @DisplayName("정렬된 웹툰 리스트 DB상에서 불러오기 - 평점 기준")
     fun getSortedWebtoons_RATING() {
         // given

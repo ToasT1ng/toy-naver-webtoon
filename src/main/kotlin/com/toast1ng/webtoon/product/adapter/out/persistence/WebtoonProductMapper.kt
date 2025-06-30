@@ -2,6 +2,7 @@ package com.toast1ng.webtoon.product.adapter.out.persistence
 
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonProductJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPersonDto
+import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithEpisodeProjection
 import com.toast1ng.webtoon.product.domain.Creator
 import com.toast1ng.webtoon.product.domain.CreatorRole
 import com.toast1ng.webtoon.product.domain.DayOfWeek
@@ -29,6 +30,7 @@ class WebtoonProductMapper {
             creators = jpaEntity.creators.map {
                 Creator(
                     personId = it.person.id ?: 0L,
+                    webtoonId = jpaEntity.id ?: 0L,
                     name = it.person.name,
                     role = CreatorRole.fromValue(it.person.role),
                 )
@@ -53,10 +55,29 @@ class WebtoonProductMapper {
             creators = dto.creators.map {
                 Creator(
                     personId = it.personId,
+                    webtoonId = dto.id,
                     name = it.name,
                     role = CreatorRole.fromValue(it.role),
                 )
             },
+        )
+    }
+
+    fun mapToEntity(projection: WebtoonWithEpisodeProjection): WebtoonProduct {
+        return WebtoonProduct(
+            id = projection.webtoonId,
+            title = projection.title,
+            description = projection.description,
+            views = projection.views,
+            rating = projection.rating,
+            likes = projection.likes,
+            mainThumbnail = projection.mainThumbnail ?: "",
+            subThumbnail = projection.subThumbnail ?: "",
+            day = DayOfWeek.fromValue(projection.day),
+            restrictedAge = projection.restrictAge,
+            status = WebtoonStatus.valueOf(projection.status),
+            genres = listOf(projection.genre.let { Genre(it.id ?: 0L, it.name, it.description ?: "") }),
+            creators = emptyList(),
         )
     }
 }

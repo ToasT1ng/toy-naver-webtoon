@@ -15,6 +15,7 @@ data class WebtoonProductSortQuery(
 enum class WebtoonProductSortColumn(override val columnName: String) : QuerySortColumn {
     RATING("rating"),
     VIEWS("views"),
+    UPLOAD_AT("uploadAt"),
     ;
 }
 
@@ -34,6 +35,7 @@ private fun WebtoonProductSortKey.toSortColumn(): WebtoonProductSortColumn {
     return when (this) {
         WebtoonProductSortKey.RATING -> WebtoonProductSortColumn.RATING
         WebtoonProductSortKey.VIEWS -> WebtoonProductSortColumn.VIEWS
+        WebtoonProductSortKey.UPLOADED -> WebtoonProductSortColumn.UPLOAD_AT
         else -> throw IllegalArgumentException("WebtoonProductSortKey $this is not supported.")
     }
 }

@@ -7,6 +7,7 @@ import com.toast1ng.webtoon.product.domain.WebtoonProduct
 
 interface ReadWebtoonProductPort {
     fun getWebtoons(query: WebtoonProductQuery): List<WebtoonProduct>
+    fun getWebtoonsByLatestEpisodeUpload(query: WebtoonProductSortQuery): List<WebtoonProduct>
     fun getSortedWebtoons(query: WebtoonProductSortQuery): List<WebtoonProduct>
     fun getWebtoon(query: WebtoonProductQuery): WebtoonProduct?
     fun getWebtoonCount(query: WebtoonProductQuery): Long

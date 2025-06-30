@@ -3,6 +3,7 @@ package com.toast1ng.webtoon.product.application.service
 import com.toast1ng.webtoon.product.application.port.`in`.GetWebtoonUseCase
 import com.toast1ng.webtoon.product.application.port.`in`.command.GetSortedDailyWebtoonsCommand
 import com.toast1ng.webtoon.product.application.port.`in`.command.WebtoonProductSortKey
+import com.toast1ng.webtoon.product.application.port.out.ReadCreatorPort
 import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonProductPort
@@ -15,28 +16,37 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 @Service
 class WebtoonProductReadService(
-    private val readWebtoonProductPort: ReadWebtoonProductPort
+    private val readWebtoonProductPort: ReadWebtoonProductPort,
+    private val readCreatorPort: ReadCreatorPort
 ) : GetWebtoonUseCase {
     override fun getWebtoon(webtoonId: Long): WebtoonProduct {
         return checkNotNull(readWebtoonProductPort.getWebtoon(WebtoonProductQuery(id = webtoonId)))
     }
 
     override fun getDailyWebtoons(command: GetSortedDailyWebtoonsCommand): List<WebtoonProduct> {
-        //TODO : POPULAR, UPLOADED 정렬 구현
+        //TODO : POPULAR 정렬 구현
         return when (command.sortOption.key) {
             WebtoonProductSortKey.POPULAR -> {
                 readWebtoonProductPort.getWebtoons(
                     WebtoonProductQuery(day = command.day)
                 )
             }
-            WebtoonProductSortKey.UPLOADED -> {
-                readWebtoonProductPort.getWebtoons(
-                    WebtoonProductQuery(day = command.day)
-                )
-            }
+
+            WebtoonProductSortKey.UPLOADED -> getWebtoonsByLastEpisodeUpload(command)
+
             WebtoonProductSortKey.VIEWS, WebtoonProductSortKey.RATING -> {
                 readWebtoonProductPort.getSortedWebtoons(command.toSortQuery())
             }
+        }
+    }
+
+    private fun getWebtoonsByLastEpisodeUpload(command: GetSortedDailyWebtoonsCommand): List<WebtoonProduct> {
+        val webtoonProducts = readWebtoonProductPort.getWebtoonsByLatestEpisodeUpload(command.toSortQuery())
+        val webtoonIds = webtoonProducts.map { it.id }
+        val creators = readCreatorPort.getCreatorsByWebtoonIds(webtoonIds)
+        val creatorMap = creators.groupBy { it.webtoonId }
+        return webtoonProducts.map {
+            it.copy(creators = creatorMap[it.id] ?: emptyList())
         }
     }
 

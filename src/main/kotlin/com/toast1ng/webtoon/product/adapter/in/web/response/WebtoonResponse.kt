@@ -26,9 +26,9 @@ fun WebtoonProduct.toWebtoonResponse(): WebtoonResponse {
     return WebtoonResponse(
         id = this.id,
         title = this.title,
-        writer = this.writer.toPersonResponse(),
-        illustrator = this.illustrator.toPersonResponse(),
-        originalAuthor = this.originalAuthor?.toPersonResponse(),
+        writer = this.getWriter().toPersonResponse(),
+        illustrator = this.getIllustrator().toPersonResponse(),
+        originalAuthor = this.getOriginalAuthor()?.toPersonResponse(),
         dayOfWeek = this.day.value,
         restrictedAge = this.restrictedAge,
         description = this.description,

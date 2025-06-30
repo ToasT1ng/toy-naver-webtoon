@@ -19,7 +19,15 @@ data class WebtoonProduct(
 ) {
     private val creatorMap = creators.associateBy { it.role }
 
-    val writer: Creator = requireNotNull(creatorMap[CreatorRole.WRITER]) { "WRITER is required" }
-    val illustrator: Creator = requireNotNull(creatorMap[CreatorRole.ILLUSTRATOR]) { "ILLUSTRATOR is required" }
-    val originalAuthor: Creator? = creatorMap[CreatorRole.ORIGINAL_AUTHOR]
+    fun getWriter(): Creator {
+        return requireNotNull(creatorMap[CreatorRole.WRITER]) { "WRITER is required" }
+    }
+
+    fun getIllustrator(): Creator {
+        return requireNotNull(creatorMap[CreatorRole.ILLUSTRATOR]) { "ILLUSTRATOR is required" }
+    }
+
+    fun getOriginalAuthor(): Creator? {
+        return creatorMap[CreatorRole.ORIGINAL_AUTHOR]
+    }
 }
