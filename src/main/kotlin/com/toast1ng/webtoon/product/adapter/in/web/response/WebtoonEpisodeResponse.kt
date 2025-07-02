@@ -1,6 +1,6 @@
 package com.toast1ng.webtoon.product.adapter.`in`.web.response
 
-import com.toast1ng.webtoon.common.utils.toDateOnlyFormatString
+import com.toast1ng.webtoon.common.utils.toDateOnlyFormatWithHyphenString
 import com.toast1ng.webtoon.product.domain.WebtoonEpisode
 
 data class WebtoonEpisodeResponse(
@@ -22,7 +22,7 @@ fun WebtoonEpisode.toResponse(): WebtoonEpisodeResponse {
         title = this.title,
         thumbnail = this.thumbnail,
         rating = this.rating.toString(),
-        uploadDate = this.uploadDate.toDateOnlyFormatString(),
+        uploadDate = this.uploadDate.toDateOnlyFormatWithHyphenString(),
         images = this.images
     )
 }

@@ -1,7 +1,9 @@
 package com.toast1ng.webtoon.product.adapter.`in`.web
 
+import com.toast1ng.webtoon.common.domain.annotations.LoginUser
 import com.toast1ng.webtoon.common.response.ResponseEntityFactory
 import com.toast1ng.webtoon.common.response.SuccessResponse
+import com.toast1ng.webtoon.member.domain.User
 import com.toast1ng.webtoon.product.adapter.`in`.web.request.PagingWebtoonEpisodesRequest
 import com.toast1ng.webtoon.product.adapter.`in`.web.request.toCommand
 import com.toast1ng.webtoon.product.adapter.`in`.web.response.PagingWebtoonEpisodesResponse
@@ -45,15 +47,18 @@ class ReadWebtoonEpisodeController(
     @GetMapping("/webtoons/{webtoonId}/episodes/{episodeId}")
     fun getWebtoonEpisode(
         @PathVariable webtoonId: Long,
-        @PathVariable episodeId: Long
+        @PathVariable episodeId: Long,
+        @LoginUser user: User? = null
     ): ResponseEntity<SuccessResponse<WebtoonEpisodeResponse>> {
-        webtoonEpisodeViewsService.updateWebtoonViews(
-            UpdateWebtoonViewsCommand(
-                userId = 123L, // TODO: 사용자 ID를 실제로 받아와야 합니다.
-                episodeId = episodeId,
-                webtoonId = webtoonId
+        if (user != null) {
+            webtoonEpisodeViewsService.updateWebtoonViews(
+                UpdateWebtoonViewsCommand(
+                    userId = user.id,
+                    episodeId = episodeId,
+                    webtoonId = webtoonId
+                )
             )
-        )
+        }
         val result = liveWebtoonEpisodeReadService.getWebtoonEpisode(
             GetWebtoonEpisodeCommand(
                 id = episodeId,
