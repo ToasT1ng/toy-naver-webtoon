@@ -6,6 +6,7 @@ import {useUserStore} from "@/stores/userStore";
 
 const username = ref('')
 const password = ref('')
+const errorMessage = ref('')
 
 const userStore = useUserStore()
 
@@ -15,7 +16,6 @@ const goHome = () => {
   router.push('/')
 }
 
-// TODO : 로그인 실패 시 화면에 보이도록 수정
 const handleLogin = async () => {
   if (!username.value || !password.value) {
     alert('아이디와 비밀번호를 입력하세요.')
@@ -30,7 +30,7 @@ const handleLogin = async () => {
     userStore.login(result.userId, result.nickname, result.profileImage, result.accessToken, result.refreshToken)
     router.push('/')
   } catch (e) {
-    alert((e as Error).message || '로그인에 실패했습니다.')
+    errorMessage.value = (e as Error).message || '로그인에 실패했습니다.'
   }
 }
 </script>
@@ -41,6 +41,7 @@ const handleLogin = async () => {
 
     <div class="login-container">
       <form @submit.prevent="handleLogin">
+
         <div class="form-group">
           <div class="input-wrapper">
             <input
@@ -62,6 +63,8 @@ const handleLogin = async () => {
             />
           </div>
         </div>
+
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
 
         <button type="submit">로그인</button>
       </form>
@@ -159,5 +162,12 @@ button:hover {
 
 .login-links a + a {
   border-left: 1px solid #ddd;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 </style>
