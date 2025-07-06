@@ -87,3 +87,17 @@ CREATE TABLE webtoon_image
     updated_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (webtoon_id) REFERENCES webtoon (id)
 );
+
+CREATE TABLE user_liked_webtoon
+(
+    id              BIGINT PRIMARY KEY AUTO_INCREMENT,
+    webtoon_users_id BIGINT NOT NULL,
+    webtoon_id      BIGINT NOT NULL,
+    status          VARCHAR(20) NOT NULL DEFAULT 'LIKE',
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (webtoon_users_id) REFERENCES webtoon_users (id),
+    FOREIGN KEY (webtoon_id) REFERENCES webtoon (id),
+    UNIQUE (webtoon_users_id, webtoon_id)
+);
