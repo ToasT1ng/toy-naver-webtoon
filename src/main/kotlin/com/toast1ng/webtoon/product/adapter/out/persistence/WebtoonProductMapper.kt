@@ -1,5 +1,6 @@
 package com.toast1ng.webtoon.product.adapter.out.persistence
 
+import com.toast1ng.webtoon.product.adapter.out.persistence.entity.GenreJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonProductJpaEntity
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPersonDto
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithEpisodeProjection
@@ -10,6 +11,7 @@ import com.toast1ng.webtoon.product.domain.Genre
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import com.toast1ng.webtoon.product.domain.WebtoonStatus
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 @Component
 class WebtoonProductMapper {
@@ -78,6 +80,28 @@ class WebtoonProductMapper {
             status = WebtoonStatus.valueOf(projection.status),
             genres = listOf(projection.genre.let { Genre(it.id ?: 0L, it.name, it.description ?: "") }),
             creators = emptyList(),
+        )
+    }
+
+    fun mapToJpaEntity(webtoon: WebtoonProduct): WebtoonProductJpaEntity {
+        return WebtoonProductJpaEntity(
+            id = webtoon.id.takeIf { it != 0L },
+            title = webtoon.title,
+            description = webtoon.description,
+            views = webtoon.views,
+            rating = webtoon.rating,
+            likes = webtoon.likes,
+            mainThumbnail = webtoon.mainThumbnail,
+            subThumbnail = webtoon.subThumbnail,
+            day = webtoon.day.value,
+            restrictAge = webtoon.restrictedAge,
+            status = webtoon.status.name,
+            isDeleted = false, //TODO: 구현필요
+            createdAt = LocalDateTime.now(),
+            updatedAt = LocalDateTime.now(),
+            genre = webtoon.genres.firstOrNull()?.let {
+                GenreJpaEntity(it.id, it.name, it.description)
+            } ?: GenreJpaEntity(0L, "", "") //TODO: many to many 이후 수정 필요
         )
     }
 }
