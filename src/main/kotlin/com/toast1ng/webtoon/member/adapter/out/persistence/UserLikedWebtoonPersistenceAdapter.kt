@@ -20,4 +20,8 @@ class UserLikedWebtoonPersistenceAdapter(
     override fun getWebtoonLikes(query: UserLikedWebtoonQuery): List<UserLikedWebtoon> {
         return repository.findAll(query).map { mapper.mapToEntity(it) }
     }
+
+    override fun getWebtoonLike(query: UserLikedWebtoonQuery): UserLikedWebtoon? {
+        return repository.find(query)?.let { mapper.mapToEntity(it) }
+    }
 }

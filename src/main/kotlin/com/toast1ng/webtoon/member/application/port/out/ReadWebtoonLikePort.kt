@@ -5,4 +5,5 @@ import com.toast1ng.webtoon.member.domain.UserLikedWebtoon
 
 interface ReadWebtoonLikePort {
     fun getWebtoonLikes(query: UserLikedWebtoonQuery): List<UserLikedWebtoon>
+    fun getWebtoonLike(query: UserLikedWebtoonQuery): UserLikedWebtoon?
 }

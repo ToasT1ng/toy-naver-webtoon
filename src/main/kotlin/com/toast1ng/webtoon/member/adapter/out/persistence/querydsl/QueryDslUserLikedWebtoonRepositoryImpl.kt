@@ -9,6 +9,15 @@ import com.toast1ng.webtoon.member.application.port.out.query.UserLikedWebtoonQu
 class QueryDslUserLikedWebtoonRepositoryImpl(
     private val queryFactory: JPAQueryFactory
 ) : QueryDslUserLikedWebtoonRepository {
+    override fun find(query: UserLikedWebtoonQuery): UserLikedWebtoonJpaEntity? {
+        return queryFactory
+            .selectFrom(userLikedWebtoonJpaEntity)
+            .where(
+                makeBooleanExpression(query)
+            )
+            .fetchOne()
+    }
+
     override fun findAll(query: UserLikedWebtoonQuery): List<UserLikedWebtoonJpaEntity> {
         return queryFactory
             .selectFrom(userLikedWebtoonJpaEntity)
