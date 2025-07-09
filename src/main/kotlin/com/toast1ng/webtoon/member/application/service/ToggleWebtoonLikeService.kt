@@ -8,6 +8,7 @@ import com.toast1ng.webtoon.member.application.port.out.query.UserLikedWebtoonQu
 import com.toast1ng.webtoon.member.domain.User
 import com.toast1ng.webtoon.member.domain.UserLikedWebtoon
 import com.toast1ng.webtoon.member.domain.UserLikedWebtoonFactory
+import com.toast1ng.webtoon.member.domain.WebtoonLikedStatus
 import com.toast1ng.webtoon.product.domain.WebtoonProduct
 import org.springframework.stereotype.Service
 
@@ -18,33 +19,43 @@ class ToggleWebtoonLikeService(
     private val readWebtoonProductPort: ReadWebtoonProductPort,
 ): ToggleWebtoonLikeUseCase {
     override fun likeWebtoon(user: User, webtoonId: Long) {
-        val webtoon = getWebtoonProduct(webtoonId)
-        val webtoonLike = getWebtoonLike(user, webtoonId, webtoon)
-        webtoonLike.like()
-        toggleWebtoonLikePort.toggleWebtoonLike(webtoonLike)
+        toggleLike(user, webtoonId, WebtoonLikedStatus.LIKED)
     }
 
     override fun unlikeWebtoon(user: User, webtoonId: Long) {
-        val webtoon = getWebtoonProduct(webtoonId)
-        val webtoonLike = getWebtoonLike(user, webtoonId, webtoon)
-        webtoonLike.unlike()
-        toggleWebtoonLikePort.toggleWebtoonLike(webtoonLike)
+        toggleLike(user, webtoonId, WebtoonLikedStatus.UNLIKED)
     }
 
-    private fun getWebtoonProduct(webtoonId: Long): WebtoonProduct {
+    private fun toggleLike(user: User, webtoonId: Long, targetStatus: WebtoonLikedStatus) {
+        val webtoon = findWebtoonOrThrow(webtoonId)
+        val userLike = getOrCreateUserLike(user, webtoon)
+
+        if (userLike.isAlreadyExits() && userLike.status == targetStatus) {
+            val action = targetStatus.name.lowercase()
+            throw IllegalStateException("Webtoon with id $webtoonId is already $action by user ${user.username}.")
+        }
+
+        when (targetStatus) {
+            WebtoonLikedStatus.LIKED -> userLike.like()
+            WebtoonLikedStatus.UNLIKED -> userLike.unlike()
+        }
+
+        toggleWebtoonLikePort.toggleWebtoonLike(userLike)
+    }
+
+    private fun findWebtoonOrThrow(webtoonId: Long): WebtoonProduct {
         return readWebtoonProductPort.findWebtoonProductById(webtoonId)
             ?: throw IllegalArgumentException("Webtoon with id $webtoonId does not exist.")
     }
 
-    private fun getWebtoonLike(
+    private fun getOrCreateUserLike(
         user: User,
-        webtoonId: Long,
         webtoon: WebtoonProduct
     ): UserLikedWebtoon {
         return readWebtoonLikePort.getWebtoonLike(
             query = UserLikedWebtoonQuery(
                 userId = user.id,
-                webtoonId = webtoonId
+                webtoonId = webtoon.id
             )
         ) ?: run {
             UserLikedWebtoonFactory.create(

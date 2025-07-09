@@ -19,6 +19,10 @@ data class UserLikedWebtoon(
         this.status = WebtoonLikedStatus.UNLIKED
         this.updatedAt = LocalDateTime.now()
     }
+
+    fun isAlreadyExits(): Boolean {
+        return this.id != 0L
+    }
 }
 
 object UserLikedWebtoonFactory {

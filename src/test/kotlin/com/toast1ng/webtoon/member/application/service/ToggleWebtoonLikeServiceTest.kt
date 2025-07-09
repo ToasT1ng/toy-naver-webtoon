@@ -88,7 +88,7 @@ class ToggleWebtoonLikeServiceTest {
 
     @DisplayName("이미 좋아요했던 적이 있으면 좋아요 상태를 변경한다")
     @Test
-    fun likeWebtoonAlreadyLiked() {
+    fun likeWebtoonAlreadyLikedBefore() {
         // given
         val givenWebtoonId = 1L
         val expectedWebtoonLikeId = 123L
@@ -96,7 +96,11 @@ class ToggleWebtoonLikeServiceTest {
         mockingWebtoonLikePort(
             userId = givenUser.id,
             webtoonId = givenWebtoonId,
-            webtoonLike = makeWebtoonLike(id = expectedWebtoonLikeId, webtoonId = givenWebtoonId, status = WebtoonLikedStatus.UNLIKED)
+            webtoonLike = makeWebtoonLike(
+                id = expectedWebtoonLikeId,
+                webtoonId = givenWebtoonId,
+                status = WebtoonLikedStatus.UNLIKED
+            )
         )
 
         // when
@@ -115,6 +119,28 @@ class ToggleWebtoonLikeServiceTest {
         )
     }
 
+    @DisplayName("이미 좋아요를 누른 웹툰에 좋아요를 누르면 예외가 발생한다")
+    @Test
+    fun likeWebtoonAlreadyInLiked() {
+        // given
+        val givenWebtoonId = 1L
+        mockingWebtoonProductPort(webtoonId = givenWebtoonId, webtoonProduct = makeWebtoonProduct(givenWebtoonId))
+        mockingWebtoonLikePort(
+            userId = givenUser.id,
+            webtoonId = givenWebtoonId,
+            webtoonLike = makeWebtoonLike(id = 1234L, webtoonId = givenWebtoonId, status = WebtoonLikedStatus.LIKED)
+        )
+
+        // when
+        val exception = shouldThrowAny {
+            service.likeWebtoon(user = givenUser, webtoonId = givenWebtoonId)
+        }
+
+        // then
+        verify(toggleWebtoonLikePort, times(0)).toggleWebtoonLike(any())
+        exception.javaClass shouldBe IllegalStateException::class.java
+    }
+
     @DisplayName("좋아요를 해제한다.")
     @Test
     fun unlikeWebtoon() {
@@ -125,7 +151,11 @@ class ToggleWebtoonLikeServiceTest {
         mockingWebtoonLikePort(
             userId = givenUser.id,
             webtoonId = givenWebtoonId,
-            webtoonLike = makeWebtoonLike(id = expectedWebtoonLikeId, webtoonId = givenWebtoonId, status = WebtoonLikedStatus.LIKED)
+            webtoonLike = makeWebtoonLike(
+                id = expectedWebtoonLikeId,
+                webtoonId = givenWebtoonId,
+                status = WebtoonLikedStatus.LIKED
+            )
         )
 
         // when
@@ -159,6 +189,28 @@ class ToggleWebtoonLikeServiceTest {
         // then
         verify(toggleWebtoonLikePort, times(0)).toggleWebtoonLike(any())
         exception.javaClass shouldBe IllegalArgumentException::class.java
+    }
+
+    @DisplayName("이미 좋아요 해제를 누른 웹툰에 좋아요 해제를 누르면 예외가 발생한다")
+    @Test
+    fun unlikeWebtoonAlreadyInLiked() {
+        // given
+        val givenWebtoonId = 1L
+        mockingWebtoonProductPort(webtoonId = givenWebtoonId, webtoonProduct = makeWebtoonProduct(givenWebtoonId))
+        mockingWebtoonLikePort(
+            userId = givenUser.id,
+            webtoonId = givenWebtoonId,
+            webtoonLike = makeWebtoonLike(id = 1234L, webtoonId = givenWebtoonId, status = WebtoonLikedStatus.UNLIKED)
+        )
+
+        // when
+        val exception = shouldThrowAny {
+            service.unlikeWebtoon(user = givenUser, webtoonId = givenWebtoonId)
+        }
+
+        // then
+        verify(toggleWebtoonLikePort, times(0)).toggleWebtoonLike(any())
+        exception.javaClass shouldBe IllegalStateException::class.java
     }
 
     private fun mockingWebtoonLikePort(userId: Long, webtoonId: Long, webtoonLike: UserLikedWebtoon? = null) {
