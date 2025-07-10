@@ -10,13 +10,8 @@ data class UserLikedWebtoon(
     var status: WebtoonLikedStatus,
     var updatedAt: LocalDateTime
 ) {
-    fun like() {
-        this.status = WebtoonLikedStatus.LIKED
-        this.updatedAt = LocalDateTime.now()
-    }
-
-    fun unlike() {
-        this.status = WebtoonLikedStatus.UNLIKED
+    fun toggle(status: WebtoonLikedStatus) {
+        this.status = status
         this.updatedAt = LocalDateTime.now()
     }
 

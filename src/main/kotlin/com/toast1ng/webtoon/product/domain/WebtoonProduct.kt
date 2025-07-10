@@ -8,7 +8,7 @@ data class WebtoonProduct(
     val description: String,
     val views: Int,
     val rating: BigDecimal,
-    val likes: Int,
+    var likes: Int,
     val mainThumbnail: String,
     val subThumbnail: String,
     val day: DayOfWeek,
@@ -17,17 +17,25 @@ data class WebtoonProduct(
     val genres: List<Genre>,
     val creators: List<Creator>,
 ) {
-    private val creatorMap = creators.associateBy { it.role }
+    private val creatorMap = this.creators.associateBy { it.role }
 
     fun getWriter(): Creator {
-        return requireNotNull(creatorMap[CreatorRole.WRITER]) { "WRITER is required" }
+        return requireNotNull(this.creatorMap[CreatorRole.WRITER]) { "WRITER is required" }
     }
 
     fun getIllustrator(): Creator {
-        return requireNotNull(creatorMap[CreatorRole.ILLUSTRATOR]) { "ILLUSTRATOR is required" }
+        return requireNotNull(this.creatorMap[CreatorRole.ILLUSTRATOR]) { "ILLUSTRATOR is required" }
     }
 
     fun getOriginalAuthor(): Creator? {
-        return creatorMap[CreatorRole.ORIGINAL_AUTHOR]
+        return this.creatorMap[CreatorRole.ORIGINAL_AUTHOR]
+    }
+
+    fun increaseLikeCount() {
+        this.likes++
+    }
+
+    fun decreaseLikeCount() {
+        this.likes--
     }
 }

@@ -5,6 +5,7 @@ import com.toast1ng.webtoon.product.adapter.out.persistence.entity.CreatorDto
 import com.toast1ng.webtoon.product.adapter.out.persistence.entity.WebtoonWithPersonDto
 import com.toast1ng.webtoon.product.application.port.out.MakeWebtoonPort
 import com.toast1ng.webtoon.product.application.port.out.ReadWebtoonProductPort
+import com.toast1ng.webtoon.product.application.port.out.UpdateWebtoonPort
 import com.toast1ng.webtoon.product.application.port.out.query.ThreeWebtoonsQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductQuery
 import com.toast1ng.webtoon.product.application.port.out.query.WebtoonProductSortQuery
@@ -16,7 +17,7 @@ import java.sql.Timestamp
 class WebtoonProductPersistenceAdapter(
     private val mapper: WebtoonProductMapper,
     private val webtoonProductRepository: SpringDataWebtoonProductRepository
-) : MakeWebtoonPort, ReadWebtoonProductPort {
+) : MakeWebtoonPort, ReadWebtoonProductPort, UpdateWebtoonPort {
     override fun makeWebtoon(webtoonProduct: WebtoonProduct) {
         TODO()
     }
@@ -85,5 +86,13 @@ class WebtoonProductPersistenceAdapter(
         return resultDtos.map { dto ->
             mapper.mapToEntity(dto)
         }
+    }
+
+    override fun updateWebtoon(webtoon: WebtoonProduct) {
+        webtoonProductRepository.save(mapper.mapToJpaEntity(webtoon))
+    }
+
+    override fun deleteWebtoon(webtoonId: Long) {
+        TODO("Not yet implemented")
     }
 }

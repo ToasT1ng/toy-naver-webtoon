@@ -1,5 +1,6 @@
 package com.toast1ng.webtoon.member.application.service
 
+import com.toast1ng.webtoon.member.application.port.out.ChangeWebtoonLikeCountPort
 import com.toast1ng.webtoon.member.application.port.out.ReadWebtoonLikePort
 import com.toast1ng.webtoon.member.application.port.out.ReadWebtoonProductPort
 import com.toast1ng.webtoon.member.application.port.out.ToggleWebtoonLikePort
@@ -35,6 +36,9 @@ class ToggleWebtoonLikeServiceTest {
     @Mock
     lateinit var readWebtoonProductPort: ReadWebtoonProductPort
 
+    @Mock
+    lateinit var changeWebtoonLikeCountPort: ChangeWebtoonLikeCountPort
+
     @InjectMocks
     lateinit var service: ToggleWebtoonLikeService
 
@@ -50,7 +54,8 @@ class ToggleWebtoonLikeServiceTest {
     fun likeWebtoonFirstTime() {
         // given
         val givenWebtoonId = 1L
-        mockingWebtoonProductPort(webtoonId = givenWebtoonId, webtoonProduct = makeWebtoonProduct(givenWebtoonId))
+        val givenWebtoonProduct = makeWebtoonProduct(givenWebtoonId)
+        mockingWebtoonProductPort(webtoonId = givenWebtoonId, webtoonProduct = givenWebtoonProduct)
         mockingWebtoonLikePort(userId = givenUser.id, webtoonId = givenWebtoonId, webtoonLike = null)
 
         // when
@@ -59,6 +64,7 @@ class ToggleWebtoonLikeServiceTest {
         }
 
         // then
+        verify(changeWebtoonLikeCountPort, times(1)).addLikeCount(givenWebtoonProduct)
         verify(toggleWebtoonLikePort, times(1)).toggleWebtoonLike(
             check {
                 assert(it.id == 0L)
@@ -82,17 +88,19 @@ class ToggleWebtoonLikeServiceTest {
         }
 
         // then
+        verify(changeWebtoonLikeCountPort, times(0)).addLikeCount(any())
         verify(toggleWebtoonLikePort, times(0)).toggleWebtoonLike(any())
         exception.javaClass shouldBe IllegalArgumentException::class.java
     }
 
-    @DisplayName("이미 좋아요했던 적이 있으면 좋아요 상태를 변경한다")
+    @DisplayName("이미 좋아요 해제했던 적이 있으면 좋아요 상태를 변경한다")
     @Test
     fun likeWebtoonAlreadyLikedBefore() {
         // given
         val givenWebtoonId = 1L
         val expectedWebtoonLikeId = 123L
-        mockingWebtoonProductPort(webtoonId = givenWebtoonId, webtoonProduct = makeWebtoonProduct(givenWebtoonId))
+        val givenWebtoonProduct = makeWebtoonProduct(givenWebtoonId)
+        mockingWebtoonProductPort(webtoonId = givenWebtoonId, webtoonProduct = givenWebtoonProduct)
         mockingWebtoonLikePort(
             userId = givenUser.id,
             webtoonId = givenWebtoonId,
@@ -109,6 +117,7 @@ class ToggleWebtoonLikeServiceTest {
         }
 
         // then
+        verify(changeWebtoonLikeCountPort, times(1)).addLikeCount(givenWebtoonProduct)
         verify(toggleWebtoonLikePort, times(1)).toggleWebtoonLike(
             check {
                 assert(it.id == expectedWebtoonLikeId)
@@ -124,7 +133,8 @@ class ToggleWebtoonLikeServiceTest {
     fun likeWebtoonAlreadyInLiked() {
         // given
         val givenWebtoonId = 1L
-        mockingWebtoonProductPort(webtoonId = givenWebtoonId, webtoonProduct = makeWebtoonProduct(givenWebtoonId))
+        val givenWebtoonProduct = makeWebtoonProduct(givenWebtoonId)
+        mockingWebtoonProductPort(webtoonId = givenWebtoonId, webtoonProduct = givenWebtoonProduct)
         mockingWebtoonLikePort(
             userId = givenUser.id,
             webtoonId = givenWebtoonId,
@@ -137,6 +147,7 @@ class ToggleWebtoonLikeServiceTest {
         }
 
         // then
+        verify(changeWebtoonLikeCountPort, times(0)).addLikeCount(givenWebtoonProduct)
         verify(toggleWebtoonLikePort, times(0)).toggleWebtoonLike(any())
         exception.javaClass shouldBe IllegalStateException::class.java
     }
@@ -147,7 +158,8 @@ class ToggleWebtoonLikeServiceTest {
         // given
         val givenWebtoonId = 1L
         val expectedWebtoonLikeId = 123L
-        mockingWebtoonProductPort(webtoonId = givenWebtoonId, webtoonProduct = makeWebtoonProduct(givenWebtoonId))
+        val givenWebtoonProduct = makeWebtoonProduct(givenWebtoonId)
+        mockingWebtoonProductPort(webtoonId = givenWebtoonId, webtoonProduct = givenWebtoonProduct)
         mockingWebtoonLikePort(
             userId = givenUser.id,
             webtoonId = givenWebtoonId,
@@ -164,6 +176,7 @@ class ToggleWebtoonLikeServiceTest {
         }
 
         // then
+        verify(changeWebtoonLikeCountPort, times(1)).minusLikeCount(givenWebtoonProduct)
         verify(toggleWebtoonLikePort, times(1)).toggleWebtoonLike(
             check {
                 assert(it.id == expectedWebtoonLikeId)
@@ -187,6 +200,7 @@ class ToggleWebtoonLikeServiceTest {
         }
 
         // then
+        verify(changeWebtoonLikeCountPort, times(0)).minusLikeCount(any())
         verify(toggleWebtoonLikePort, times(0)).toggleWebtoonLike(any())
         exception.javaClass shouldBe IllegalArgumentException::class.java
     }
@@ -209,6 +223,7 @@ class ToggleWebtoonLikeServiceTest {
         }
 
         // then
+        verify(changeWebtoonLikeCountPort, times(0)).minusLikeCount(any())
         verify(toggleWebtoonLikePort, times(0)).toggleWebtoonLike(any())
         exception.javaClass shouldBe IllegalStateException::class.java
     }

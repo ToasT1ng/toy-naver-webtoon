@@ -1,5 +1,5 @@
 package com.toast1ng.webtoon.member.domain
 
 enum class WebtoonLikedStatus {
-    LIKED, UNLIKED
+    LIKED, UNLIKED, NOT_INTERESTED
 }
