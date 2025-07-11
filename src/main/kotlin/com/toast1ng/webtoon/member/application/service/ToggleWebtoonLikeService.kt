@@ -23,15 +23,7 @@ class ToggleWebtoonLikeService(
     private val readWebtoonLikePort: ReadWebtoonLikePort,
     private val readWebtoonProductPort: ReadWebtoonProductPort,
 ): ToggleWebtoonLikeUseCase {
-    override fun likeWebtoon(user: User, webtoonId: Long) {
-        toggleLike(user, webtoonId, WebtoonLikedStatus.LIKED)
-    }
-
-    override fun unlikeWebtoon(user: User, webtoonId: Long) {
-        toggleLike(user, webtoonId, WebtoonLikedStatus.UNLIKED)
-    }
-
-    private fun toggleLike(user: User, webtoonId: Long, targetStatus: WebtoonLikedStatus) {
+    override fun toggleLike(user: User, webtoonId: Long, targetStatus: WebtoonLikedStatus) {
         val webtoon = findWebtoonOrThrow(webtoonId)
         val userLike = getOrCreateUserLike(user, webtoon)
         validateUserLikeInput(userLike, targetStatus)

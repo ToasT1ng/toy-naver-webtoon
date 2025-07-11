@@ -60,7 +60,7 @@ class ToggleWebtoonLikeServiceTest {
 
         // when
         shouldNotThrowAny {
-            service.likeWebtoon(user = givenUser, webtoonId = givenWebtoonId)
+            service.toggleLike(user = givenUser, webtoonId = givenWebtoonId, targetStatus = WebtoonLikedStatus.LIKED)
         }
 
         // then
@@ -84,7 +84,7 @@ class ToggleWebtoonLikeServiceTest {
 
         // when
         val exception = shouldThrowAny {
-            service.likeWebtoon(user = givenUser, webtoonId = givenWebtoonId)
+            service.toggleLike(user = givenUser, webtoonId = givenWebtoonId, targetStatus = WebtoonLikedStatus.LIKED)
         }
 
         // then
@@ -113,7 +113,7 @@ class ToggleWebtoonLikeServiceTest {
 
         // when
         shouldNotThrowAny {
-            service.likeWebtoon(user = givenUser, webtoonId = givenWebtoonId)
+            service.toggleLike(user = givenUser, webtoonId = givenWebtoonId, targetStatus = WebtoonLikedStatus.LIKED)
         }
 
         // then
@@ -143,7 +143,7 @@ class ToggleWebtoonLikeServiceTest {
 
         // when
         val exception = shouldThrowAny {
-            service.likeWebtoon(user = givenUser, webtoonId = givenWebtoonId)
+            service.toggleLike(user = givenUser, webtoonId = givenWebtoonId, targetStatus = WebtoonLikedStatus.LIKED)
         }
 
         // then
@@ -172,7 +172,7 @@ class ToggleWebtoonLikeServiceTest {
 
         // when
         shouldNotThrowAny {
-            service.unlikeWebtoon(user = givenUser, webtoonId = givenWebtoonId)
+            service.toggleLike(user = givenUser, webtoonId = givenWebtoonId, targetStatus = WebtoonLikedStatus.UNLIKED)
         }
 
         // then
@@ -196,7 +196,7 @@ class ToggleWebtoonLikeServiceTest {
 
         // when
         val exception = shouldThrowAny {
-            service.unlikeWebtoon(user = givenUser, webtoonId = givenWebtoonId)
+            service.toggleLike(user = givenUser, webtoonId = givenWebtoonId, targetStatus = WebtoonLikedStatus.UNLIKED)
         }
 
         // then
@@ -219,7 +219,7 @@ class ToggleWebtoonLikeServiceTest {
 
         // when
         val exception = shouldThrowAny {
-            service.unlikeWebtoon(user = givenUser, webtoonId = givenWebtoonId)
+            service.toggleLike(user = givenUser, webtoonId = givenWebtoonId, targetStatus = WebtoonLikedStatus.UNLIKED)
         }
 
         // then

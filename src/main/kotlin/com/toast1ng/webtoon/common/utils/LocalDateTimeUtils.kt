@@ -8,6 +8,10 @@ import java.util.*
 const val DATE_ONLY_FORMAT_WITH_HYPHEN = "yyyy-MM-dd"
 const val DATE_HOUR_FORMAT = "yyyyMMddHH"
 
+fun LocalDateTime.toResponseTimestamp(): Long {
+    return this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+}
+
 fun LocalDateTime.toDateOnlyFormatWithHyphenString(): String {
     return this.format(DateTimeFormatter.ofPattern(DATE_ONLY_FORMAT_WITH_HYPHEN))
 }
