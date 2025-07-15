@@ -20,7 +20,7 @@ data class UserLikedWebtoonJpaEntity (
     val id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "webtoon_users_id", nullable = false)
     val user: UserJpaEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)

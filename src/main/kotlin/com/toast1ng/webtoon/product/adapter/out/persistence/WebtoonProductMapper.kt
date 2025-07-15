@@ -83,25 +83,25 @@ class WebtoonProductMapper {
         )
     }
 
-    fun mapToJpaEntity(webtoon: WebtoonProduct): WebtoonProductJpaEntity {
+    fun mapToJpaEntity(entiy: WebtoonProduct): WebtoonProductJpaEntity {
         return WebtoonProductJpaEntity(
-            id = webtoon.id.takeIf { it != 0L },
-            title = webtoon.title,
-            description = webtoon.description,
-            views = webtoon.views,
-            rating = webtoon.rating,
-            likes = webtoon.likes,
-            mainThumbnail = webtoon.mainThumbnail,
-            subThumbnail = webtoon.subThumbnail,
-            day = webtoon.day.value,
-            restrictAge = webtoon.restrictedAge,
-            status = webtoon.status.name,
+            id = entiy.id.takeIf { it != 0L },
+            title = entiy.title,
+            description = entiy.description,
+            views = entiy.views,
+            rating = entiy.rating,
+            likes = entiy.likes,
+            mainThumbnail = entiy.mainThumbnail,
+            subThumbnail = entiy.subThumbnail,
+            day = entiy.day.value,
+            restrictAge = entiy.restrictedAge,
+            status = entiy.status.name,
             isDeleted = false, //TODO: 구현필요
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now(),
-            genre = webtoon.genres.firstOrNull()?.let {
+            genre = entiy.genres.firstOrNull()?.let {
                 GenreJpaEntity(it.id, it.name, it.description)
-            } ?: GenreJpaEntity(0L, "", "") //TODO: many to many 이후 수정 필요
+            } ?: GenreJpaEntity(0L, "", ""), //TODO: many to many 이후 수정 필요
         )
     }
 }

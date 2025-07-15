@@ -1,0 +1,1 @@
+export type TWebtoonLikedRequestStatus = 'LIKE' | 'UNLIKE' | 'NOT_INTERESTED';

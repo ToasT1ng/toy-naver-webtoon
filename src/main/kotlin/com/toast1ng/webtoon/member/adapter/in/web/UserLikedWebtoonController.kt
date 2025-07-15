@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -28,6 +29,7 @@ class UserLikedWebtoonController(
         return ResponseEntityFactory.success(UserLikedWebtoonsResponse(result.map { it.toResponse() }))
     }
 
+    //TODO 좋아요 여부 true false로 나오도록 수정
     @GetMapping("/users/webtoon-likes/{webtoonId}")
     fun getUserLikedWebtoon(
         @LoginUser user: User,
@@ -41,7 +43,7 @@ class UserLikedWebtoonController(
     fun updateUserLikedWebtoons(
         @LoginUser user: User,
         @PathVariable webtoonId: Long,
-        request: UpdateUserLikedWebtoonsRequest
+        @RequestBody request: UpdateUserLikedWebtoonsRequest
     ): ResponseEntity<SuccessResponse<Any?>> {
         toggleWebtoonLikeUseCase.toggleLike(user, webtoonId, request.status.toDomainStatus())
         return ResponseEntityFactory.success()

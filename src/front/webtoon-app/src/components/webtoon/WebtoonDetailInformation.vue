@@ -2,10 +2,13 @@
 import {useWebtoonStore} from "@/stores/webtoonStore";
 import {useWebtoon} from "@/composables/useWebtoons";
 import {computed, nextTick, ref, watch} from "vue";
+import {updateWebtoonLike, useWebtoonLike} from "@/composables/useWebtoonLikes";
 
 const webtoonStore = useWebtoonStore()
 
 const {data: webtoonData, updateWebtoonId: updateWebtoonId} = useWebtoon()
+const {data: webtoonLikeData, error: webtoonLikeError, updateWebtoonId: updateWebtoonLikeId} = useWebtoonLike()
+const {mutateAsync: toggleLikeStatus, isPending: isLiking} = updateWebtoonLike()
 
 const isTextAreaExpanded = ref(false)
 const shouldShowToggleButton = ref(false)
@@ -15,6 +18,19 @@ const tagRef = ref<HTMLElement | null>(null)
 const convertedDescription = computed(() =>
     webtoonData.value?.description.replace(/\\n/g, '<br/>') ?? ''
 )
+
+const isLiked = computed(() => !!webtoonLikeData.value && webtoonLikeData.value.hello && !webtoonLikeError.value)
+
+async function onClickLikeButton() {
+  if (!webtoonData.value?.id) return
+  const status = isLiked.value ? 'UNLIKE' : 'LIKE'
+  try {
+    await toggleLikeStatus({webtoonId: webtoonData.value.id, status})
+    // updateWebtoonLikeId(webtoonData.value.id)
+  } catch (e) {
+    console.error('Toggle failed', e)
+  }
+}
 
 const daysOfWeek = [
   {name: '월요', value: 'mon'},
@@ -36,6 +52,7 @@ watch(
     (newWebtoonId) => {
       if (newWebtoonId) {
         updateWebtoonId(Number(newWebtoonId))
+        updateWebtoonLikeId(Number(newWebtoonId))
       }
     },
     {immediate: true}
@@ -119,9 +136,15 @@ watch(
     </v-row>
     <v-row style="height: 80px">
       <v-col cols="5" class="mr-0 pr-0 h-100">
-        <v-btn class="h-100 like-count-button" elevation="0" block>＋ 관심 {{
-            webtoonData?.likeCount?.toLocaleString()
-          }}
+        <v-btn
+            class="h-100 like-count-button"
+            elevation="0"
+            block
+            :loading="isLiking"
+            @click="onClickLikeButton"
+        >
+          {{ isLiked ? '관심해제' : '＋ 관심' }}
+          {{ webtoonData?.likeCount?.toLocaleString() }}
         </v-btn>
       </v-col>
       <v-col cols="5" class="mr-0 pr-0 h-100">
