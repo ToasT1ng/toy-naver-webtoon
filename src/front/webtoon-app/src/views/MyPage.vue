@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import MyPageComponent from '@/components/mypage/MyPage.vue'
+import MyPageTabComponent from '@/components/mypage/MyPageTab.vue'
 </script>
 
 <template>
-  <div>
+  <v-expand-transition>
     <v-main>
-      <MyPageComponent/>
+      <v-container fluid class="pa-0">
+        <MyPageTabComponent/>
+        <router-view v-slot="{ Component }">
+          <component :is="Component" :key="$route.fullPath" />
+        </router-view>
+      </v-container>
     </v-main>
-  </div>
+  </v-expand-transition>
 </template>
 

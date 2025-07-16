@@ -6,6 +6,8 @@ import DailyWebtoon from "@/components/webtoon/DailyWebtoon.vue";
 import WebtoonDetail from "@/components/webtoon/WebtoonDetail.vue";
 import WebtoonEpisode from "@/components/webtoon/WebtoonEpisode.vue";
 import LoginPage from "@/views/LoginPage.vue";
+import LikeWebtoons from "@/components/mypage/LikeWebtoons.vue";
+import RecentlyViewedWebtoons from "@/components/mypage/RecentlyViewedWebtoons.vue";
 
 const routes = [
     {
@@ -49,6 +51,18 @@ const routes = [
         path: '/mypage',
         name: 'mypage',
         component: MyPage,
+        children: [
+            {
+                path: 'likes',
+                name: 'LikedWebtoons',
+                component: LikeWebtoons,
+            },
+            {
+                path: 'view-history',
+                name: 'ViewHistory',
+                component: RecentlyViewedWebtoons,
+            },
+        ]
     },
     {
         path: '/login',
