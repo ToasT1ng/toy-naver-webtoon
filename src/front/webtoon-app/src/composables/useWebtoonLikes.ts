@@ -1,8 +1,25 @@
 import {computed, ref} from "vue";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
 import {extractValidData} from "@/utils/extractValidData";
-import {getUserLikedWebtoon, updateUserLikedWebtoon} from "@/api/webtoonLikes";
+import {getUserLikedWebtoon, getUserLikedWebtoons, updateUserLikedWebtoon} from "@/api/webtoonLikes";
 import {TWebtoonLikedRequestStatus} from "@/features/webtoonLikes/types/webtoonLikedRequestStatus";
+
+export const useWebtoonLikes = () => {
+    const query = useQuery({
+        queryKey: computed(() => ['webtoonLikes']),
+        queryFn: async () => {
+            const result = await getUserLikedWebtoons()
+            return extractValidData(result)
+        },
+        enabled: true,
+        staleTime: 1000 * 10,
+        retry: 0,
+    })
+
+    return {
+        ...query,
+    }
+}
 
 export const useWebtoonLike = () => {
     const webtoonId = ref<number | undefined>(undefined)
