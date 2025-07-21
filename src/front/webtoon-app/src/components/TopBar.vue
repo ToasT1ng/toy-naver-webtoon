@@ -33,8 +33,8 @@ const logout = async () => {
       <v-menu offset-y>
         <template #activator="{ props }">
           <v-btn icon v-bind="props">
-            <v-avatar size="32">
-              <img src="/default-profile.png" alt="프로필"/>
+            <v-avatar size="40">
+              <v-img src="https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/profile/default_profile.png" alt="프로필"/>
             </v-avatar>
           </v-btn>
         </template>
@@ -43,7 +43,7 @@ const logout = async () => {
         <v-card class="pa-4" width="250">
           <div class="profile-box">
             <v-avatar size="56">
-              <img src="/default-profile.png" alt="프로필"/>
+              <v-img src="https://raw.githubusercontent.com/ToasT1ng/toy-naver-webtoon-imgs/refs/heads/main/profile/default_profile.png" alt="프로필"/>
             </v-avatar>
             <div class="profile-info">
               <div class="nickname">{{ userStore.nickname ?? '디폴트닉네임' }}</div>
