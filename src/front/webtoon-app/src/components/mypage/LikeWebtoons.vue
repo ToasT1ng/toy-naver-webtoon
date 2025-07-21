@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {useWebtoonLikes} from "@/composables/useWebtoonLikes";
 import {computed, ref} from "vue";
-import {TDailyWebtoonsSortOption, TLikeWebtoonsSortOption} from "@/features/webtoon/types/sortOptions";
+import {TLikeWebtoonsSortOption} from "@/features/webtoon/types/sortOptions";
+import {navigateToWebtoonDetail} from "@/utils/navigation";
 
 const {data: webtoonLikes} = useWebtoonLikes()
 
@@ -16,6 +17,14 @@ const sortOptions = [
 
 function onSort() {
   console.log("Sorting by:", selectedSort.value);
+}
+
+function formatDate(ts: number): string {
+  const d = new Date(ts)
+  const yy = d.getFullYear().toString().slice(-2)
+  const mm = String(d.getMonth() + 1).padStart(2, '0')
+  const dd = String(d.getDate()).padStart(2, '0')
+  return `${yy}.${mm}.${dd}`
 }
 
 </script>
@@ -54,31 +63,44 @@ function onSort() {
               </v-btn-toggle>
             </div>
           </v-card-title>
-          <v-card-item>
-            <v-list>
-              <v-list-item
-                  v-for="webtoon in webtoonLikes"
-                  :key="webtoon.id"
-                  class="pa-3"
+          <v-card-item class="mt-2">
+            <v-row>
+              <v-col
+                  v-for="webtoon in webtoonLikes?.result"
+                  :key="webtoon.webtoonId"
+                  cols="6"
+                  style="border-bottom: 1px solid #e0e0e0;"
               >
-                <v-list-item-avatar size="80">
-                  <v-img :src="webtoon.thumbnailUrl" cover></v-img>
-                </v-list-item-avatar>
+                <v-card elevation="0">
+                  <v-card-text class="pa-0">
+                    <div class="d-flex align-center justify-space-between">
+                      <div>
+                        <v-img
+                            :src="webtoon.thumbnailUrl"
+                            width="120"
+                            height="120"
+                            cover
+                            class="ma-0 mr-1 with-border"
+                        ></v-img>
+                      </div>
 
-                <v-list-item-content>
-                  <v-list-item-title class="font-weight-bold">
-                    {{ webtoon.title }}
-                  </v-list-item-title>
-                  <v-list-item-subtitle>
-                    작가
-                  </v-list-item-subtitle>
-                </v-list-item-content>
+                      <div class="flex-grow-1 px-4">
+                        <div class="font-weight-bold text-body-1">
+                          {{ webtoon.title }}
+                        </div>
+                        <div class="font-weight-bold text-body-2 text-grey">
+                          작가
+                        </div>
+                      </div>
 
-                <v-list-item-action class="text-caption text-grey">
-                  {{ webtoon.likedAt }}
-                </v-list-item-action>
-              </v-list-item>
-            </v-list>
+                      <div class="font-weight-bold text-body-1 text-grey text-right mr-5" style="white-space: nowrap;">
+                        {{ formatDate(webtoon.likedAt) }}
+                      </div>
+                    </div>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
           </v-card-item>
         </v-card>
       </v-col>
@@ -87,5 +109,8 @@ function onSort() {
 </template>
 
 <style scoped>
-
+.with-border {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 </style>

@@ -6,9 +6,11 @@ import router from './router'
 import './assets/global.css'
 import {VueQueryPlugin, QueryClient} from '@tanstack/vue-query'
 import {createPinia} from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 const queryClient = new QueryClient()
 const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 
 loadFonts()
 

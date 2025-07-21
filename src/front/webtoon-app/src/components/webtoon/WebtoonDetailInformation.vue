@@ -3,8 +3,11 @@ import {useWebtoonStore} from "@/stores/webtoonStore";
 import {useWebtoon} from "@/composables/useWebtoons";
 import {computed, nextTick, ref, watch} from "vue";
 import {updateWebtoonLike, useWebtoonLike} from "@/composables/useWebtoonLikes";
+import {useUserStore} from "@/stores/userStore";
+import router from "@/router";
 
 const webtoonStore = useWebtoonStore()
+const userStore = useUserStore()
 
 const {data: webtoonData, updateWebtoonId: updateWebtoonId} = useWebtoon()
 const {data: webtoonLikeData, error: webtoonLikeError, updateWebtoonId: updateWebtoonLikeId} = useWebtoonLike()
@@ -19,14 +22,16 @@ const convertedDescription = computed(() =>
     webtoonData.value?.description.replace(/\\n/g, '<br/>') ?? ''
 )
 
-const isLiked = computed(() => !!webtoonLikeData.value && webtoonLikeData.value.hello && !webtoonLikeError.value)
+const isLiked = computed(() => !!webtoonLikeData.value && webtoonLikeData.value.webtoonId && !webtoonLikeError.value)
 
 async function onClickLikeButton() {
   if (!webtoonData.value?.id) return
+  if (!userStore.userId) {
+    await router.push('/login')
+  }
   const status = isLiked.value ? 'UNLIKE' : 'LIKE'
   try {
     await toggleLikeStatus({webtoonId: webtoonData.value.id, status})
-    // updateWebtoonLikeId(webtoonData.value.id)
   } catch (e) {
     console.error('Toggle failed', e)
   }
@@ -52,7 +57,9 @@ watch(
     (newWebtoonId) => {
       if (newWebtoonId) {
         updateWebtoonId(Number(newWebtoonId))
-        updateWebtoonLikeId(Number(newWebtoonId))
+        if (userStore.userId) {
+          updateWebtoonLikeId(Number(newWebtoonId))
+        }
       }
     },
     {immediate: true}

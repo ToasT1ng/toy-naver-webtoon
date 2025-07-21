@@ -32,4 +32,5 @@ export const useUserStore = defineStore('user', {
             this.refreshToken = undefined
         },
     },
+    persist: true
 })
