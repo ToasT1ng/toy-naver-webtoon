@@ -5,13 +5,14 @@ import {computed, nextTick, ref, watch} from "vue";
 import {updateWebtoonLike, useWebtoonLike} from "@/composables/useWebtoonLikes";
 import {useUserStore} from "@/stores/userStore";
 import router from "@/router";
+import {TWebtoonLikedRequestStatus} from "@/features/webtoonLikes/types/webtoonLikedRequestStatus";
 
 const webtoonStore = useWebtoonStore()
 const userStore = useUserStore()
 
 const {data: webtoonData, updateWebtoonId: updateWebtoonId} = useWebtoon()
 const {data: webtoonLikeData, error: webtoonLikeError, updateWebtoonId: updateWebtoonLikeId} = useWebtoonLike()
-const {mutateAsync: toggleLikeStatus, isPending: isLiking} = updateWebtoonLike()
+const {mutateAsync: toggleLikeStatus, isPending: isLiking, refetchItems: refetchLikeStatus} = updateWebtoonLike()
 
 const isTextAreaExpanded = ref(false)
 const shouldShowToggleButton = ref(false)
@@ -22,7 +23,7 @@ const convertedDescription = computed(() =>
     webtoonData.value?.description.replace(/\\n/g, '<br/>') ?? ''
 )
 
-const isLiked = computed(() => !!webtoonLikeData.value && webtoonLikeData.value.webtoonId && !webtoonLikeError.value)
+const isLiked = computed(() => !!webtoonLikeData.value && webtoonLikeData.value.status === 'LIKE' && !webtoonLikeError.value)
 
 async function onClickLikeButton() {
   if (!webtoonData.value?.id) return
@@ -31,7 +32,15 @@ async function onClickLikeButton() {
   }
   const status = isLiked.value ? 'UNLIKE' : 'LIKE'
   try {
-    await toggleLikeStatus({webtoonId: webtoonData.value.id, status})
+    const webtoonId = webtoonData.value.id;
+    await toggleLikeStatus({webtoonId: webtoonId, status}, {
+      onSuccess: () => {
+        refetchLikeStatus(webtoonId)
+      },
+      onError: (error) => {
+        console.error('Failed to toggle like status:', error)
+      }
+    })
   } catch (e) {
     console.error('Toggle failed', e)
   }

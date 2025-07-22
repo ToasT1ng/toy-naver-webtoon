@@ -29,7 +29,6 @@ class UserLikedWebtoonController(
         return ResponseEntityFactory.success(UserLikedWebtoonsResponse(result.map { it.toResponse() }))
     }
 
-    //TODO 좋아요 여부 true false로 나오도록 수정
     @GetMapping("/users/webtoon-likes/{webtoonId}")
     fun getUserLikedWebtoon(
         @LoginUser user: User,

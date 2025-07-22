@@ -19,6 +19,7 @@ interface IGetUserLikedWebtoonResponse {
     title: string;
     thumbnailUrl: string;
     likedAt: number;
+    status: TWebtoonLikedRequestStatus;
 }
 
 export const getUserLikedWebtoon = async (

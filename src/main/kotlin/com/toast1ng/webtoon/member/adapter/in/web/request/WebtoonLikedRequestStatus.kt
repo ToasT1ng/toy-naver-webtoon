@@ -15,3 +15,11 @@ fun WebtoonLikedRequestStatus.toDomainStatus(): WebtoonLikedStatus {
         WebtoonLikedRequestStatus.NOT_INTERESTED -> WebtoonLikedStatus.NOT_INTERESTED
     }
 }
+
+fun WebtoonLikedStatus.toWebtoonLikedRequestStatus(): WebtoonLikedRequestStatus {
+    return when (this) {
+        WebtoonLikedStatus.LIKED -> WebtoonLikedRequestStatus.LIKE
+        WebtoonLikedStatus.UNLIKED -> WebtoonLikedRequestStatus.UNLIKE
+        WebtoonLikedStatus.NOT_INTERESTED -> WebtoonLikedRequestStatus.NOT_INTERESTED
+    }
+}

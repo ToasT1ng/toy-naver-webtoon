@@ -1,6 +1,6 @@
 import {computed, ref} from "vue";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/vue-query";
-import {extractValidData} from "@/utils/extractValidData";
+import {checkResponseCode, extractValidData} from "@/utils/extractValidData";
 import {getUserLikedWebtoon, getUserLikedWebtoons, updateUserLikedWebtoon} from "@/api/webtoonLikes";
 import {TWebtoonLikedRequestStatus} from "@/features/webtoonLikes/types/webtoonLikedRequestStatus";
 
@@ -48,18 +48,21 @@ export const useWebtoonLike = () => {
 
 export const updateWebtoonLike = () => {
     const queryClient = useQueryClient()
-    return useMutation({
+    function refetchItems(webtoonId: number) {
+        queryClient.invalidateQueries({queryKey: ['webtoonLike', webtoonId],})
+    }
+    const mutate = useMutation({
         mutationFn: async ({ webtoonId, status }: { webtoonId: number, status: TWebtoonLikedRequestStatus }) => {
             const result = await updateUserLikedWebtoon({
                 webtoonId: webtoonId,
                 status: status,
             })
-            return extractValidData(result)
+            checkResponseCode(result)
         },
-        onSuccess: (_data, variables) => {
-            queryClient.invalidateQueries({
-                queryKey: ['webtoonLike', variables.webtoonId],
-            })
-        },
+        retry: 0
     })
+    return {
+        refetchItems,
+        ...mutate,
+    }
 }

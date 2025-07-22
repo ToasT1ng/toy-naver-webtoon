@@ -30,6 +30,7 @@ class ReadWebtoonLikeService(
         return readWebtoonLikePort.getWebtoonLike(
             UserLikedWebtoonQuery(
                 userId = userId,
+                webtoonId = webtoonId
             )
         ) ?: throw IllegalArgumentException(
             "User liked webtoon with userId $userId and webtoonId $webtoonId does not exist."
