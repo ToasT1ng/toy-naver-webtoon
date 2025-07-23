@@ -3,6 +3,7 @@ import {ref} from 'vue'
 import {useLogin} from "@/composables/useLogin";
 import router from "@/router";
 import {useUserStore} from "@/stores/userStore";
+import {ApiError} from "@/errors/ApiError";
 
 const username = ref('')
 const password = ref('')
@@ -29,8 +30,16 @@ const handleLogin = async () => {
     })
     userStore.login(result.userId, result.nickname, result.profileImage, result.accessToken, result.refreshToken)
     router.push('/')
-  } catch (e) {
-    errorMessage.value = (e as Error).message || '로그인에 실패했습니다.'
+  } catch (e: Error) {
+    if (e instanceof ApiError) {
+      if (e.code === 40003) {
+        errorMessage.value = '아이디를 확인해주세요.'
+      } else {
+        errorMessage.value = '비밀번호를 확인해주세요.'
+      }
+    } else {
+      errorMessage.value = (e as Error).message || '로그인에 실패했습니다.'
+    }
   }
 }
 </script>

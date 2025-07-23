@@ -1,4 +1,5 @@
 import {ICommonResponse} from "@/api";
+import {ApiError} from "@/errors/ApiError";
 
 export function extractValidData<T>(response: ICommonResponse<T>): T {
     checkResponseCode(response)
