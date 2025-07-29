@@ -1,6 +1,6 @@
-INSERT INTO webtoon_users (username, password, role)
-VALUES ('admin', '$2a$10$aICWce6RmfBJ/keBNqHopePhuZjm8pAS4IuldvwXzqzdHff4sdv1q', 'ADMIN'),
-       ('user1', '$2a$10$hKQySo9eHkZ6jy3x3aGFG.ihtBWHUY3Tjh27CN9fyJr36EpdD/qgu', 'USER');
+INSERT INTO webtoon_users (id, username, password, role)
+VALUES (1, 'admin', '$2a$10$aICWce6RmfBJ/keBNqHopePhuZjm8pAS4IuldvwXzqzdHff4sdv1q', 'ADMIN'),
+       (2, 'user1', '$2a$10$hKQySo9eHkZ6jy3x3aGFG.ihtBWHUY3Tjh27CN9fyJr36EpdD/qgu', 'USER');
 
 INSERT INTO genre (id, name, description)
 VALUES (1, '스릴러', '긴장감과 반전으로 몰입을 유도하는 장르'),
@@ -175,3 +175,13 @@ VALUES (1, 1),
        (12, 27),
        (12, 28)
 ;
+
+INSERT INTO webtoon_episode_comment(id, parent_id, webtoon_episode_id, webtoon_users_id, content)
+VALUES (1, 0, 1, 1, '첫화 너무 기대돼요!'),
+       (2, 0, 1, 2, '재밌을 것 같아요!'),
+       (3, 1, 1, 2, 'ㄹㅇ 너무 기대됨'),
+       (4, 1, 1, 1, '첫화 후기! 스토리 너무 맘에 듭니다'),
+       (5, 0, 2, 1, '다음 화가 기다려집니다!'),
+       (6, 0, 2, 2, '이 웹툰은 정말 최고예요!'),
+       (7, 0, 3, 1, '작가님 화이팅!'),
+       (8, 0, 3, 2, '매주 기다려지는 웹툰이에요!');

@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS webtoon_episode;
 DROP TABLE IF EXISTS webtoon;
 DROP TABLE IF EXISTS person;
 DROP TABLE IF EXISTS genre;
+DROP TABLE IF EXISTS webtoon_episode_comment;
 
 CREATE TABLE webtoon_users
 (
@@ -100,4 +101,18 @@ CREATE TABLE user_liked_webtoon
     FOREIGN KEY (webtoon_users_id) REFERENCES webtoon_users (id),
     FOREIGN KEY (webtoon_id) REFERENCES webtoon (id),
     UNIQUE (webtoon_users_id, webtoon_id)
+);
+
+CREATE TABLE webtoon_episode_comment
+(
+    id                  BIGINT PRIMARY KEY AUTO_INCREMENT,
+    parent_id           BIGINT      DEFAULT 0,
+    webtoon_episode_id  BIGINT      NOT NULL,
+    webtoon_users_id    BIGINT      NOT NULL,
+    content             TEXT        NOT NULL,
+    created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (webtoon_episode_id) REFERENCES webtoon_episode (id),
+    FOREIGN KEY (webtoon_users_id) REFERENCES webtoon_users (id)
 );
