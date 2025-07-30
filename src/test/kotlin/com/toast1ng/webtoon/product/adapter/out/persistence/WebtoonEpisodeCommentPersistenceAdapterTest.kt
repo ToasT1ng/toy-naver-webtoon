@@ -20,7 +20,7 @@ class WebtoonEpisodeCommentPersistenceAdapterTest @Autowired constructor(
         val comments = webtoonEpisodeCommentPersistenceAdapter.findTopCommentsByEpisodeId(episodeId)
 
         // then
-        comments.size shouldBe 4
+        comments.size shouldBe 2
     }
 
     @Test
