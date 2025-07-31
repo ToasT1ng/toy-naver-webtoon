@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import {navigateToWebtoonDetail, navigateToWebtoonEpisode} from "@/utils/navigation";
 import {useWebtoonStore} from "@/stores/webtoonStore";
 import {useWebtoonEpisode, useWebtoonEpisodeNavigation} from "@/composables/useWebtoonEpisodes";
+import WebtoonEpisodeComments from "@/components/webtoon/WebtoonEpisodeComments.vue";
 
 interface Props {
   webtoonId: string;
@@ -87,6 +88,50 @@ function onClickNavigateToEpisode(episodeId: number) {
         </div>
       </v-col>
     </v-row>
+    <v-row class="justify-center mt-10 pt-10">
+      <v-col cols="6">
+        <v-card elevation="0">
+          <v-card-text class="pa-4">
+            <v-row justify="space-around" align="center" class="box-border">
+              <v-col class="d-flex flex-column align-center ma-2">
+                <v-icon size="32">mdi-bookmark-outline</v-icon>
+                <span class="subtitle-1 mt-2">관심웹툰</span>
+                <span class="headline font-weight-bold">42</span>
+              </v-col>
+              <v-col class="d-flex flex-column align-center ma-2">
+                <v-icon size="32">mdi-thumb-up-outline</v-icon>
+                <span class="subtitle-1 mt-2">좋아요</span>
+                <span class="headline font-weight-bold">128</span>
+              </v-col>
+              <v-col class="d-flex flex-column align-center ma-2">
+                <v-icon size="32">mdi-star-outline</v-icon>
+                <span class="subtitle-1 mt-2">별점주기</span>
+                <span class="headline font-weight-bold">5.0</span>
+              </v-col>
+              <v-col class="d-flex flex-column align-center ma-2">
+                <v-icon size="32">mdi-share-variant</v-icon>
+                <span class="subtitle-1 mt-2">공유하기</span>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-divider class="mt-10"/>
+    <v-row class="justify-center">
+      <v-col cols="11">
+        <v-card-text>
+          에피소드 나열
+        </v-card-text>
+      </v-col>
+    </v-row>
+    <v-row class="justify-center">
+      <v-col cols="11">
+        <v-divider class="mt-2"/>
+        <WebtoonEpisodeComments/>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
@@ -168,5 +213,9 @@ function onClickNavigateToEpisode(episodeId: number) {
   width: 100%;
   max-width: 100%;
   object-fit: contain;
+}
+
+.box-border {
+  border: 1px solid #ccc;
 }
 </style>
