@@ -129,7 +129,7 @@ function onClickNavigateToEpisode(episodeId: number) {
     <v-row class="justify-center">
       <v-col cols="11">
         <v-divider class="mt-2"/>
-        <WebtoonEpisodeComments/>
+        <WebtoonEpisodeComments :episode-id="props.episodeId"/>
       </v-col>
     </v-row>
   </v-card>

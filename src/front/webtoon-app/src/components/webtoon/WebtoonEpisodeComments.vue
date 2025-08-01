@@ -1,15 +1,45 @@
 <script setup lang="ts">
+import {useWebtoonComments} from "@/composables/useWebtoonComments";
+import {computed, ref, watch} from "vue";
+import {useWebtoonStore} from "@/stores/webtoonStore";
 
-// const { fetchComments, postComment } = useCommentApi()
+interface Props {
+  episodeId: string;
+}
+const props = defineProps<Props>();
 
-import {ref} from "vue";
+const webtoonStore = useWebtoonStore()
 
-const comments = ref([])
+const {
+  data: commentsData,
+  updateWebtoonId: webtoonEpisodeCommentsUpdateWebtoonId,
+  updateEpisodeId: webtoonEpisodeCommentsUpdateEpisodeId,
+} = useWebtoonComments()
+
 const newComment = ref('')
+const commentsList = computed(() => commentsData.value?.content ?? []);
 
-// onMounted(async () => {
-//   comments.value = await fetchComments()
-// })
+watch(
+    () => webtoonStore.webtoonId,
+    (newWebtoonId) => {
+      if (newWebtoonId) {
+        console.log("input 1:", newWebtoonId)
+        webtoonEpisodeCommentsUpdateWebtoonId(Number(newWebtoonId))
+      }
+    },
+    {immediate: true}
+)
+
+watch(
+    () => props.episodeId,
+    (newEpisodeId) => {
+      if (newEpisodeId) {
+        console.log("input 1:", newEpisodeId)
+        webtoonEpisodeCommentsUpdateEpisodeId(Number(newEpisodeId))
+      }
+    },
+    {immediate: true}
+)
 
 async function refreshComments() {
   // comments.value =
@@ -27,7 +57,7 @@ async function submitComment() {
     <v-card-title class="d-flex align-center">
       <div class="d-flex align-center">
         <span class="font-weight-bold me-2">댓글</span>
-        <span class="caption grey--text me-2">{{ comments.length }}</span>
+        <span class="caption grey--text me-2">{{ commentsList.length }}</span> <!-- TODO 정확한 갯수 -->
         <v-btn
             icon
             x-small
@@ -61,6 +91,31 @@ async function submitComment() {
         </v-btn>
       </div>
     </v-card-text>
+    <v-card-text>
+      <v-list dense>
+        <v-list-item v-for="comment in commentsList" :key="comment.id" class="py-2">
+          <v-list-item-avatar>
+            <v-avatar size="32">
+              <v-img v-if="comment.user.profileImageUrl" :src="comment.user.profileImageUrl" />
+              <v-icon v-else size="32">mdi-account-circle</v-icon>
+            </v-avatar>
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ comment.user.username }}</v-list-item-title>
+            <v-list-item-subtitle class="mb-1">{{ comment.content }}</v-list-item-subtitle>
+            <v-list-item-subtitle class="grey--text caption">
+              {{ new Date(comment.createdAt).toLocaleString() }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="!commentsList.length">
+          <v-list-item-content class="text-center grey--text caption">
+            등록된 댓글이 없습니다.
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-card-text>
   </v-card>
 </template>
 
@@ -69,6 +124,7 @@ async function submitComment() {
   position: relative;
   width: 100%;
 }
+
 .submit-btn {
   position: absolute;
   bottom: 7px;
@@ -78,6 +134,7 @@ async function submitComment() {
   width: 35px !important;
   height: 35px !important;
 }
+
 .refresh-btn {
   padding: 2px !important;
   min-width: auto !important;
@@ -85,6 +142,7 @@ async function submitComment() {
   height: 24px !important;
   border: 1px solid #ccc;
 }
+
 .box-border {
   border: 1px solid #ccc;
 }

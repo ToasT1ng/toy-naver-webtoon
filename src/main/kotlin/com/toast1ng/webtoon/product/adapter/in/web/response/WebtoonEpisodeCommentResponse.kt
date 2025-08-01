@@ -1,7 +1,7 @@
 package com.toast1ng.webtoon.product.adapter.`in`.web.response
 
+import com.toast1ng.webtoon.common.utils.toResponseTimestamp
 import com.toast1ng.webtoon.product.domain.WebtoonEpisodeComment
-import java.time.LocalDateTime
 
 data class WebtoonEpisodeCommentResponse(
     val id: Long,
@@ -9,8 +9,8 @@ data class WebtoonEpisodeCommentResponse(
     val episodeId: Long,
     val user: WebtoonEpisodeCommentUserResponse,
     var content: String,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime
+    val createdAt: Long,
+    val updatedAt: Long
 ) {
     data class WebtoonEpisodeCommentUserResponse(
         val id: Long,
@@ -30,7 +30,7 @@ fun WebtoonEpisodeComment.toResponse(): WebtoonEpisodeCommentResponse {
             profileImageUrl = this.user.profileImage
         ),
         content = this.content,
-        createdAt = this.createdAt,
-        updatedAt = this.updatedAt
+        createdAt = this.createdAt.toResponseTimestamp(),
+        updatedAt = this.updatedAt.toResponseTimestamp()
     )
 }
